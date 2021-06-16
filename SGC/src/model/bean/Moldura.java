@@ -124,7 +124,7 @@ public class Moldura {
     /**
      * @param comprimentoVara the comprimentoVara to set
      */
-    public void setComprimentoVara(float comprimentoVara) {
+    public void setComprimentoVara(double comprimentoVara) {
         this.comprimentoVara = comprimentoVara;
     }
 
@@ -138,7 +138,7 @@ public class Moldura {
     /**
      * @param larguraVara the larguraVara to set
      */
-    public void setLarguraVara(float larguraVara) {
+    public void setLarguraVara(double larguraVara) {
         this.larguraVara = larguraVara;
     }
 
@@ -152,7 +152,7 @@ public class Moldura {
     /**
      * @param precoCusto the precoCusto to set
      */
-    public void setPrecoCusto(float precoCusto) {
+    public void setPrecoCusto(double precoCusto) {
         this.precoCusto = precoCusto;
     }
 
@@ -166,7 +166,7 @@ public class Moldura {
     /**
      * @param precoVenda the precoVenda to set
      */
-    public void setPrecoVenda(float precoVenda) {
+    public void setPrecoVenda(double precoVenda) {
         this.precoVenda = precoVenda;
     }
 }

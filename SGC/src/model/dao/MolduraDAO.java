@@ -4,7 +4,13 @@ import com.mysql.cj.jdbc.PreparedStatementWrapper;
 import java.sql.Connection;
 import connection.ConnectionFactory;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import model.bean.Moldura;
+import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 /**
  *
  * @author felip
@@ -64,6 +70,40 @@ public class MolduraDAO {
         }finally{//FECHANDO A CONEXÃO NO FINALLY PARA TER CERTEZA DE QUE ELA SERÁ FECHADA
             ConnectionFactory.closeConnection(con,stmt);
         }
+    }
     
+    public List<Moldura> load() throws ClassNotFoundException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatementWrapper stmt = null;
+        ResultSet rs = null;
+        List<Moldura> lista = new ArrayList<>();
+        
+        try {
+            stmt = (PreparedStatementWrapper) con.prepareStatement("SELECT * FROM moldura AS m"
+                                                + "JOIN moldura_preco AS mp ON m.id = mp.id");
+            
+            rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                Moldura m = new Moldura();
+                m.setId(rs.getInt("id"));
+                m.setCor(rs.getString("cor"));
+                m.setDescricao(rs.getString("descricao"));
+                m.setQuantMetros(rs.getDouble("quant_metros"));
+                m.setComprimentoVara(rs.getDouble("comprimento_vara"));
+                m.setLarguraVara(rs.getDouble("largura_vara"));
+                m.setPrecoCusto(rs.getDouble("preco_custo"));
+                m.setPrecoVenda(rs.getDouble("preco_venda"));
+                
+                lista.add(m);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro de Load class MolduraDAO: "+ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return lista;
     }
 }
