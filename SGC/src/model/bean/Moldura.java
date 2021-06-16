@@ -14,7 +14,7 @@ public class Moldura {
     private String cor;
     private String material;
     private String descricao;
-    private int quantMetros;
+    private double quantMetros;
     private double comprimentoVara;
     private double larguraVara;
     private double precoCusto;
@@ -25,12 +25,12 @@ public class Moldura {
         this.cor = "";
         this.material = "";
         this.descricao = "";
-        this.quantMetros = -1;
+        this.quantMetros = -1.0;
         this.comprimentoVara = -1.0;
         this.larguraVara = -1.0;
         this.precoCusto = -1.0;
         this.precoVenda = -1.0;
-    }
+    } 
 
     public Moldura(Moldura m) {
         this.id = m.getId();
@@ -103,14 +103,14 @@ public class Moldura {
     /**
      * @return the quantMetros
      */
-    public int getQuantMetros() {
+    public double getQuantMetros() {
         return quantMetros;
     }
 
     /**
      * @param quantMetros the quantMetros to set
      */
-    public void setQuantMetros(int quantMetros) {
+    public void setQuantMetros(double quantMetros) {
         this.quantMetros = quantMetros;
     }
 
