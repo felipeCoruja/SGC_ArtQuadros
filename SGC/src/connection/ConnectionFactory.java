@@ -19,12 +19,12 @@ import java.sql.ResultSet;
  */
 public class ConnectionFactory {
     
-    private  final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private  final String URL = "jdbc:mysql://localhost:3306/bd_artquadros";
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String URL = "jdbc:mysql://localhost:3306/bd_artquadros";
     private static final String USER = "root";
     private static final String PASS = "";
     
-    public Connection getConnection() throws ClassNotFoundException{
+    public static Connection getConnection() throws ClassNotFoundException{
         try {
             Class.forName(DRIVER);
             return DriverManager.getConnection(DRIVER,USER,PASS);//retornando uma conexão com BD
@@ -44,7 +44,7 @@ public class ConnectionFactory {
         }
     }
     
-    //Sobre carga de CloseConnection(), Statement serve para executar os comandos SQL
+    //Sobre carga de CloseConnection(), PreparedStatementWrapper serve para executar os comandos SQL
     public static void closeConnection(Connection con, PreparedStatementWrapper stmt){
         closeConnection(con);
         try {
