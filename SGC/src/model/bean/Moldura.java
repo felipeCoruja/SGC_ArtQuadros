@@ -10,7 +10,6 @@ package model.bean;
  * @author felip
  */
 public class Moldura {
-
     private int id;
     private String cor;
     private String material;
