@@ -1,6 +1,6 @@
 
 package model.dao;
-import com.mysql.cj.jdbc.PreparedStatementWrapper;
+import java.sql.PreparedStatement;
 import java.sql.Connection;
 import connection.ConnectionFactory;
 import java.sql.SQLException;
@@ -24,11 +24,11 @@ public class MolduraDAO {
     
     private void salvarTabelaMoldura(Moldura m)throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();//pegando a conexão com o BD
-        PreparedStatementWrapper stmt = null;//instanciando o preparador de comandos SQL
+        PreparedStatement stmt = null;//instanciando o preparador de comandos SQL
 
         try {
             //Passando o comando de INSERT para inserir na tabela moldura
-            stmt = (PreparedStatementWrapper) con.prepareStatement("INSERT INTO moldura"
+            stmt = (PreparedStatement) con.prepareStatement("INSERT INTO moldura"
                     + "(id,cor,descricao,material,quant_metros,comprimento_vara,largura_vara)"
                     + "VALUES(?,?,?,?,?,?,?)");// passando variaveis '?' no lugar dos VALUES
 
@@ -51,12 +51,12 @@ public class MolduraDAO {
         }
     }
     
-    public void salvarTabelaMolduraPreco(Moldura m) throws ClassNotFoundException{
+    private void salvarTabelaMolduraPreco(Moldura m) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();// Pegando a conexão com BD
-        PreparedStatementWrapper stmt = null;//instanciando o preparador de comandos SQL
+        PreparedStatement stmt = null;//instanciando o preparador de comandos SQL
         
         try {//passando o comando INSET com variáveis dentro de VALUES(?,?,?)
-           stmt = (PreparedStatementWrapper) con.prepareStatement("INSERT INTO moldura_preco(id,preco_custo,preco_venda)"
+           stmt = (PreparedStatement) con.prepareStatement("INSERT INTO moldura_preco(id,preco_custo,preco_venda)"
                    + "VALUES(?,?,?)");
            
            //Passando os valores das variáveis Respectivamente
@@ -67,26 +67,28 @@ public class MolduraDAO {
            stmt.executeUpdate();//executando o comando SQL. 
                                 //Metodo executeUpdate é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
         } catch (SQLException e) {
+            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null,"Erro em salvarTabelaMolduraPreco: "+e);
         }finally{//FECHANDO A CONEXÃO NO FINALLY PARA TER CERTEZA DE QUE ELA SERÁ FECHADA
             ConnectionFactory.closeConnection(con,stmt);
         }
     }
     
-    public List<Moldura> load() throws ClassNotFoundException{
+    private List<Moldura> load() throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
-        PreparedStatementWrapper stmt = null;
+        PreparedStatement stmt = null;
         ResultSet rs = null;
         List<Moldura> lista = new ArrayList<>();
         
         try {
-            stmt = (PreparedStatementWrapper) con.prepareStatement("SELECT * FROM moldura AS m"
+            stmt = (PreparedStatement) con.prepareStatement("SELECT * FROM moldura AS m"
                                                 + "JOIN moldura_preco AS mp ON m.id = mp.id");
             
             rs = stmt.executeQuery();
             
             while(rs.next()){
                 Moldura m = new Moldura();
-                m.setId(rs.getInt("id"));
+                m.setId(rs.getInt("moldura.id"));
                 m.setCor(rs.getString("cor"));
                 m.setDescricao(rs.getString("descricao"));
                 m.setQuantMetros(rs.getDouble("quant_metros"));

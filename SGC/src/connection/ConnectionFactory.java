@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package connection;
-import com.mysql.cj.jdbc.PreparedStatementWrapper;
+import java.sql.PreparedStatement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Connection;
@@ -45,7 +45,7 @@ public class ConnectionFactory {
     }
     
     //Sobre carga de CloseConnection(), PreparedStatementWrapper serve para executar os comandos SQL
-    public static void closeConnection(Connection con, PreparedStatementWrapper stmt){
+    public static void closeConnection(Connection con, PreparedStatement stmt){
         closeConnection(con);
         try {
             if(stmt != null){
@@ -56,7 +56,7 @@ public class ConnectionFactory {
         }
     }
     
-    public static void closeConnection(Connection con, PreparedStatementWrapper stmt,ResultSet rs){
+    public static void closeConnection(Connection con, PreparedStatement stmt,ResultSet rs){
         closeConnection(con, stmt);
         try {
             if(rs != null){
