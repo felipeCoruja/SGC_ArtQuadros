@@ -159,7 +159,8 @@ public class ClienteDAO {
         ResultSet rs = null;
         
         try {
-            stmt = con.prepareStatement("SELECT * FROM cliente_nome AS cNome JOIN cliente_cpf AS cCpf ON cNome.id = cCpf.id "
+            stmt = con.prepareStatement("SELECT cNome.id, nome,cpf,cnpj,email,insc_estadual "
+                                        + "FROM cliente_nome AS cNome JOIN cliente_cpf AS cCpf ON cNome.id = cCpf.id "
                                         + "JOIN cliente_cnpj AS cCnpj ON cNome.id = cCnpj.id "
                                         + "JOIN cliente_email AS cEmail ON cNome.id = cEmail.id "
                                         + "JOIN cliente_insc_estadual AS cInsc ON cNome.id = cInsc.id");
@@ -169,7 +170,7 @@ public class ClienteDAO {
             while(rs.next()){
                 Cliente c = new Cliente();
                 
-                c.setId(rs.getInt("cliente_nome.id"));
+                c.setId(rs.getInt("id"));
                 c.setNome(rs.getString("nome"));
                 c.setCpf(rs.getString("cpf"));
                 c.setCnpj(rs.getString("cnpj"));
