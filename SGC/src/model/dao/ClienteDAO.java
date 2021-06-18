@@ -48,8 +48,8 @@ public class ClienteDAO {
         try {
             stmt = con.prepareStatement("INSERT INTO cliente_nome (id,nome) VALUES(?,?)");
             
-            stmt.setInt(0, c.getId());
-            stmt.setString(1, c.getNome());
+            stmt.setInt(1, c.getId());
+            stmt.setString(2, c.getNome());
             
             stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
@@ -68,10 +68,10 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO cliente_nome (id,insc_estadual) VALUES(?,?)");
+            stmt = con.prepareStatement("INSERT INTO cliente_insc_estadual (id,insc_estadual) VALUES(?,?)");
             
-            stmt.setInt(0, c.getId());
-            stmt.setString(1, c.getIncEstadual());
+            stmt.setInt(1, c.getId());
+            stmt.setString(2, c.getIncEstadual());
             
             stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
@@ -90,10 +90,10 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO cliente_nome (id,cpf) VALUES(?,?)");
+            stmt = con.prepareStatement("INSERT INTO cliente_cpf (id,cpf) VALUES(?,?)");
             
-            stmt.setInt(0, c.getId());
-            stmt.setString(1, c.getCpf());
+            stmt.setInt(1, c.getId());
+            stmt.setString(2, c.getCpf());
             
             stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
@@ -112,10 +112,10 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO cliente_nome (id,cnpj) VALUES(?,?)");
+            stmt = con.prepareStatement("INSERT INTO cliente_cnpj (id,cnpj) VALUES(?,?)");
             
-            stmt.setInt(0, c.getId());
-            stmt.setString(1, c.getCnpj());
+            stmt.setInt(1, c.getId());
+            stmt.setString(2, c.getCnpj());
             
             stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
@@ -134,10 +134,10 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO cliente_nome (id,email) VALUES(?,?)");
+            stmt = con.prepareStatement("INSERT INTO cliente_email (id,email) VALUES(?,?)");
             
-            stmt.setInt(0, c.getId());
-            stmt.setString(1, c.getEmail());
+            stmt.setInt(1, c.getId());
+            stmt.setString(2, c.getEmail());
             
             stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
@@ -159,23 +159,18 @@ public class ClienteDAO {
         ResultSet rs = null;
         
         try {
-            stmt = con.prepareStatement("SELECT cNome.id, nome,cpf,cnpj,email,insc_estadual "
-                                        + "FROM cliente_nome AS cNome JOIN cliente_cpf AS cCpf ON cNome.id = cCpf.id "
-                                        + "JOIN cliente_cnpj AS cCnpj ON cNome.id = cCnpj.id "
-                                        + "JOIN cliente_email AS cEmail ON cNome.id = cEmail.id "
-                                        + "JOIN cliente_insc_estadual AS cInsc ON cNome.id = cInsc.id");
+            stmt = con.prepareStatement("SELECT * FROM cliente_nome");
             
             rs = stmt.executeQuery();
-            
+            stmt = null;
             while(rs.next()){
                 Cliente c = new Cliente();
                 
                 c.setId(rs.getInt("id"));
                 c.setNome(rs.getString("nome"));
-                c.setCpf(rs.getString("cpf"));
-                c.setCnpj(rs.getString("cnpj"));
-                c.setEmail(rs.getString("email"));
-                c.setIncEstadual(rs.getString("insc_estadual"));
+                
+                c.setCpf( this.selectCpf(c.getId(),stmt,con));//faz o select buscando um valor cpf ligado ao id de cliente_nome
+                                                     //e seta em c.setCpf
                 
                 lista.add(c);
             }
@@ -187,5 +182,30 @@ public class ClienteDAO {
         }
         
         return lista;
+    }
+    
+    private String selectCpf(int id,PreparedStatement stmt, Connection con){
+        String cpf = "";
+        ResultSet rs = null;
+        try {
+            stmt = con.prepareStatement("SELECT * FROM cliente_cpf WHERE id = ?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                return rs.getString("cpf");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+            if(rs != null){
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return cpf;
     }
 }

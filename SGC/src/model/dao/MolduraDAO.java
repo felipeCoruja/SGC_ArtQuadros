@@ -33,13 +33,13 @@ public class MolduraDAO {
                     + "VALUES(?,?,?,?,?,?,?)");// passando variaveis '?' no lugar dos VALUES
 
             //Passando os valores de VALUES
-            stmt.setInt(0,m.getId());//Primeiro parâmetro se refere a variável -> '?' na respectiva ordem
-            stmt.setString(1, m.getCor());
-            stmt.setString(2, m.getDescricao());
-            stmt.setString(3, m.getMareial());
-            stmt.setDouble(4, m.getQuantMetros());
-            stmt.setDouble(5, m.getComprimentoVara());
-            stmt.setDouble(6, m.getLarguraVara());
+            stmt.setInt(1,m.getId());//Primeiro parâmetro se refere a variável -> '?' na respectiva ordem
+            stmt.setString(2, m.getCor());
+            stmt.setString(3, m.getDescricao());
+            stmt.setString(4, m.getMareial());
+            stmt.setDouble(5, m.getQuantMetros());
+            stmt.setDouble(6, m.getComprimentoVara());
+            stmt.setDouble(7, m.getLarguraVara());
 
             stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
@@ -60,9 +60,9 @@ public class MolduraDAO {
                    + "VALUES(?,?,?)");
            
            //Passando os valores das variáveis Respectivamente
-           stmt.setInt(0, m.getId());
-           stmt.setDouble(1, m.getPrecoCusto());
-           stmt.setDouble(2, m.getPrecoVenda());
+           stmt.setInt(1, m.getId());
+           stmt.setDouble(2, m.getPrecoCusto());
+           stmt.setDouble(3, m.getPrecoVenda());
            
            stmt.executeUpdate();//executando o comando SQL. 
                                 //Metodo executeUpdate é responsável pelos comandos DML(INSERT,UPDATE,DELETE)

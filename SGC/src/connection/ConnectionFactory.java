@@ -27,7 +27,7 @@ public class ConnectionFactory {
     public static Connection getConnection() throws ClassNotFoundException{
         try {
             Class.forName(DRIVER);
-            return DriverManager.getConnection(DRIVER,USER,PASS);//retornando uma conexão com BD
+            return DriverManager.getConnection(URL,USER,PASS);//retornando uma conexão com BD
             
         } catch (ClassNotFoundException | SQLException ex) {
             throw new RuntimeException("Erro na conexão: "+ex);
