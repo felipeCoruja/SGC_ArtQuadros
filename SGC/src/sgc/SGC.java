@@ -5,7 +5,11 @@
  */
 package sgc;
 
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.bean.Cliente;
+import model.bean.Endereco;
 import model.dao.ClienteDAO;
 
 /**
@@ -19,14 +23,38 @@ public class SGC {
      */
     public static void main(String[] args) {
         Cliente c = new Cliente();
+        // c = dao.load(11);
         
-        c.setId(12);
-        c.setNome("felipe");
-        c.setCpf("12946670685");
-        c.setEmail("felipemdb2@gmail.com");
+        c.setId(50);
+        c.setNome("JO10A7");
+        c.setCpf("94400661A");
+        c.setEmail("AAoao197@gmail.com");
+        List<String> lista = c.getListaTelefone();
+        lista.add("A119-0132");
+        lista.add("A449-0192");  
+        c.setListaTelefone(lista);
+        
+        Endereco e = new Endereco();
+        
+        e.setBairro("AAa bernadete2");
+        e.setRua("mary martins 2");
+        e.setComplemento("sem coAAmpento2");
+        e.setNumero("AA5B");
+        c.getListaEndereco().add(e);
+        
+        Endereco en = new Endereco();
+        
+        en.setBairro("saBBta");
+        en.setRua("maurBBy ");
+        en.setComplemento("seBm ");
+        en.setNumero("2BBBC");
+        
+        c.getListaEndereco().add(en);
         
         ClienteDAO dao = new ClienteDAO();
         dao.salvar(c);
+        
+        System.exit(0);
     }
     
 }

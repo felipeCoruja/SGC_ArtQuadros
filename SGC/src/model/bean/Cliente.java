@@ -18,7 +18,7 @@ public class Cliente {
     private int id;
     private String nome;
     private String cpf;
-    private String IncEstadual;
+    private String InscEstadual;
     private String cnpj;
     private String email;
     private List<String> listaTelefone;
@@ -29,7 +29,7 @@ public class Cliente {
         this.id = -1;
         this.nome = "";
         this.cpf = "";
-        this.IncEstadual = "";
+        this.InscEstadual = "";
         this.cnpj = "";
         this.email = "";
         this.listaTelefone = new ArrayList<>();
@@ -79,17 +79,17 @@ public class Cliente {
     }
 
     /**
-     * @return the IncEstadual
+     * @return the InscEstadual
      */
-    public String getIncEstadual() {
-        return IncEstadual;
+    public String getInscEstadual() {
+        return InscEstadual;
     }
 
     /**
-     * @param IncEstadual the IncEstadual to set
+     * @param InscEstadual the InscEstadual to set
      */
-    public void setIncEstadual(String IncEstadual) {
-        this.IncEstadual = IncEstadual;
+    public void setInscEstadual(String InscEstadual) {
+        this.InscEstadual = InscEstadual;
     }
 
     /**

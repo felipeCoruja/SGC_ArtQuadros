@@ -17,6 +17,8 @@ public class Endereco {
     private String bairro;
     private String rua;
     private String numero;
+    private String complemento;
+    private String referencia;
     
     
     public Endereco(){
@@ -26,6 +28,8 @@ public class Endereco {
         this.bairro = "";
         this.rua = "";
         this.numero = "";
+        this.complemento = "";
+        this.referencia = "";
     }
 
     /**
@@ -110,6 +114,22 @@ public class Endereco {
      */
     public void setNumero(String numero) {
         this.numero = numero;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public String getReferencia() {
+        return referencia;
+    }
+
+    public void setReferencia(String referencia) {
+        this.referencia = referencia;
     }
     
 }
