@@ -180,10 +180,9 @@ public class ClienteDAO {
         
         try {
             for(int i=0;i<c.getListaEndereco().size();i++){
-                System.out.println("chegou a rodar: >>"+i+1+ " vezes");
+                
                 stmt = con.prepareStatement("INSERT INTO endereco (id,uf,cidade,bairro,rua,complemento,numero,referencia)"
                                           + " VALUES(?,?,?,?,?,?,?,?)");
-                System.out.println("Chegou perto");
                 stmt.setInt(1, c.getId());
                 stmt.setString(2, c.getListaEndereco().get(i).getUf());
                 stmt.setString(3, c.getListaEndereco().get(i).getCidade());
@@ -192,10 +191,9 @@ public class ClienteDAO {
                 stmt.setString(6, c.getListaEndereco().get(i).getComplemento());
                 stmt.setString(7, c.getListaEndereco().get(i).getNumero());
                 stmt.setString(8, c.getListaEndereco().get(i).getReferencia());
-                System.out.println("EXECUTOU");
+                 
+                stmt.executeUpdate();
                 
-                stmt.executeQuery();
-                System.out.println("ENDERECO SALVO");
             }
         } catch (SQLException e) {
         }finally{

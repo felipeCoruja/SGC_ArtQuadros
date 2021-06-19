@@ -25,29 +25,31 @@ public class SGC {
         Cliente c = new Cliente();
         // c = dao.load(11);
         
-        c.setId(50);
-        c.setNome("JO10A7");
-        c.setCpf("94400661A");
-        c.setEmail("AAoao197@gmail.com");
+        c.setId(22);
+        c.setNome("aLICE.");
+        c.setCpf("2222222222");
+        c.setEmail("alicizi@gmail.com");
         List<String> lista = c.getListaTelefone();
-        lista.add("A119-0132");
-        lista.add("A449-0192");  
+        lista.add("2222-2212");
+        lista.add("2222-2213");  
         c.setListaTelefone(lista);
         
         Endereco e = new Endereco();
         
-        e.setBairro("AAa bernadete2");
-        e.setRua("mary martins 2");
-        e.setComplemento("sem coAAmpento2");
-        e.setNumero("AA5B");
+        
+        e.setBairro("Bairro Numero 22");
+        e.setRua("Joaquim pereira 2");
+        e.setComplemento("sem ");
+        e.setNumero("2 2");
         c.getListaEndereco().add(e);
         
         Endereco en = new Endereco();
         
-        en.setBairro("saBBta");
-        en.setRua("maurBBy ");
-        en.setComplemento("seBm ");
-        en.setNumero("2BBBC");
+     
+        en.setBairro("Sonho meu.");
+        en.setRua("Pereira joaquim2 ");
+        en.setComplemento("mes  .");
+        en.setNumero("221");
         
         c.getListaEndereco().add(en);
         
