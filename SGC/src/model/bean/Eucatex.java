@@ -14,7 +14,7 @@ public class Eucatex {
     private String tipo;
     private double alturaChapa;
     private double comprimentoChapa;
-    private int quantidadeChapa;
+    private int quantidadeChapas;
     private double precoCusto;
     
     public Eucatex(){
@@ -22,7 +22,7 @@ public class Eucatex {
         this.tipo = "";
         this.alturaChapa = -1.0;
         this.comprimentoChapa = -1.0;
-        this.quantidadeChapa = -1;
+        this.quantidadeChapas = -1;
         this.precoCusto = -1.0;
     }
 
@@ -85,15 +85,15 @@ public class Eucatex {
     /**
      * @return the quantidadeChapa
      */
-    public int getQuantidadeChapa() {
-        return quantidadeChapa;
+    public int getQuantidadeChapas() {
+        return quantidadeChapas;
     }
 
     /**
      * @param quantidadeChapa the quantidadeChapa to set
      */
-    public void setQuantidadeChapa(int quantidadeChapa) {
-        this.quantidadeChapa = quantidadeChapa;
+    public void setQuantidadeChapas(int quantidadeChapa) {
+        this.quantidadeChapas = quantidadeChapa;
     }
 
     /**

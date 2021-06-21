@@ -74,10 +74,10 @@ public class MolduraDAO {
         }
     }
     
-    private List<Moldura> load() throws ClassNotFoundException{
-        Connection con = ConnectionFactory.getConnection();
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
+    public List<Moldura> load() throws ClassNotFoundException{
+        Connection con = ConnectionFactory.getConnection();//pegando a conexão com o BD
+        PreparedStatement stmt = null;// Preparador de comandos SQL
+        ResultSet rs = null;// Variavel onde irei jogar o resultado do SELECT
         List<Moldura> lista = new ArrayList<>();
         
         try {
@@ -101,7 +101,7 @@ public class MolduraDAO {
             }
         } catch (SQLException ex) {
             Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Erro de Load class MolduraDAO: "+ex);
+            JOptionPane.showMessageDialog(null, "Erro de Load classe MolduraDAO: "+ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }

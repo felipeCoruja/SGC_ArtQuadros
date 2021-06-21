@@ -44,6 +44,7 @@ public class ClienteDAO {
         }
     }
     
+    /*Salva na tabela cliente_nome*/
     private void salvarClienteNome(Cliente c) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -51,7 +52,7 @@ public class ClienteDAO {
         try {
             stmt = con.prepareStatement("INSERT INTO cliente_nome (id,nome) VALUES(?,?)");
             
-            stmt.setInt(1, c.getId());
+            stmt.setInt(1, c.getId());//passando parâmetros para values
             stmt.setString(2, c.getNome());
             
             stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
@@ -65,7 +66,7 @@ public class ClienteDAO {
         }
     
     }
-    
+    //Salva na tabela cliente_inc_estadual
     private void salvarClienteInscEstadual(Cliente c) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -87,7 +88,7 @@ public class ClienteDAO {
         }
     
     }
-    
+    //salva em cliente_cpf
     private void salvarClienteCpf(Cliente c) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -109,7 +110,7 @@ public class ClienteDAO {
         }
     
     }
-    
+    //salva cliente_cnpj
     private void salvarClienteCnpj(Cliente c) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -131,7 +132,7 @@ public class ClienteDAO {
         }
     
     }
-    
+    //salva em cliente_email
     private void salvarClienteEmail(Cliente c) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -165,15 +166,18 @@ public class ClienteDAO {
                 String numero = c.getListaTelefone().get(i);
                 stmt.setString(2, numero);
                 
-                stmt.executeUpdate();
+                stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
+                                //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)    
             }
         } catch (SQLException ex) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar Telefone do Cliente no Banco de Dados :"+ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
     
     }
-    
+    //Salva na tabela de endereco
     private void salvarEndereco(Cliente c) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -192,10 +196,13 @@ public class ClienteDAO {
                 stmt.setString(7, c.getListaEndereco().get(i).getNumero());
                 stmt.setString(8, c.getListaEndereco().get(i).getReferencia());
                  
-                stmt.executeUpdate();
+                stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
+                                //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
                 
             }
         } catch (SQLException e) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar Endereço do Cliente no Banco de Dados :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }

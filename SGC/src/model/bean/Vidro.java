@@ -28,4 +28,60 @@ public class Vidro {
         this.quantidadeChapas = -1;
         this.precoCusto = -1.0;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public double getAlturaChapa() {
+        return alturaChapa;
+    }
+
+    public void setAlturaChapa(double alturaChapa) {
+        this.alturaChapa = alturaChapa;
+    }
+
+    public double getComprimentoChapa() {
+        return comprimentoChapa;
+    }
+
+    public void setComprimentoChapa(double comprimentoChapa) {
+        this.comprimentoChapa = comprimentoChapa;
+    }
+
+    public int getEspessuraChapa() {
+        return espessuraChapa;
+    }
+
+    public void setEspessuraChapa(int espessuraChapa) {
+        this.espessuraChapa = espessuraChapa;
+    }
+
+    public int getQuantidadeChapas() {
+        return quantidadeChapas;
+    }
+
+    public void setQuantidadeChapas(int quantidadeChapas) {
+        this.quantidadeChapas = quantidadeChapas;
+    }
+
+    public double getPrecoCusto() {
+        return precoCusto;
+    }
+
+    public void setPrecoCusto(double precoCusto) {
+        this.precoCusto = precoCusto;
+    }
 }
