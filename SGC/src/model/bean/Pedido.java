@@ -11,7 +11,6 @@ package model.bean;
  */
 public class Pedido {
     private int id;
-    private int idNota;
     private double altura;
     private double largura;
     private double valorUnitario;
@@ -20,7 +19,6 @@ public class Pedido {
     
     public Pedido(){
         this.id = -1;
-        this.idNota = -1;
         this.altura = -1.0;
         this.largura = -1.0;
         this.valorUnitario = -1.0;
@@ -40,20 +38,6 @@ public class Pedido {
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    /**
-     * @return the idNota
-     */
-    public int getIdNota() {
-        return idNota;
-    }
-
-    /**
-     * @param idNota the idNota to set
-     */
-    public void setIdNota(int idNota) {
-        this.idNota = idNota;
     }
 
     /**
