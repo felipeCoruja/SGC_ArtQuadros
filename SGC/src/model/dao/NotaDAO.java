@@ -93,7 +93,7 @@ public class NotaDAO {
             
             stmt.executeUpdate();
         } catch (SQLException e) {
-             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro de Update data_encerramento na Classe NotaDAO :"+e);
         }finally{
             ConnectionFactory.closeConnection(con,stmt);
