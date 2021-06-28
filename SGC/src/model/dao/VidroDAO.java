@@ -42,7 +42,7 @@ public class VidroDAO {
             
             stmt.executeUpdate();
         } catch (SQLException e) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(VidroDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Vidro no Banco de Dados :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
@@ -73,7 +73,7 @@ public class VidroDAO {
             }
             
         } catch (SQLException e) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(VidroDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro no Load de Vidro Classe VidroDAO :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);

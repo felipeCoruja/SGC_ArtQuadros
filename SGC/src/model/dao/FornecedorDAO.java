@@ -42,7 +42,7 @@ public class FornecedorDAO {
                 stmt.executeUpdate();
             }
         } catch (SQLException e) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(FornecedorDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Fornecedor, Classe FornecedorDAO :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
@@ -71,7 +71,7 @@ public class FornecedorDAO {
                 lista.add(f);
             }
         } catch (SQLException e) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(FornecedorDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro no Load, Classe FornecedorDAO :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);

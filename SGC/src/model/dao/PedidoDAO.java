@@ -36,7 +36,7 @@ public class PedidoDAO {
             stmt.executeUpdate();
             
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro ao salvar pedido na Classe PedidoDAO :"+ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);

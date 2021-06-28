@@ -59,7 +59,7 @@ public class ClienteDAO {
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
             
         } catch (SQLException ex) {
-            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Nome do Cliente no Banco de Dados :"+ex);
         }finally{
             ConnectionFactory.closeConnection(con,stmt);
@@ -81,7 +81,7 @@ public class ClienteDAO {
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
             
         } catch (SQLException ex) {
-            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Insc. Estadual do Cliente no Banco de Dados :"+ex);
         }finally{
             ConnectionFactory.closeConnection(con,stmt);
@@ -103,7 +103,7 @@ public class ClienteDAO {
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
             
         } catch (SQLException ex) {
-            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Cpf do Cliente no Banco de Dados :"+ex);
         }finally{
             ConnectionFactory.closeConnection(con,stmt);
@@ -125,7 +125,7 @@ public class ClienteDAO {
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
             
         } catch (SQLException ex) {
-            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Cnpj do Cliente no Banco de Dados :"+ex);
         }finally{
             ConnectionFactory.closeConnection(con,stmt);
@@ -147,7 +147,7 @@ public class ClienteDAO {
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
             
         } catch (SQLException ex) {
-            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Email do Cliente no Banco de Dados :"+ex);
         }finally{
             ConnectionFactory.closeConnection(con,stmt);
@@ -265,7 +265,7 @@ public class ClienteDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro de Load classe ClienteDAO: "+ex);
         }finally{//FECHANDO A CONEXÃO COM O BD NO finally PARA TER CERTEZA QUE SERÁ FECHADA NO FINAL
             ConnectionFactory.closeConnection(con, stmt, rs);

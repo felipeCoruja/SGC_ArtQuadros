@@ -26,7 +26,7 @@ public class NotaDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
-        try {
+        try {//INSERT TABELA nota
             stmt = con.prepareStatement("INSERT INTO nota(id,data_entrega,data_da_nota,desconto,"
                                       + "valor_total,valor_entrada,forma_pagamento)"
                                       + " VALUES(?,?,?,?,?,?,?)");
@@ -40,9 +40,19 @@ public class NotaDAO {
             stmt.setString(7, n.getFormaPagamento());
             
             stmt.executeUpdate();
+            stmt = null;
+            
+            //INSERT TABELA nota_status
+            stmt = con.prepareStatement("INSERT INTO nota_status(id,status_pagamento,data_encerramento) "
+                                        + "VALUES(?,?,?)");
+            stmt.setInt(1, n.getId());
+            stmt.setString(2, n.getStatusPagamento());
+            stmt.setString(3, n.getDataEncerramento());
+            
+            stmt.executeUpdate();
             
         } catch (SQLException e) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Nota na Classe NotaDAO :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
@@ -73,7 +83,7 @@ public class NotaDAO {
                 n.setDataEncerramento(rs.getString("data_encerramento"));
             }
         } catch (SQLException e) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Nota na Classe NotaDAO :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
@@ -93,7 +103,7 @@ public class NotaDAO {
             
             stmt.executeUpdate();
         } catch (SQLException e) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro de Update data_encerramento na Classe NotaDAO :"+e);
         }finally{
             ConnectionFactory.closeConnection(con,stmt);

@@ -40,7 +40,7 @@ public class EucatexDAO {
             
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EucatexDAO.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Eucatex no Banco de Dados :"+ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
@@ -70,7 +70,7 @@ public class EucatexDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EucatexDAO.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Erro no Load de Eucatex Classe EucatexDAO :"+ex);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);

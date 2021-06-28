@@ -46,6 +46,8 @@ public class MolduraDAO {
 
 
         } catch (SQLException e) {
+            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar dados no banco, classe MolduraDAO: "+e);
         }finally{//A CONEXÃO É FECHADA NO finally POIS ASSIM TEMOS CERTEZA QUE ELA IRÁ SER FECHADA
             ConnectionFactory.closeConnection(con, stmt);
         }
