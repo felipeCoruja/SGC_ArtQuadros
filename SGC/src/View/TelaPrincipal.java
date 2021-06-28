@@ -5,6 +5,8 @@
  */
 package View;
 
+import View.cadastro.CadCliente;
+import View.cadastro.CadClienteCabecalho;
 import view.orcamento.Orcamento;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
@@ -17,7 +19,7 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
     private Orcamento orcamento;
-    
+    private CadClienteCabecalho c;
     /**
      * Creates new form TelaPrincipal
      */
@@ -25,10 +27,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         initComponents();
        
         orcamento = new Orcamento();
+        c = new CadClienteCabecalho();
+        
         this.setExtendedState(MAXIMIZED_BOTH);//PARA ABRIR A TELA PRINCIPAL MAXIMIZADA
         
         try {
-            orcamento.setMaximum(true);//para abrir o jInternalFrame Orcamento maximizado
+            c.setMaximum(true);//para abrir o jInternalFrame Orcamento maximizado
         } catch (PropertyVetoException ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -37,12 +41,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
        
         
         
-        this.desktopPane.add(orcamento);
-        this.desktopPane.moveToFront(orcamento);
-        orcamento.setSize(desktopPane.getWidth(),desktopPane.getHeight());
-        orcamento.setLocation(0,0);
-        ((BasicInternalFrameUI)this.orcamento.getUI()).setNorthPane(null);//CODIGO PARA ESCONDER A BARRA SUPERIOR DO jInternalFrame
-        orcamento.setVisible(true);
+        this.desktopPane.add(c);
+        this.desktopPane.moveToFront(c);
+        c.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+        c.setLocation(0,0);
+        ((BasicInternalFrameUI)this.c.getUI()).setNorthPane(null);//CODIGO PARA ESCONDER A BARRA SUPERIOR DO jInternalFrame
+        c.setVisible(true);
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
