@@ -8,8 +8,13 @@ package View;
 import View.busca.BuscarNota;
 import View.cadastro.CadCliente;
 import View.cadastro.CadCliente;
+import View.cadastro.CadEucatex;
+import View.cadastro.CadMoldura;
 import View.cadastro.CadPedido;
 import View.cadastro.CadPedidoFinal;
+import View.cadastro.CadProduto;
+import View.cadastro.CadVidro;
+import View.home.Home;
 import view.orcamento.Orcamento;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
@@ -21,21 +26,30 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  * @author felip
  */
 public class TelaPrincipal extends javax.swing.JFrame {
+    private Home home;
+    private BuscarNota buscarNota;
+    private CadCliente cadCliente;
+    private CadEucatex cadEucatex;
+    private CadMoldura cadMoldura;
+    private CadVidro   cadVidro;
+    private CadPedido  cadPedido;
+    private CadPedidoFinal cadPedidoFinal;
+    private CadProduto cadProduto;
     private Orcamento orcamento;
-    private BuscarNota c;
+    
     /**
      * Creates new form TelaPrincipal
      */
     public TelaPrincipal(){
         initComponents();
        
-        orcamento = new Orcamento();
-        c = new BuscarNota();
+        home = new Home();
+        
         
         this.setExtendedState(MAXIMIZED_BOTH);//PARA ABRIR A TELA PRINCIPAL MAXIMIZADA
         
         try {
-            c.setMaximum(true);//para abrir o jInternalFrame Orcamento maximizado
+            home.setMaximum(true);//para abrir o jInternalFrame Orcamento maximizado
         } catch (PropertyVetoException ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -44,13 +58,50 @@ public class TelaPrincipal extends javax.swing.JFrame {
        
         
         
-        this.desktopPane.add(c);
-        this.desktopPane.moveToFront(c);
-        c.setSize(desktopPane.getWidth(),desktopPane.getHeight());
-        c.setLocation(0,0);
-        ((BasicInternalFrameUI)this.c.getUI()).setNorthPane(null);//CODIGO PARA ESCONDER A BARRA SUPERIOR DO jInternalFrame
-        c.setVisible(true);
+        this.desktopPane.add(home);
+        this.desktopPane.moveToFront(home);
+        home.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+        home.setLocation(0,0);
+        ((BasicInternalFrameUI)this.home.getUI()).setNorthPane(null);//CODIGO PARA ESCONDER A BARRA SUPERIOR DO jInternalFrame
+        home.setVisible(true);
     }
+    
+    public void destruirTelasExistentes(){
+        desktopPane.removeAll();
+        
+        if(home != null){
+            home.dispose();
+            home = null;
+        }else if(buscarNota != null){
+            buscarNota.dispose();
+            buscarNota = null;
+        }else if(cadCliente != null){
+            cadCliente.dispose();
+            cadCliente = null;
+        }else if(cadEucatex != null){
+            cadEucatex.dispose();
+            cadEucatex = null;
+        }else if(cadMoldura != null){
+            cadMoldura.dispose();
+            cadMoldura = null;
+        }else if(cadPedido != null){
+            cadPedido.dispose();
+            cadPedido = null;
+        }else if(cadPedidoFinal != null){
+            cadPedidoFinal.dispose();
+            cadPedidoFinal = null;
+        }else if(cadProduto != null){
+            cadProduto.dispose();
+            cadProduto = null;
+        }else if(cadVidro != null){
+            cadVidro.dispose();
+            cadVidro = null;
+        }else if(orcamento != null){
+            orcamento.dispose();
+            orcamento = null;
+        }
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -93,14 +144,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         desktopPane = new javax.swing.JDesktopPane();
         jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        jMenu5 = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
-        jMenu7 = new javax.swing.JMenu();
-        jMenu8 = new javax.swing.JMenu();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu9 = new javax.swing.JMenu();
+        menuHome = new javax.swing.JMenu();
+        menuNota = new javax.swing.JMenu();
+        itemMenuNota = new javax.swing.JMenuItem();
+        itemMenuFinalizarNota = new javax.swing.JMenuItem();
+        menuOrcamento = new javax.swing.JMenu();
+        menuBusca = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        menuCadastro = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        menuEstoque = new javax.swing.JMenu();
+        menuCaixa = new javax.swing.JMenu();
+        menuConfiguracoes = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,7 +171,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         );
         desktopPaneLayout.setVerticalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+            .addGap(0, 437, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -126,29 +185,102 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addComponent(desktopPane, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        jMenu3.setText("Home");
-        jMenuBar2.add(jMenu3);
+        menuHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/home.png"))); // NOI18N
+        menuHome.setText("Home");
+        menuHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuHomeMouseClicked(evt);
+            }
+        });
+        jMenuBar2.add(menuHome);
 
-        jMenu4.setText("Nota");
-        jMenuBar2.add(jMenu4);
+        menuNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/New_File_36861.png"))); // NOI18N
+        menuNota.setText("Nota");
 
-        jMenu5.setText("Orçamento");
-        jMenuBar2.add(jMenu5);
+        itemMenuNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1492616984-7-docs-document-file-data-google-suits_83406.png"))); // NOI18N
+        itemMenuNota.setText("Criar Nota");
+        itemMenuNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuNotaActionPerformed(evt);
+            }
+        });
+        menuNota.add(itemMenuNota);
 
-        jMenu6.setText("Busca");
-        jMenuBar2.add(jMenu6);
+        itemMenuFinalizarNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/file-complete256_25223.png"))); // NOI18N
+        itemMenuFinalizarNota.setText("Finalizar");
+        itemMenuFinalizarNota.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuFinalizarNotaActionPerformed(evt);
+            }
+        });
+        menuNota.add(itemMenuFinalizarNota);
 
-        jMenu7.setText("Cadastro");
-        jMenuBar2.add(jMenu7);
+        jMenuBar2.add(menuNota);
 
-        jMenu8.setText("Estoque");
-        jMenuBar2.add(jMenu8);
+        menuOrcamento.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/business-color_calculator_icon-icons.com_53466.png"))); // NOI18N
+        menuOrcamento.setText("Orçamento");
+        menuOrcamento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuOrcamentoMouseClicked(evt);
+            }
+        });
+        jMenuBar2.add(menuOrcamento);
 
-        jMenu1.setText("Caixa");
-        jMenuBar2.add(jMenu1);
+        menuBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/preview_search_find_locate_1551.png"))); // NOI18N
+        menuBusca.setText("Busca");
 
-        jMenu9.setText("Configurações");
-        jMenuBar2.add(jMenu9);
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1492616984-7-docs-document-file-data-google-suits_83406.png"))); // NOI18N
+        jMenuItem1.setText("Nota");
+        menuBusca.add(jMenuItem1);
+
+        jMenuItem2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/search user.png"))); // NOI18N
+        jMenuItem2.setText("Cliente");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        menuBusca.add(jMenuItem2);
+
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/user-male-icon_34332.png"))); // NOI18N
+        jMenuItem3.setText("Fornecedor");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        menuBusca.add(jMenuItem3);
+
+        jMenuBar2.add(menuBusca);
+
+        menuCadastro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1486564412-plus_81511.png"))); // NOI18N
+        menuCadastro.setText("Cadastro");
+
+        jMenuItem4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/add user.png"))); // NOI18N
+        jMenuItem4.setText("Cliente");
+        menuCadastro.add(jMenuItem4);
+
+        jMenuItem5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/user-male-icon_34332.png"))); // NOI18N
+        jMenuItem5.setText("Fornecedor");
+        menuCadastro.add(jMenuItem5);
+
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/framework_theapplication_2896.png"))); // NOI18N
+        jMenuItem6.setText("Materia Prima");
+        menuCadastro.add(jMenuItem6);
+
+        jMenuBar2.add(menuCadastro);
+
+        menuEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/drawer_115243.png"))); // NOI18N
+        menuEstoque.setText("Estoque");
+        jMenuBar2.add(menuEstoque);
+
+        menuCaixa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/cash_icon-icons.com_51090.png"))); // NOI18N
+        menuCaixa.setText("Caixa");
+        jMenuBar2.add(menuCaixa);
+
+        menuConfiguracoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/settings.png"))); // NOI18N
+        menuConfiguracoes.setText("Configurações");
+        jMenuBar2.add(menuConfiguracoes);
 
         setJMenuBar(jMenuBar2);
 
@@ -166,21 +298,86 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void itemMenuNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuNotaActionPerformed
+        this.menuNota.setOpaque(true);
+        
+        this.destruirTelasExistentes();
+        this.cadCliente = new CadCliente();
+        TelaPrincipal.desktopPane.add(cadCliente);
+        cadCliente.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+        cadCliente.setLocation(0,0);
+        this.cadCliente.setVisible(true);
+        ((BasicInternalFrameUI)this.cadCliente.getUI()).setNorthPane(null);
+    }//GEN-LAST:event_itemMenuNotaActionPerformed
+
+    private void itemMenuFinalizarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFinalizarNotaActionPerformed
+        this.menuNota.setOpaque(true);
+        
+        this.destruirTelasExistentes();
+        this.buscarNota = new BuscarNota();
+        TelaPrincipal.desktopPane.add(buscarNota);
+        buscarNota.setSize(TelaPrincipal.desktopPane.getWidth(), TelaPrincipal.desktopPane.getHeight());
+        buscarNota.setLocation(0,0);
+        this.buscarNota.setVisible(true);
+        ((BasicInternalFrameUI)this.buscarNota.getUI()).setNorthPane(null);
+    }//GEN-LAST:event_itemMenuFinalizarNotaActionPerformed
+
+    private void menuOrcamentoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuOrcamentoMouseClicked
+        this.menuOrcamento.setOpaque(true);
+        
+        this.destruirTelasExistentes();
+        this.orcamento = new Orcamento();
+        TelaPrincipal.desktopPane.add(orcamento);
+        orcamento.setSize(TelaPrincipal.desktopPane.getWidth(), TelaPrincipal.desktopPane.getHeight());
+        orcamento.setLocation(0,0);
+        this.orcamento.setVisible(true);
+        ((BasicInternalFrameUI)this.orcamento.getUI()).setNorthPane(null);
+    }//GEN-LAST:event_menuOrcamentoMouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void menuHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuHomeMouseClicked
+        this.menuHome.setOpaque(true);
+        this.destruirTelasExistentes();
+        this.home = new Home();
+        
+        this.desktopPane.add(home);
+        this.desktopPane.moveToFront(home);
+        home.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+        home.setLocation(0,0);
+        ((BasicInternalFrameUI)this.home.getUI()).setNorthPane(null);//CODIGO PARA ESCONDER A BARRA SUPERIOR DO jInternalFrame
+        home.setVisible(true);
+    }//GEN-LAST:event_menuHomeMouseClicked
+
     /**
      * @param args the command line arguments
      */
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane desktopPane;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
-    private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
-    private javax.swing.JMenu jMenu8;
-    private javax.swing.JMenu jMenu9;
+    public static javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JMenuItem itemMenuFinalizarNota;
+    private javax.swing.JMenuItem itemMenuNota;
     private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu menuBusca;
+    private javax.swing.JMenu menuCadastro;
+    private javax.swing.JMenu menuCaixa;
+    private javax.swing.JMenu menuConfiguracoes;
+    private javax.swing.JMenu menuEstoque;
+    private javax.swing.JMenu menuHome;
+    private javax.swing.JMenu menuNota;
+    private javax.swing.JMenu menuOrcamento;
     // End of variables declaration//GEN-END:variables
 }

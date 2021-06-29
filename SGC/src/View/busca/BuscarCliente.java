@@ -9,12 +9,12 @@ package View.busca;
  *
  * @author Felipe
  */
-public class BuscarNota extends javax.swing.JInternalFrame {
+public class BuscarCliente extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form BuscarNota
      */
-    public BuscarNota() {
+    public BuscarCliente() {
         initComponents();
     }
 
@@ -53,9 +53,7 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         jCheckBox4 = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Buscar Nota");
@@ -81,7 +79,7 @@ public class BuscarNota extends javax.swing.JInternalFrame {
 
         jRadioButton5.setText("CNPJ");
 
-        jRadioButton9.setText("ID Nota");
+        jRadioButton9.setText("ID Cliente");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -195,7 +193,7 @@ public class BuscarNota extends javax.swing.JInternalFrame {
                                 .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)
                                 .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,25 +223,17 @@ public class BuscarNota extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton5.setText("Finalizar");
-
         jButton12.setText("Editar Registro");
-
-        jButton13.setText("Gerar PDF");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton5)
-                .addGap(18, 18, 18)
+                .addGap(1, 1, 1)
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton12)
-                .addGap(18, 18, 18)
-                .addComponent(jButton13)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -252,9 +242,7 @@ public class BuscarNota extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton12)
-                    .addComponent(jButton13))
+                    .addComponent(jButton12))
                 .addGap(25, 25, 25))
         );
 
@@ -310,9 +298,7 @@ public class BuscarNota extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
