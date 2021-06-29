@@ -5,8 +5,11 @@
  */
 package View;
 
+import View.busca.BuscarNota;
 import View.cadastro.CadCliente;
-import View.cadastro.CadClienteCabecalho;
+import View.cadastro.CadCliente;
+import View.cadastro.CadPedido;
+import View.cadastro.CadPedidoFinal;
 import view.orcamento.Orcamento;
 import java.beans.PropertyVetoException;
 import java.util.logging.Level;
@@ -19,7 +22,7 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  */
 public class TelaPrincipal extends javax.swing.JFrame {
     private Orcamento orcamento;
-    private CadClienteCabecalho c;
+    private BuscarNota c;
     /**
      * Creates new form TelaPrincipal
      */
@@ -27,7 +30,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         initComponents();
        
         orcamento = new Orcamento();
-        c = new CadClienteCabecalho();
+        c = new BuscarNota();
         
         this.setExtendedState(MAXIMIZED_BOTH);//PARA ABRIR A TELA PRINCIPAL MAXIMIZADA
         
