@@ -10,7 +10,7 @@ package model.bean;
  * @author felip
  */
 public class Moldura {
-    private int id;
+    private String id;
     private String cor;
     private String material;
     private String descricao;
@@ -21,7 +21,7 @@ public class Moldura {
     private double precoVenda;
 
     public Moldura() {
-        this.id = -1;
+        this.id = "";
         this.cor = "";
         this.material = "";
         this.descricao = "";
@@ -47,14 +47,14 @@ public class Moldura {
     /**
      * @return the id
      */
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     /**
      * @param id the id to set
      */
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 

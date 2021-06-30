@@ -18,8 +18,11 @@ import javax.swing.JOptionPane;
 public class MolduraDAO {
     /*Metodo responsável por salvar todos os dados de moldura, dados estão separados em mais de uma tabela*/
     public void salvar(Moldura m) throws ClassNotFoundException {
-        salvarTabelaMoldura(m);//tabela principal de moldura
-        salvarTabelaMolduraPreco(m);//tabela de valores da moldura
+        try {
+            salvarTabelaMoldura(m);//tabela principal de moldura
+            salvarTabelaMolduraPreco(m);//tabela de valores da moldura
+        } catch (Exception e) {
+        }        
     }
     
     private void salvarTabelaMoldura(Moldura m)throws ClassNotFoundException{
@@ -33,7 +36,7 @@ public class MolduraDAO {
                     + "VALUES(?,?,?,?,?,?,?)");// passando variaveis '?' no lugar dos VALUES
 
             //Passando os valores de VALUES
-            stmt.setInt(1,m.getId());//Primeiro parâmetro se refere a variável -> '?' na respectiva ordem
+            stmt.setString(1,m.getId());//Primeiro parâmetro se refere a variável -> '?' na respectiva ordem
             stmt.setString(2, m.getCor());
             stmt.setString(3, m.getDescricao());
             stmt.setString(4, m.getMareial());
@@ -62,7 +65,7 @@ public class MolduraDAO {
                    + "VALUES(?,?,?)");
            
            //Passando os valores das variáveis Respectivamente
-           stmt.setInt(1, m.getId());
+           stmt.setString(1, m.getId());
            stmt.setDouble(2, m.getPrecoCusto());
            stmt.setDouble(3, m.getPrecoVenda());
            
@@ -83,14 +86,14 @@ public class MolduraDAO {
         List<Moldura> lista = new ArrayList<>();
         
         try {
-            stmt = (PreparedStatement) con.prepareStatement("SELECT * FROM moldura AS m"
+            stmt = (PreparedStatement) con.prepareStatement("SELECT * FROM moldura AS m "
                                                 + "JOIN moldura_preco AS mp ON m.id = mp.id");
             
             rs = stmt.executeQuery();
             
             while(rs.next()){
                 Moldura m = new Moldura();
-                m.setId(rs.getInt("moldura.id"));
+                m.setId(rs.getString("m.id"));
                 m.setCor(rs.getString("cor"));
                 m.setDescricao(rs.getString("descricao"));
                 m.setQuantMetros(rs.getDouble("quant_metros"));
