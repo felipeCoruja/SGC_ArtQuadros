@@ -210,6 +210,7 @@ public class BuscarFornecedor extends javax.swing.JInternalFrame {
                     .addComponent(jCheckBox4)))
         );
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/zenmap_104119.png"))); // NOI18N
         jButton4.setText("Ver Todos os dados");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -217,6 +218,7 @@ public class BuscarFornecedor extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/file-edit_114433.png"))); // NOI18N
         jButton12.setText("Editar Registro");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);

@@ -662,16 +662,25 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="jButton6">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/share.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Proximo"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton7">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/broom.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Limpar Dados"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton8">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/reply-message.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Voltar"/>
           </Properties>
         </Component>

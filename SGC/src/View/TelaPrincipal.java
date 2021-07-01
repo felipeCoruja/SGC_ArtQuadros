@@ -50,7 +50,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public TelaPrincipal(){
         initComponents();
        
-        menuBar.setBackground(black);
+        
         
         home = new Home();
         

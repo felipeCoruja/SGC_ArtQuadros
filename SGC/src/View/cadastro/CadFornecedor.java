@@ -430,10 +430,13 @@ public class CadFornecedor extends javax.swing.JInternalFrame {
                 .addGap(0, 0, 0))
         );
 
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/share.png"))); // NOI18N
         jButton6.setText("Proximo");
 
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
         jButton7.setText("Limpar Dados");
 
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/reply-message.png"))); // NOI18N
         jButton8.setText("Voltar");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);

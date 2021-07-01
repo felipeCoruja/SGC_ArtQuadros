@@ -365,6 +365,9 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="jButton4">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icones PNG/zenmap_104119.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Visualizar"/>
               </Properties>
               <Events>
@@ -373,16 +376,25 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton5">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icones PNG/file-complete256_25223.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Finalizar"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton12">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icones PNG/file-edit_114433.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Editar Registro"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton13">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icones PNG/pdf (1).png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Gerar PDF"/>
               </Properties>
             </Component>

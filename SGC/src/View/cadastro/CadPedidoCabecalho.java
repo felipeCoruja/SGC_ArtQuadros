@@ -9,12 +9,12 @@ package View.cadastro;
  *
  * @author Felipe
  */
-public class CadCliente extends javax.swing.JInternalFrame {
+public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form CadCliente
      */
-    public CadCliente() {
+    public CadPedidoCabecalho() {
         initComponents();
     }
 
@@ -145,6 +145,8 @@ public class CadCliente extends javax.swing.JInternalFrame {
         jLabel6.setText("Complemento:");
 
         jLabel7.setText("Numero:");
+
+        jTextField7.setText("jTextField7");
 
         jLabel14.setText("Referência:");
 
@@ -389,14 +391,14 @@ public class CadCliente extends javax.swing.JInternalFrame {
                 .addGap(0, 0, 0))
         );
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1486564412-plus_81511.png"))); // NOI18N
-        jButton6.setText("Cadastrar");
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/share.png"))); // NOI18N
+        jButton6.setText("Proximo");
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
         jButton7.setText("Limpar Dados");
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/diskette.png"))); // NOI18N
-        jButton8.setText("Salvar");
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/reply-message.png"))); // NOI18N
+        jButton8.setText("Voltar");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -419,11 +421,12 @@ public class CadCliente extends javax.swing.JInternalFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
                     .addComponent(jButton8)
                     .addComponent(jButton7))
-                .addGap(0, 41, Short.MAX_VALUE))
+                .addGap(30, 30, 30))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

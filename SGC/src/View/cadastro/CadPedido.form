@@ -343,7 +343,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane2" alignment="0" pref="489" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -431,36 +431,57 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="jButton6">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/1491254405-plusaddmoredetail_82972.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Adionar"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton7">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/reply-message.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Voltar"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton8">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/share.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Avan&#xe7;ar"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/delete-file_40456.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Cancelar"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/lixo.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Remover"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/diskette.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Salvar"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButton4">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/broom.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Limpar Tabela"/>
           </Properties>
         </Component>

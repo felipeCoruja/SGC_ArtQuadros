@@ -218,6 +218,7 @@ public class BuscarNota extends javax.swing.JInternalFrame {
                     .addComponent(jCheckBox4)))
         );
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/zenmap_104119.png"))); // NOI18N
         jButton4.setText("Visualizar");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -225,10 +226,13 @@ public class BuscarNota extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/file-complete256_25223.png"))); // NOI18N
         jButton5.setText("Finalizar");
 
+        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/file-edit_114433.png"))); // NOI18N
         jButton12.setText("Editar Registro");
 
+        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/pdf (1).png"))); // NOI18N
         jButton13.setText("Gerar PDF");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);

@@ -234,7 +234,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
+            .addComponent(jScrollPane2)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,18 +264,25 @@ public class CadPedido extends javax.swing.JInternalFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Orçamento");
 
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1491254405-plusaddmoredetail_82972.png"))); // NOI18N
         jButton6.setText("Adionar");
 
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/reply-message.png"))); // NOI18N
         jButton7.setText("Voltar");
 
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/share.png"))); // NOI18N
         jButton8.setText("Avançar");
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/delete-file_40456.png"))); // NOI18N
         jButton1.setText("Cancelar");
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/lixo.png"))); // NOI18N
         jButton2.setText("Remover");
 
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/diskette.png"))); // NOI18N
         jButton3.setText("Salvar");
 
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
         jButton4.setText("Limpar Tabela");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);

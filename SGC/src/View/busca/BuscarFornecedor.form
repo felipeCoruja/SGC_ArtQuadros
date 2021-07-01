@@ -351,6 +351,9 @@
           <SubComponents>
             <Component class="javax.swing.JButton" name="jButton4">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icones PNG/zenmap_104119.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Ver Todos os dados"/>
               </Properties>
               <Events>
@@ -359,6 +362,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton12">
               <Properties>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/Icones PNG/file-edit_114433.png"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Editar Registro"/>
               </Properties>
             </Component>

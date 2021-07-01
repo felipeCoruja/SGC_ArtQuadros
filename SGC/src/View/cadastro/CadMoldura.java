@@ -133,6 +133,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
         });
         jScrollPane2.setViewportView(tabela);
 
+        btnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1486564412-plus_81511.png"))); // NOI18N
         btnCadastrar.setText("Cadastrar Novo");
         btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -140,8 +141,15 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             }
         });
 
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/diskette.png"))); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
+        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/lixo.png"))); // NOI18N
         btnExcluir.setText("Excluir");
 
         edtPrecoCusto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
@@ -227,10 +235,9 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addGap(41, 41, 41)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
@@ -272,12 +279,15 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                         .addComponent(jLabel10)
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCadastrar)
                             .addComponent(btnSalvar)
-                            .addComponent(btnExcluir)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnExcluir))
+                        .addGap(30, 30, 30))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -298,20 +308,28 @@ public class CadMoldura extends javax.swing.JInternalFrame {
         
         if(this.edtReferencia.getText().isEmpty()){
             flag = true;
+            JOptionPane.showMessageDialog(null, "O Campo 'Referência' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
         }else if(this.edtCor.getText().isEmpty()){
             flag = true;
+            JOptionPane.showMessageDialog(null, "O Campo 'Cor' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
         }else if(this.edtMaterial.getText().isEmpty()){
             flag = true;
+            JOptionPane.showMessageDialog(null, "O Campo 'Material' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
         }else if(this.edtPrecoCusto.getText().isEmpty()){
             flag = true;
+            JOptionPane.showMessageDialog(null, "O Campo 'Preço Custo' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
         }else if(this.edtPrecoVenda.getText().isEmpty()){
             flag = true;
+            JOptionPane.showMessageDialog(null, "O Campo 'Preço Venda' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
         }else if(this.edtComprimentoVara.getText().isEmpty()){
             flag = true;
+            JOptionPane.showMessageDialog(null, "O Campo 'Comprimento Vara' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
         }else if(this.edtLarguraVara.getText().isEmpty()){
             flag = true;
+            JOptionPane.showMessageDialog(null, "O Campo 'Largura Vara' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
         }else if(this.spinerQtd.getValue().equals(0)){
             flag = true;
+            JOptionPane.showMessageDialog(null, "Insira um valor para 'Quantidade Varas' !", "Atenção", JOptionPane.WARNING_MESSAGE);
         }
         
         return flag;
@@ -406,6 +424,10 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
