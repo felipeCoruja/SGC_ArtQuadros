@@ -291,9 +291,11 @@ public class ClienteDAO {
         ResultSet rs = null;
         
         try {
-            stmt = con.prepareStatement("SELECT id FROM cliente ORDER BY DESC LIMIT 1");
+            stmt = con.prepareStatement("SELECT id FROM cliente_nome ORDER BY id DESC LIMIT 1;");
             rs = stmt.executeQuery();
+            rs.next();
             id = rs.getInt("id");
+             JOptionPane.showMessageDialog(null, "ID>>"+id);
         } catch (SQLException e) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro ao buscar ID :"+e);
