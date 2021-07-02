@@ -8,7 +8,11 @@ package View.cadastro;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import model.bean.Cliente;
+import model.bean.Endereco;
+import model.dao.ClienteDAO;
 import model.dao.MolduraDAO;
 
 /**
@@ -17,19 +21,33 @@ import model.dao.MolduraDAO;
  */
 public class CadCliente extends javax.swing.JInternalFrame {
     private List<String> listaTelefone;
-    private List<String> listaEndereco;
+    private List<Endereco> listaEndereco;
     private int idTelCel;
-    private int row;
+    private int rowContatos;
+    private int rowEnderecos;
+    private String maskCpf;
+    private String maskCnpj;
+    private String maskInscEstadual;
+    private String maskTel;
+    private String maskCel;
     
     /**
      * Creates new form CadCliente
      */
     public CadCliente() {
         initComponents();
-        idTelCel = 0;
-        listaEndereco = new ArrayList<>();
-        listaTelefone = new ArrayList<>();
-        row = -1;
+        this.idTelCel = 0;
+        this.listaEndereco = new ArrayList<>();
+        this.listaTelefone = new ArrayList<>();
+        this.rowContatos = -1;
+        this.rowEnderecos = -1;
+        this.cboxUf.setSelectedIndex(12);//MG
+        this.maskCpf = this.edtCpf.getText();
+        this.maskCnpj = this.edtCnpj.getText();
+        this.maskInscEstadual = this.edtInscEstadual.getText();
+        this.maskCel = this.edtCelular.getText();
+        this.maskTel = this.edtTelefone.getText();
+        
     }
 
     /**
@@ -72,9 +90,9 @@ public class CadCliente extends javax.swing.JInternalFrame {
         edtReferencia = new javax.swing.JTextArea();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaEnderecos = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnAddEndereco = new javax.swing.JButton();
+        btnRemoveEndereco = new javax.swing.JButton();
+        btnEditEndereco = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tabelaContatos = new javax.swing.JTable();
@@ -89,7 +107,6 @@ public class CadCliente extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         btnCadastrar = new javax.swing.JButton();
         btnLimparDados = new javax.swing.JButton();
-        btnSalvar = new javax.swing.JButton();
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Cliente");
@@ -114,7 +131,7 @@ public class CadCliente extends javax.swing.JInternalFrame {
         jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(131, 85, -1, -1));
 
         try {
-            edtCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
+            edtCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -148,7 +165,12 @@ public class CadCliente extends javax.swing.JInternalFrame {
 
         jLabel2.setText("UF:");
 
-        cboxUf.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxUf.setModel(new javax.swing.DefaultComboBoxModel<>(this.uf()));
+        cboxUf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxUfActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Cidade:");
 
@@ -175,23 +197,38 @@ public class CadCliente extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tabelaEnderecos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaEnderecosMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tabelaEnderecos);
 
-        jButton1.setBackground(new java.awt.Color(31, 132, 61));
-        jButton1.setText("Adicionar Endereço");
+        btnAddEndereco.setBackground(new java.awt.Color(31, 132, 61));
+        btnAddEndereco.setText("Adicionar Endereço");
+        btnAddEndereco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddEnderecoActionPerformed(evt);
+            }
+        });
 
-        jButton2.setBackground(new java.awt.Color(250, 95, 99));
-        jButton2.setText("Remover Endereço");
+        btnRemoveEndereco.setBackground(new java.awt.Color(250, 95, 99));
+        btnRemoveEndereco.setText("Remover Endereço");
+        btnRemoveEndereco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoveEnderecoActionPerformed(evt);
+            }
+        });
 
-        jButton5.setBackground(new java.awt.Color(68, 144, 196));
-        jButton5.setText("Editar Endereço");
+        btnEditEndereco.setBackground(new java.awt.Color(68, 144, 196));
+        btnEditEndereco.setText("Editar Endereço");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -215,8 +252,8 @@ public class CadCliente extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel2)
-                                        .addComponent(cboxUf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGap(33, 33, 33)
+                                        .addComponent(cboxUf, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel3)
                                         .addComponent(edtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -228,11 +265,11 @@ public class CadCliente extends javax.swing.JInternalFrame {
                             .addComponent(edtComplemento, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
                             .addComponent(edtBairro)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnAddEndereco)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
+                        .addComponent(btnRemoveEndereco)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)))
+                        .addComponent(btnEditEndereco)))
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE))
         );
@@ -269,9 +306,9 @@ public class CadCliente extends javax.swing.JInternalFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2)
-                            .addComponent(jButton5))
+                            .addComponent(btnAddEndereco)
+                            .addComponent(btnRemoveEndereco)
+                            .addComponent(btnEditEndereco))
                         .addGap(0, 14, Short.MAX_VALUE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
         );
@@ -302,7 +339,7 @@ public class CadCliente extends javax.swing.JInternalFrame {
         jScrollPane4.setViewportView(tabelaContatos);
 
         try {
-            edtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) ####-####")));
+            edtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -426,12 +463,9 @@ public class CadCliente extends javax.swing.JInternalFrame {
 
         btnLimparDados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
         btnLimparDados.setText("Limpar Dados");
-
-        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/diskette.png"))); // NOI18N
-        btnSalvar.setText("Salvar");
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+        btnLimparDados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
+                btnLimparDadosActionPerformed(evt);
             }
         });
 
@@ -443,8 +477,6 @@ public class CadCliente extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(btnCadastrar)
                 .addGap(18, 18, 18)
-                .addComponent(btnSalvar)
-                .addGap(18, 18, 18)
                 .addComponent(btnLimparDados)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -453,9 +485,8 @@ public class CadCliente extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastrar)
-                    .addComponent(btnSalvar)
                     .addComponent(btnLimparDados))
-                .addGap(0, 45, Short.MAX_VALUE))
+                .addGap(0, 47, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -491,30 +522,37 @@ public class CadCliente extends javax.swing.JInternalFrame {
     private void edtCelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtCelularActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_edtCelularActionPerformed
-
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalvarActionPerformed
      
     private boolean isCamposVazios() {//apenas os campos necessários, nome,telefone/celular,e um endereço
-        boolean flag = true;
+        boolean flag = false;
         
         if(this.edtNome.getText().isEmpty()){
-            flag = false;
+            flag = true;
             JOptionPane.showMessageDialog(null, "O Campo 'Nome' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
         }else if(listaTelefone.isEmpty()){
-            flag = false;
+            flag = true;
             JOptionPane.showMessageDialog(null, "Insira um número de telefone ou celular para concluir o cadastro", "Atenção", JOptionPane.WARNING_MESSAGE);
         }else if(this.listaEndereco.isEmpty()){
-            flag = false;
+            flag = true;
             JOptionPane.showMessageDialog(null, "Insira um endereço para concluir o cadastro", "Atenção", JOptionPane.WARNING_MESSAGE);
         }
         return flag;
     }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         
-        if(this.isCamposVazios()){
-    
+        if(this.isCamposVazios()==false){
+            Cliente c = new Cliente();
+            
+            c.setNome(this.edtNome.getText());
+            c.setCpf(this.edtCpf.getText());
+            c.setCnpj(this.edtCnpj.getText());
+            c.setEmail(this.edtEmail.getText());
+            c.setInscEstadual(this.edtInscEstadual.getText());
+            c.setListaTelefone(this.listaTelefone);
+            c.setListaEndereco(this.listaEndereco);
+            
+            ClienteDAO dao = new ClienteDAO();
+            dao.salvar(c);
         }
         
         
@@ -540,22 +578,28 @@ public class CadCliente extends javax.swing.JInternalFrame {
         String aux = "";
         
         aux = this.removeMask(this.edtTelefone.getText());
-        if(!aux.isEmpty()){
+        System.out.println(aux+"<<<aux");
+        if(aux.length() ==10){
             tel = this.edtTelefone.getText();
             desc = this.edtDescricao.getText();
             registro = tel+";"+desc+";";
-       
+            
             this.listaTelefone.add(registro);
             if(idTelCel == 0){
                 idTelCel =1;
             }
             modelTable.addRow(new Object[]{idTelCel,tel,desc});
             idTelCel++;
+        }else if(aux.length() < 10 && aux.length() > 0){
+            System.out.println("***********");
+            JOptionPane.showMessageDialog(null, "Numero de telefone deve ter 10 digitos ex: (32)4455-6677");
+        }else{
+            System.out.println(aux.length());
         }
         
-        System.out.println("***");
+       
         aux = this.removeMask(this.edtCelular.getText());
-        if(!aux.isEmpty()){
+        if(aux.length() == 11){
             System.out.println("////");
             cel = this.edtCelular.getText();
             desc = this.edtDescricao.getText();
@@ -568,6 +612,8 @@ public class CadCliente extends javax.swing.JInternalFrame {
             
             modelTable.addRow(new Object[]{idTelCel,cel,desc});
             idTelCel++;
+        }else if(aux.length() < 11 && aux.length() > 0){
+            JOptionPane.showMessageDialog(null, "Numero de celular deve ter 11 digitos ex: (32)9 4455-6677");
         }
         
         this.edtTelefone.setText("");
@@ -577,11 +623,11 @@ public class CadCliente extends javax.swing.JInternalFrame {
 
     private void btnRemoverNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverNumeroActionPerformed
         DefaultTableModel modelTable = (DefaultTableModel) this.tabelaContatos.getModel();
-        if(this.row != -1){
-            JOptionPane.showMessageDialog(null, "Contato "+modelTable.getValueAt(row, 1)+" Removido");
-            modelTable.removeRow(row);
-            this.listaTelefone.remove(this.row-1);
-            
+        if(this.rowContatos != -1){
+            JOptionPane.showMessageDialog(null, "Contato "+modelTable.getValueAt(rowContatos, 1)+" Removido");
+            modelTable.removeRow(rowContatos);
+            this.listaTelefone.remove(this.rowContatos);
+            this.rowContatos = -1;
         }else{
             JOptionPane.showMessageDialog(null, "Selecione uma linha para excluir!", "Atenção", JOptionPane.WARNING_MESSAGE);
             
@@ -590,16 +636,138 @@ public class CadCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnRemoverNumeroActionPerformed
 
     private void tabelaContatosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaContatosMouseClicked
-        this.row = this.tabelaContatos.getSelectedRow();
+        this.rowContatos = this.tabelaContatos.getSelectedRow();
     }//GEN-LAST:event_tabelaContatosMouseClicked
 
+    private boolean isCamposEnderecoVazios(){
+        boolean flag = false;
+        
+        if(this.edtCidade.getText().isEmpty()){
+            flag = true;
+            JOptionPane.showMessageDialog(null, " O Campo 'Cidade' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }else if(this.edtBairro.getText().isEmpty()){
+            flag = true;
+            JOptionPane.showMessageDialog(null, "O Campo 'Bairro' Está Vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }else if(this.edtRua.getText().isEmpty()){
+            flag = true;
+            JOptionPane.showMessageDialog(null, " O Campo 'Rua' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }else if(this.edtNumero.getText().isEmpty()){
+            flag = true;
+            JOptionPane.showMessageDialog(null, " O Campo 'Número' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }
+        return flag;
+    }
+    
+    private boolean isCamposEnderecosVazios(){
+        boolean flag = false;
+        
+        if(this.edtCidade.getText().isEmpty()){
+            flag = true;
+            JOptionPane.showMessageDialog(null, " O Campo 'Cidade' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }else if(this.edtBairro.getText().isEmpty()){
+            flag = true;
+            JOptionPane.showMessageDialog(null, " O Campo 'Bairro' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }else if(this.edtRua.getText().isEmpty()){
+            flag = true;
+            JOptionPane.showMessageDialog(null, " O Campo 'Rua' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }else if(this.edtNumero.getText().isEmpty()){
+            flag = true;
+            JOptionPane.showMessageDialog(null, " O Campo 'Número' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        return flag;
+    }
+    private void btnAddEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddEnderecoActionPerformed
+        DefaultTableModel modelTable = (DefaultTableModel) this.tabelaEnderecos.getModel();
+        
+        if(this.isCamposEnderecosVazios() == false){
+            Endereco endereco = new Endereco();
+            
+            endereco.setUf(this.cboxUf.getSelectedItem().toString());
+            endereco.setCidade(this.edtCidade.getText());
+            endereco.setBairro(this.edtBairro.getText());
+            endereco.setRua(this.edtRua.getText());
+            endereco.setComplemento(this.edtComplemento.getText());
+            endereco.setNumero(this.edtNumero.getText());
+            endereco.setReferencia(this.edtReferencia.getText());
+            
+            this.listaEndereco.add(endereco);
+            
+            modelTable.addRow(new Object[]{
+                endereco.getCidade(),
+                endereco.getBairro(),
+                endereco.getRua(),
+                endereco.getNumero(),
+                endereco.getComplemento() 
+            });
+        }
+    }//GEN-LAST:event_btnAddEnderecoActionPerformed
+
+    private void cboxUfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxUfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboxUfActionPerformed
+
+    private void tabelaEnderecosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaEnderecosMouseClicked
+        this.rowEnderecos = this.tabelaEnderecos.getSelectedRow();
+    }//GEN-LAST:event_tabelaEnderecosMouseClicked
+    
+    private void limparCamposEndereco(){
+        this.cboxUf.setSelectedIndex(12);
+        this.edtCidade.setText("Ubá");
+        this.edtBairro.setText("");
+        this.edtRua.setText("");
+        this.edtComplemento.setText("");
+        this.edtNumero.setText("");
+        this.edtReferencia.setText("");
+    }
+    private void btnRemoveEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveEnderecoActionPerformed
+        DefaultTableModel modelTable = (DefaultTableModel) this.tabelaEnderecos.getModel();
+        
+        if(this.rowEnderecos != -1){
+            modelTable.removeRow(this.rowEnderecos);
+          
+            this.listaEndereco.remove(this.rowEnderecos);
+            this.limparCamposEndereco();
+            this.rowEnderecos = -1;
+        }
+    }//GEN-LAST:event_btnRemoveEnderecoActionPerformed
+    private void limparDadosCabecalho(){
+        this.edtNome.setText("");
+        this.edtCpf.setText("");
+        this.edtEmail.setText("");
+        this.edtInscEstadual.setText("");   
+        this.edtCnpj.setText("");
+        this.edtTelefone.setText("");
+        this.edtCelular.setText("");
+    }
+    
+    private void limparTabela(JTable tabela){
+        DefaultTableModel modelTable = (DefaultTableModel) tabela.getModel();
+        modelTable.setNumRows(0);
+    }
+    private void btnLimparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparDadosActionPerformed
+        this.limparDadosCabecalho();
+        this.limparCamposEndereco();
+        limparTabela(this.tabelaContatos);
+        limparTabela(this.tabelaEnderecos);
+        
+    }//GEN-LAST:event_btnLimparDadosActionPerformed
+
+    private String[] uf(){
+       return new String[]{"AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE",
+                            "PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"};
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddEndereco;
     private javax.swing.JButton btnAdicionarNumero;
     private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnEditEndereco;
     private javax.swing.JButton btnLimparDados;
+    private javax.swing.JButton btnRemoveEndereco;
     private javax.swing.JButton btnRemoverNumero;
-    private javax.swing.JButton btnSalvar;
     private javax.swing.JComboBox<String> cboxUf;
     private javax.swing.JTextField edtBairro;
     private javax.swing.JFormattedTextField edtCelular;
@@ -615,9 +783,6 @@ public class CadCliente extends javax.swing.JInternalFrame {
     private javax.swing.JTextArea edtReferencia;
     private javax.swing.JTextField edtRua;
     private javax.swing.JFormattedTextField edtTelefone;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -654,11 +819,11 @@ public class CadCliente extends javax.swing.JInternalFrame {
         this.listaTelefone = listaTelefone;
     }
 
-    public List<String> getListaEndereco() {
+    public List<Endereco> getListaEndereco() {
         return listaEndereco;
     }
 
-    public void setListaEndereco(List<String> listaEndereco) {
+    public void setListaEndereco(List<Endereco> listaEndereco) {
         this.listaEndereco = listaEndereco;
     }
 

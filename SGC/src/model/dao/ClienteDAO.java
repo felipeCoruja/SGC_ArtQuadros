@@ -158,13 +158,21 @@ public class ClienteDAO {
     private void salvarTelefone(Cliente c) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
+        String aux = "";
+        String[] vet = null;
         
         try {
             for(int i=0;i<c.getListaTelefone().size();i++){//inserindo todos os numeros da lista referente ao cliente
-                stmt = con.prepareStatement("INSERT INTO telefone (id,numero) VALUES(?,?)");
+                stmt = con.prepareStatement("INSERT INTO telefone (id,numero,descricao) VALUES(?,?,?)");
                 stmt.setInt(1, c.getId());
-                String numero = c.getListaTelefone().get(i);
+                
+                aux = c.getListaTelefone().get(i);
+                vet = aux.split(";");
+                String numero = vet[0];
                 stmt.setString(2, numero);
+                
+                String descricao = vet[1];
+                stmt.setString(3, descricao);
                 
                 stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)    

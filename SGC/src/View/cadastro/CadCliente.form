@@ -137,7 +137,7 @@
             <Component class="javax.swing.JFormattedTextField" name="edtCnpj">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                  <Format format="##.###.###/####-##" subtype="-1" type="5"/>
+                  <Format format="" subtype="-1" type="5"/>
                 </Property>
               </Properties>
               <Events>
@@ -225,10 +225,10 @@
                                       <Component id="edtRua" alignment="0" max="32767" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              <Component id="cboxUf" alignment="0" min="-2" max="-2" attributes="0"/>
+                                              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                                              <Component id="cboxUf" min="-2" pref="53" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                                               <Component id="edtCidade" alignment="0" min="-2" pref="152" max="-2" attributes="0"/>
@@ -246,11 +246,11 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnAddEndereco" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnRemoveEndereco" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jButton5" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnEditEndereco" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
@@ -297,9 +297,9 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton5" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnAddEndereco" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnRemoveEndereco" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnEditEndereco" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="14" max="32767" attributes="0"/>
                           </Group>
@@ -317,15 +317,13 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="cboxUf">
               <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(this.uf())" type="code"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cboxUfActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
@@ -398,7 +396,7 @@
                       <Table columnCount="5" rowCount="0">
                         <Column editable="false" title="Cidade" type="java.lang.Object"/>
                         <Column editable="false" title="Bairro" type="java.lang.Object"/>
-                        <Column editable="true" title="Rua" type="java.lang.Object"/>
+                        <Column editable="false" title="Rua" type="java.lang.Object"/>
                         <Column editable="false" title="Numero" type="java.lang.Object"/>
                         <Column editable="false" title="Complemento" type="java.lang.Object"/>
                       </Table>
@@ -436,26 +434,35 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tabelaEnderecosMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="btnAddEndereco">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="3d" green="84" red="1f" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Adicionar Endere&#xe7;o"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddEnderecoActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="btnRemoveEndereco">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="63" green="5f" red="fa" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Remover Endere&#xe7;o"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoveEnderecoActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton5">
+            <Component class="javax.swing.JButton" name="btnEditEndereco">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="c4" green="90" red="44" type="rgb"/>
@@ -577,7 +584,7 @@
             <Component class="javax.swing.JFormattedTextField" name="edtTelefone">
               <Properties>
                 <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor" preCode="try {" postCode="} catch (java.text.ParseException ex) {&#xa;ex.printStackTrace();&#xa;}">
-                  <Format format="(##) ####-####" subtype="-1" type="5"/>
+                  <Format format="(##)####-####" subtype="-1" type="5"/>
                 </Property>
               </Properties>
               <Events>
@@ -646,8 +653,6 @@
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="btnCadastrar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btnSalvar" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnLimparDados" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -658,10 +663,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnCadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnLimparDados" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="45" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="47" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -685,16 +689,8 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Limpar Dados"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="btnSalvar">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icones PNG/diskette.png"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Salvar"/>
-          </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimparDadosActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
