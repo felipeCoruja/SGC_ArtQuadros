@@ -17,9 +17,12 @@ import java.sql.ResultSet;
 public class ClienteDAO {
     
     public void salvar(Cliente c){
+        int id;
         try {
             this.salvarClienteNome(c);//unica variável obrigatoria para o cadastro em Cliente É o nome e telefone
             //variáveis a baixo são opcionais 
+            id = this.getId();//pega o id do cliente no BD cadastrado na linha a cima
+            c.setId(id);
             if(!c.getCpf().isEmpty()){
                 this.salvarClienteCpf(c);
             }
@@ -50,10 +53,9 @@ public class ClienteDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO cliente_nome (id,nome) VALUES(?,?)");
-            
-            stmt.setInt(1, c.getId());//passando parâmetros para values
-            stmt.setString(2, c.getNome());
+            stmt = con.prepareStatement("INSERT INTO cliente_nome (nome) VALUES(?)");
+        
+            stmt.setString(1, c.getNome());
             
             stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
@@ -282,5 +284,24 @@ public class ClienteDAO {
         return c;
     }
      
+    private int getId() throws ClassNotFoundException{
+        int id = 0;
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            stmt = con.prepareStatement("SELECT id FROM cliente ORDER BY DESC LIMIT 1");
+            rs = stmt.executeQuery();
+            id = rs.getInt("id");
+        } catch (SQLException e) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro ao buscar ID :"+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return id;
+    }
      
 }
