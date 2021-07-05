@@ -5,15 +5,12 @@
  */
 package View.cadastro;
 
-import java.awt.FontMetrics;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import model.bean.Moldura;
 import model.dao.MolduraDAO;
 
@@ -23,9 +20,8 @@ import model.dao.MolduraDAO;
  */
 public class CadMoldura extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form CadMoldura
-     */
+    private int row;
+    
     public CadMoldura(){
         initComponents();
         try {
@@ -34,7 +30,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        this.row = -1;
     }
 
     /**
@@ -131,6 +127,16 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tabela.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tabelaFocusLost(evt);
+            }
+        });
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabela);
 
         btnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1486564412-plus_81511.png"))); // NOI18N
@@ -151,6 +157,11 @@ public class CadMoldura extends javax.swing.JInternalFrame {
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/lixo.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         edtPrecoCusto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
 
@@ -175,24 +186,12 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel3)
-                        .addGap(87, 87, 87)
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(edtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(edtCor, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(edtMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel11)
-                        .addGap(46, 46, 46)
+                        .addGap(40, 40, 40)
                         .addComponent(jLabel13)
-                        .addGap(21, 21, 21)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel6)
-                        .addGap(18, 18, 18)
+                        .addGap(14, 14, 14)
                         .addComponent(jLabel5))
                     .addComponent(jLabel10)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -227,7 +226,23 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel15)
                                     .addComponent(cboxFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(4, 4, 4)
-                        .addComponent(jLabel8)))
+                        .addComponent(jLabel8))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(edtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(edtCor, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(52, 52, 52)
+                                .addComponent(jLabel3)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(133, 133, 133))
+                            .addComponent(edtMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2))
         );
@@ -240,8 +255,9 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                         .addGap(41, 41, 41)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4)))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(edtReferencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -279,7 +295,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                         .addComponent(jLabel10)
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCadastrar)
                             .addComponent(btnSalvar)
@@ -412,7 +428,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             
             MolduraDAO dao = new MolduraDAO();
             try {
-                System.out.println("entrou no try");
+                
                 dao.salvar(m);
                 this.loadTabela();
                 this.limparCampos();
@@ -428,6 +444,44 @@ public class CadMoldura extends javax.swing.JInternalFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        if(this.row != -1){
+            DefaultTableModel modelTable = (DefaultTableModel) this.tabela.getModel();
+            int confirm = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja apagar o registro referente a "+modelTable.getValueAt(row, 0)+"?",
+                    "ATENÇÃO",JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+            
+            if(confirm == JOptionPane.YES_OPTION){
+                
+                
+            
+                System.out.println(this.row+" <<"+modelTable.getValueAt(row, 0) );
+                
+                Object id =  modelTable.getValueAt(row, 0);
+                modelTable.removeRow(this.row);
+                MolduraDAO mDao = new MolduraDAO();
+                try {
+                    mDao.deleteMoldura(id.toString());
+                    JOptionPane.showMessageDialog(null,"deletado com sucesso");
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println("Erro na função excluir de CadMoldura");
+                }
+                
+                this.row = -1;
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione uma Linha Da tabela para excluir");
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        this.row = this.tabela.getSelectedRow();
+    }//GEN-LAST:event_tabelaMouseClicked
+
+    private void tabelaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tabelaFocusLost
+        
+    }//GEN-LAST:event_tabelaFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

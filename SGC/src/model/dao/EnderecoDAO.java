@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  * @author Felipe
  */
 public class EnderecoDAO {
-    public int loadUltimoId() throws ClassNotFoundException{
+    public int getUltimoId() throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -35,6 +35,12 @@ public class EnderecoDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }
+        
+        if(id == -1){
+            System.out.println("ERRO NA FUNÇÃO getUltimoId() em EnderecoDAO");
+            JOptionPane.showMessageDialog(null, "Erro ao carregar id de endereco no Banco de Dados");
+        }
         return id;
     }
+    
 }

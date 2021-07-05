@@ -113,4 +113,22 @@ public class MolduraDAO {
         
         return lista;
     }
+    
+    public void deleteMoldura(String id) throws ClassNotFoundException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        
+        try {
+            stmt = con.prepareStatement("DELETE FROM moldura WHERE id = ?");
+            stmt.setString(1, id);
+            
+            stmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro! não foi possivel apagar o registro do banco de dados", "ATENÇÃO", JOptionPane.ERROR);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
 }

@@ -26,41 +26,41 @@ public class SGC {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-       /* Cliente c = new Cliente();
+        Cliente c = new Cliente();
         // c = dao.load(11);
         
-        c.setId(22);
-        c.setNome("aLICE.");
-        c.setCpf("2222222222");
-        c.setEmail("alicizi@gmail.com");
+        c.setId(108);
+        c.setNome("aLIkCE.");
+        c.setCpf("222922222");
+        c.setEmail("aliczi@g7ail.com");
         List<String> lista = c.getListaTelefone();
-        lista.add("2222-2212");
-        lista.add("2222-2213");  
+        lista.add("2722-2212;felipe CAsa;");
+        lista.add("2282-2213;whatsapp;");  
         c.setListaTelefone(lista);
         
         Endereco e = new Endereco();
         
         
-        e.setBairro("Bairro Numero 22");
-        e.setRua("Joaquim pereira 2");
-        e.setComplemento("sem ");
-        e.setNumero("2 2");
+        e.setBairro("Bairrmero 22");
+        e.setRua("Joaqim pereira 2");
+        e.setComplemento("sm ");
+        e.setNumero("8 2");
         c.getListaEndereco().add(e);
         
         Endereco en = new Endereco();
         
      
-        en.setBairro("Sonho meu.");
-        en.setRua("Pereira joaquim2 ");
-        en.setComplemento("mes  .");
-        en.setNumero("221");
+        en.setBairro("Sono meu.");
+        en.setRua("Perei joaquim2 ");
+        en.setComplemento("me  .");
+        en.setNumero("821");
         
         c.getListaEndereco().add(en);
         
         ClienteDAO dao = new ClienteDAO();
-        dao.salvar(c);*/
+        dao.salvar(c);
        Moldura m = new Moldura();
-       
+       /*
        m.setId("028-1011");
             m.setPrecoCusto(5.0);
             m.setPrecoVenda(12.0);
@@ -75,7 +75,7 @@ public class SGC {
                 JOptionPane.showMessageDialog(null, "Erro ao Cadastrar moldura em CadMoldura :"+ex);
                 Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
             }
-        
+        */
         System.exit(0);
     }
     

@@ -42,11 +42,15 @@ public class CadCliente extends javax.swing.JInternalFrame {
         this.rowContatos = -1;
         this.rowEnderecos = -1;
         this.cboxUf.setSelectedIndex(12);//MG
+        this.edtCidade.setText("Ubá");
         this.maskCpf = this.edtCpf.getText();
         this.maskCnpj = this.edtCnpj.getText();
         this.maskInscEstadual = this.edtInscEstadual.getText();
         this.maskCel = this.edtCelular.getText();
         this.maskTel = this.edtTelefone.getText();
+        
+        
+        
         
     }
 
@@ -544,10 +548,18 @@ public class CadCliente extends javax.swing.JInternalFrame {
             Cliente c = new Cliente();
             
             c.setNome(this.edtNome.getText());
-            c.setCpf(this.edtCpf.getText());
-            c.setCnpj(this.edtCnpj.getText());
+            if(!this.edtCpf.getText().equals(maskCpf)){
+                c.setCpf(this.edtCpf.getText());
+            }
+            if(!this.edtCnpj.getText().equals(maskCnpj)){
+                c.setCnpj(this.edtCnpj.getText());
+            }
+           
+            if(!this.edtInscEstadual.getText().equals(maskInscEstadual)){
+               c.setInscEstadual(this.edtInscEstadual.getText()); 
+            }
             c.setEmail(this.edtEmail.getText());
-            c.setInscEstadual(this.edtInscEstadual.getText());
+            
             c.setListaTelefone(this.listaTelefone);
             c.setListaEndereco(this.listaEndereco);
             
@@ -583,6 +595,8 @@ public class CadCliente extends javax.swing.JInternalFrame {
             tel = this.edtTelefone.getText();
             desc = this.edtDescricao.getText();
             registro = tel+";"+desc+";";
+            
+            System.out.println(registro);
             
             this.listaTelefone.add(registro);
             if(idTelCel == 0){
