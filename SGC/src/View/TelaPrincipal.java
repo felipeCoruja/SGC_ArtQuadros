@@ -9,10 +9,10 @@ import View.busca.BuscarCliente;
 import View.busca.BuscarFornecedor;
 import View.busca.BuscarNota;
 import View.cadastro.CadCliente;
-import View.cadastro.CadCliente;
 import View.cadastro.CadEucatex;
 import View.cadastro.CadMoldura;
 import View.cadastro.CadPedido;
+import View.cadastro.CadPedidoCabecalho;
 import View.cadastro.CadPedidoFinal;
 import View.cadastro.CadProduto;
 import View.cadastro.CadVidro;
@@ -35,6 +35,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private CadEucatex cadEucatex;
     private CadMoldura cadMoldura;
     private CadVidro   cadVidro;
+    private CadPedidoCabecalho cadPedidoCabecalho;
     private CadPedido  cadPedido;
     private CadPedidoFinal cadPedidoFinal;
     private CadProduto cadProduto;
@@ -67,8 +68,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
        
         
         this.menuHome.setForeground(azul);
-        this.desktopPane.add(home);
-        this.desktopPane.moveToFront(home);
+        TelaPrincipal.desktopPane.add(home);
+        TelaPrincipal.desktopPane.moveToFront(home);
         home.setSize(desktopPane.getWidth(),desktopPane.getHeight());
         home.setLocation(0,0);
         ((BasicInternalFrameUI)this.home.getUI()).setNorthPane(null);//CODIGO PARA ESCONDER A BARRA SUPERIOR DO jInternalFrame
@@ -114,6 +115,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }else if(buscarFornecedor != null){
             buscarFornecedor.dispose();
             buscarFornecedor = null;
+        }else if(this.cadPedidoCabecalho != null){
+            cadPedidoCabecalho.dispose();
+            cadPedidoCabecalho = null;
         }
     }
     
@@ -191,9 +195,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuCaixa = new javax.swing.JMenu();
         menuConfiguracoes = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
-        setPreferredSize(new java.awt.Dimension(1200, 750));
 
         javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
         desktopPane.setLayout(desktopPaneLayout);
@@ -376,12 +379,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
         this.menuNota.setForeground(azul);
         
         this.destruirTelasExistentes();
-        this.cadCliente = new CadCliente();
-        TelaPrincipal.desktopPane.add(cadCliente);
-        cadCliente.setSize(desktopPane.getWidth(),desktopPane.getHeight());
-        cadCliente.setLocation(0,0);
-        this.cadCliente.setVisible(true);
-        ((BasicInternalFrameUI)this.cadCliente.getUI()).setNorthPane(null);
+        this.cadPedidoCabecalho = new CadPedidoCabecalho();
+        TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
+        cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+        cadPedidoCabecalho.setLocation(0,0);
+        this.cadPedidoCabecalho.setVisible(true);
+        ((BasicInternalFrameUI)this.cadPedidoCabecalho.getUI()).setNorthPane(null);
     }//GEN-LAST:event_itemMenuNotaActionPerformed
 
     private void itemMenuFinalizarNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuFinalizarNotaActionPerformed
