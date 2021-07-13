@@ -27,16 +27,16 @@ public class EucatexDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO vidro (id,tipo,altura_chapa,comprimento_chapa,"
+            stmt = con.prepareStatement("INSERT INTO eucatex (tipo,altura_chapa,comprimento_chapa,"
                                       + "quant_chapas,preco_custo)"
-                                      + " VALUES(?,?,?,?,?,?)");
+                                      + " VALUES(?,?,?,?,?)");
             
-            stmt.setInt(1, e.getId());
-            stmt.setString(2, e.getTipo());
-            stmt.setDouble(3, e.getAlturaChapa());
-            stmt.setDouble(4, e.getComprimentoChapa());
-            stmt.setInt(5, e.getQuantidadeChapas());
-            stmt.setDouble(6, e.getPrecoCusto());
+            
+            stmt.setString(1, e.getTipo());
+            stmt.setDouble(2, e.getAlturaChapa());
+            stmt.setDouble(3, e.getComprimentoChapa());
+            stmt.setInt(4, e.getQuantidadeChapas());
+            stmt.setDouble(5, e.getPrecoCusto());
             
             stmt.executeUpdate();
         } catch (SQLException ex) {

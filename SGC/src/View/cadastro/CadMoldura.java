@@ -5,6 +5,7 @@
  */
 package View.cadastro;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -21,6 +22,7 @@ import model.dao.MolduraDAO;
 public class CadMoldura extends javax.swing.JInternalFrame {
 
     private int row;
+    private List<Moldura> listaMolduras;
     
     public CadMoldura(){
         initComponents();
@@ -31,6 +33,13 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.row = -1;
+        MolduraDAO mDao = new MolduraDAO();
+        
+        try {
+            this.listaMolduras = mDao.load();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -140,7 +149,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
         jScrollPane2.setViewportView(tabela);
 
         btnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1486564412-plus_81511.png"))); // NOI18N
-        btnCadastrar.setText("Cadastrar Novo");
+        btnCadastrar.setText("Cadastrar");
         btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCadastrarActionPerformed(evt);
@@ -181,7 +190,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 869, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 141, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -295,7 +304,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                         .addComponent(jLabel10)
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCadastrar)
                             .addComponent(btnSalvar)
@@ -381,11 +390,10 @@ public class CadMoldura extends javax.swing.JInternalFrame {
     
     private void loadTabela() throws ClassNotFoundException{
         DefaultTableModel modelTable = (DefaultTableModel) this.tabela.getModel();
-        MolduraDAO molduraDao = new MolduraDAO();
         modelTable.setNumRows(0);
         
         
-        for(Moldura m: molduraDao.load()){
+        for(Moldura m: this.listaMolduras){
             modelTable.addRow(new Object[]{
                 m.getId(),
                 m.getCor(),
@@ -433,6 +441,9 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                 this.loadTabela();
                 this.limparCampos();
                 JOptionPane.showMessageDialog(null, "Salvo com Sucesso!");
+                
+                this.listaMolduras = dao.load();
+                
             } catch (ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao Cadastrar moldura em CadMoldura :"+ex);
                 Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
