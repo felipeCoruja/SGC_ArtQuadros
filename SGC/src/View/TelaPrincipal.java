@@ -10,6 +10,7 @@ import View.busca.BuscarFornecedor;
 import View.busca.BuscarNota;
 import View.cadastro.CadCliente;
 import View.cadastro.CadEucatex;
+import View.cadastro.CadFornecedor;
 import View.cadastro.CadMoldura;
 import View.cadastro.CadPedido;
 import View.cadastro.CadPedidoCabecalho;
@@ -42,6 +43,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private Orcamento orcamento;
     private BuscarCliente buscarCliente;
     private BuscarFornecedor buscarFornecedor;
+    private CadFornecedor cadFornecedor;
        
     Color azul = new java.awt.Color(51,164,235);
     Color black = Color.BLACK;
@@ -488,7 +490,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        /*
+        
         this.setMenuOpaqueAll(black);
         this.menuCadastro.setForeground(azul);
         
@@ -499,7 +501,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         cadFornecedor.setLocation(0,0);
         this.cadFornecedor.setVisible(true);
         ((BasicInternalFrameUI)this.cadFornecedor.getUI()).setNorthPane(null);
-        */
+        
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed

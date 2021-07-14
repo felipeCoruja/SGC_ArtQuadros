@@ -78,4 +78,22 @@ public class EucatexDAO {
         
         return lista;
     }
+    
+    public void delete(int id) throws ClassNotFoundException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        
+        try {
+            stmt = con.prepareStatement("DELETE FROM eucatex WHERE id = ?");
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(EucatexDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro no Delete de Eucatex Classe EucatexDAO :"+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+            
+    
+    }
 }

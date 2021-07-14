@@ -23,11 +23,18 @@ public class CadEucatex extends javax.swing.JInternalFrame {
 
   
     private List<Eucatex> listaEucatex;
+    private int row;
     
-    public CadEucatex() throws ClassNotFoundException {
+    public CadEucatex() {
         initComponents();
-        this.listaEucatex = new EucatexDAO().load();
-        this.loadTabela();
+        try {
+            this.listaEucatex = new EucatexDAO().load();
+             this.loadTabela();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CadEucatex.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        this.row = -1;
     }
     private boolean isCamposPreenchidos(){
         boolean flag = true;
@@ -111,6 +118,11 @@ public class CadEucatex extends javax.swing.JInternalFrame {
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/lixo.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         jLabel15.setText("m");
 
@@ -146,6 +158,11 @@ public class CadEucatex extends javax.swing.JInternalFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tabela);
@@ -374,6 +391,40 @@ public class CadEucatex extends javax.swing.JInternalFrame {
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         this.limparCampos();
     }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        DefaultTableModel modelTable = (DefaultTableModel) this.tabela.getModel();
+        try {
+            if(this.row != -1){
+                int value = JOptionPane.showConfirmDialog(null, "Realmente deseja excluir o registro: "
+                    +modelTable.getValueAt(this.row,0)+" "+modelTable.getValueAt(this.row,1), "ATENÇÂO",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            
+                if(value == JOptionPane.YES_OPTION){
+                    EucatexDAO eDao = new EucatexDAO();
+                    int id = (int) modelTable.getValueAt(row, 0);
+                    eDao.delete(id);
+                    modelTable.removeRow(this.row);
+                    this.row = -1;
+                    JOptionPane.showMessageDialog(null, "Deletado Com Sucesso!");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Selecione uma linha para excluir");
+            }
+            
+           
+            
+        } catch (ClassNotFoundException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao deletar registro!");
+        }
+           
+        
+        
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void tabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaMouseClicked
+        this.row =  this.tabela.getSelectedRow();
+    }//GEN-LAST:event_tabelaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
