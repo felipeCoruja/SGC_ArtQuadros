@@ -17,11 +17,12 @@ import javax.swing.JOptionPane;
  */
 public class MolduraDAO {
     /*Metodo responsável por salvar todos os dados de moldura, dados estão separados em mais de uma tabela*/
-    public void salvar(Moldura m) throws ClassNotFoundException {
+    public void salvar(Moldura m){
         try {
             salvarTabelaMoldura(m);//tabela principal de moldura
             salvarTabelaMolduraPreco(m);//tabela de valores da moldura
-        } catch (Exception e) {
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
         }        
     }
     
@@ -130,5 +131,19 @@ public class MolduraDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
+    }
+    
+    public String[] getIdsMolduras() throws ClassNotFoundException{
+        String[] listId = null;
+        int i = 0;
+        List<Moldura> listaMoldura = this.load();
+        String str = "Não;";
+        
+        for(int j = 0; j <listaMoldura.size();j++){
+            str = str+listaMoldura.get(j).getId()+";";
+        }
+       
+        listId = str.split(";");
+        return listId;
     }
 }

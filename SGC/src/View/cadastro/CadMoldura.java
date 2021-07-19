@@ -26,13 +26,6 @@ public class CadMoldura extends javax.swing.JInternalFrame {
     
     public CadMoldura(){
         initComponents();
-        try {
-            this.loadTabela();
-            
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.row = -1;
         MolduraDAO mDao = new MolduraDAO();
         
         try {
@@ -40,6 +33,18 @@ public class CadMoldura extends javax.swing.JInternalFrame {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        try {
+            System.out.println("Load anda n executado");
+            this.loadTabela();
+            System.out.println("load executado");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.row = -1;
+        
+        
+        
     }
 
     /**
@@ -392,19 +397,20 @@ public class CadMoldura extends javax.swing.JInternalFrame {
         DefaultTableModel modelTable = (DefaultTableModel) this.tabela.getModel();
         modelTable.setNumRows(0);
         
-        
-        for(Moldura m: this.listaMolduras){
-            modelTable.addRow(new Object[]{
-                m.getId(),
-                m.getCor(),
-                m.getMareial(),
-                m.getQuantMetros(),
-                m.getPrecoCusto(),
-                m.getPrecoVenda(),
-                m.getDescricao()
-            });
-        
+        if(this.listaMolduras != null){
+            for(Moldura m: this.listaMolduras){
+                modelTable.addRow(new Object[]{
+                    m.getId(),
+                    m.getCor(),
+                    m.getMareial(),
+                    m.getQuantMetros(),
+                    m.getPrecoCusto(),
+                    m.getPrecoVenda(),
+                    m.getDescricao()
+                });
+            }
         }
+        
         
     }
     
@@ -438,11 +444,13 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             try {
                 
                 dao.salvar(m);
+                this.listaMolduras = dao.load();
+                
                 this.loadTabela();
                 this.limparCampos();
                 JOptionPane.showMessageDialog(null, "Salvo com Sucesso!");
                 
-                this.listaMolduras = dao.load();
+                
                 
             } catch (ClassNotFoundException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao Cadastrar moldura em CadMoldura :"+ex);
