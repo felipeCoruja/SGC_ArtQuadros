@@ -7,7 +7,10 @@ package view.orcamento;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import model.dao.EucatexDAO;
 import model.dao.MolduraDAO;
+import model.dao.VidroDAO;
 
 /**
  *
@@ -25,6 +28,49 @@ public class Orcamento extends javax.swing.JInternalFrame {
         String[] list = null;
         try {
             list = dao.getIdsMolduras();
+            if(list.length <1 ){//Sem ter o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou molduras registradas no Banco de Dados ");
+                String aux = "Sem Registro;";
+                list = aux.split(";");
+            }else if(list.length == 1){//contendo apena o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "O sistema não achou molduras registradas no Banco de Dados ");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    private String[] listaEucatex(){
+        EucatexDAO dao = new EucatexDAO();
+        String[] list = null;
+        try {
+            list = dao.getTiposEucatex();
+            if(list.length <1 ){//Sem ter o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou Eucatex registrados no Banco de Dados ");
+                String aux = "Sem Registro;";
+                list = aux.split(";");
+            }else if(list.length == 1){//contendo apena o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "O sistema não achou Eucatex registrados no Banco de Dados ");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    private String[] listaVidros(){
+        VidroDAO dao = new VidroDAO();
+        String[] list = null;
+        try {
+            list = dao.getTiposVidro();
+            if(list.length <1 ){//Sem ter o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou Vidros registrados no Banco de Dados ");
+                String aux = "Sem Registro;";
+                list = aux.split(";");
+            }else if(list.length == 1){//contendo apena o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "O sistema não achou Vidros registrados no Banco de Dados ");
+            }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,6 +115,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         jCheckBox3 = new javax.swing.JCheckBox();
         jComboBox4 = new javax.swing.JComboBox<>();
         jComboBox5 = new javax.swing.JComboBox<>();
+        jComboBox6 = new javax.swing.JComboBox<>();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -158,25 +205,26 @@ public class Orcamento extends javax.swing.JInternalFrame {
 
         jCheckBox3.setText("Entre Vidros");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaVidros()));
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaVidros()));
+
+        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaEucatex()));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jCheckBox2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox3))
+                    .addComponent(jCheckBox3)
+                    .addComponent(jCheckBox2))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jComboBox5, 0, 223, Short.MAX_VALUE)
+                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jComboBox6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,7 +234,9 @@ public class Orcamento extends javax.swing.JInternalFrame {
                     .addComponent(jCheckBox1)
                     .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCheckBox2)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCheckBox2)
+                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox3)
@@ -467,6 +517,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox5;
+    private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

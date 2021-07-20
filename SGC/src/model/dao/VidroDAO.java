@@ -28,17 +28,16 @@ public class VidroDAO {
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO vidro (id,tipo,altura_chapa,comprimento_chapa,"
-                                      + "espessura_vidro,quant_chapas,preco_custo)"
-                                      + " VALUES(?,?,?,?,?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO vidro (tipo,altura_chapa,comprimento_chapa,"
+                                      + "espessura_chapa,quant_chapas,preco_custo)"
+                                      + " VALUES(?,?,?,?,?,?)");
             
-            stmt.setInt(1, v.getId());
-            stmt.setString(2, v.getTipo());
-            stmt.setDouble(3, v.getAlturaChapa());
-            stmt.setDouble(4, v.getComprimentoChapa());
-            stmt.setInt(5, v.getEspessuraChapa());
-            stmt.setInt(6, v.getQuantidadeChapas());
-            stmt.setDouble(7, v.getPrecoCusto());
+            stmt.setString(1, v.getTipo());
+            stmt.setDouble(2, v.getAlturaChapa());
+            stmt.setDouble(3, v.getComprimentoChapa());
+            stmt.setInt(4, v.getEspessuraChapa());
+            stmt.setInt(5, v.getQuantidadeChapas());
+            stmt.setDouble(6, v.getPrecoCusto());
             
             stmt.executeUpdate();
         } catch (SQLException e) {
@@ -80,5 +79,19 @@ public class VidroDAO {
         }
         
         return lista;
+    }
+    
+    public String[] getTiposVidro() throws ClassNotFoundException{
+        String[] listId = null;
+        int i = 0;
+        List<Vidro> listaMoldura = this.load();
+        String str = "Não;";
+        
+        for(int j = 0; j <listaMoldura.size();j++){
+            str = str+listaMoldura.get(j).getTipo()+";";
+        }
+       
+        listId = str.split(";");
+        return listId;
     }
 }

@@ -78,4 +78,17 @@ public class FornecedorDAO {
         }
         return lista;
     }
+    public String[] getNomeFornecedor() throws ClassNotFoundException{
+        String[] listId = null;
+        int i = 0;
+        List<Fornecedor> listaMoldura = this.load();
+        String str = "Não;";
+        
+        for(int j = 0; j <listaMoldura.size();j++){
+            str = str+listaMoldura.get(j).getNome()+";";
+        }
+       
+        listId = str.split(";");
+        return listId;
+    }
 }
