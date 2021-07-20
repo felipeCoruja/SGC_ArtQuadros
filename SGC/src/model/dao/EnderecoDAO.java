@@ -28,7 +28,10 @@ public class EnderecoDAO {
         try {
             stmt = con.prepareStatement("SELECT id FROM endereco ORDER BY id DESC LIMIT 1");
             rs = stmt.executeQuery();
-            id = rs.getInt("id");
+            if(rs.next()){
+                id = rs.getInt("id");
+            }
+            
         } catch (SQLException e) {
             Logger.getLogger(EnderecoDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro ao carregar id de endereco no Banco de Dados :"+e);

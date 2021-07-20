@@ -565,6 +565,8 @@ public class CadCliente extends javax.swing.JInternalFrame {
             
             ClienteDAO dao = new ClienteDAO();
             dao.salvar(c);
+            
+            this.limparTodosOsDados();
         }
         
         
@@ -759,12 +761,15 @@ public class CadCliente extends javax.swing.JInternalFrame {
         DefaultTableModel modelTable = (DefaultTableModel) tabela.getModel();
         modelTable.setNumRows(0);
     }
-    private void btnLimparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparDadosActionPerformed
+    
+    private void limparTodosOsDados(){
         this.limparDadosCabecalho();
         this.limparCamposEndereco();
         limparTabela(this.tabelaContatos);
         limparTabela(this.tabelaEnderecos);
-        
+    }
+    private void btnLimparDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparDadosActionPerformed
+        this.limparTodosOsDados();
     }//GEN-LAST:event_btnLimparDadosActionPerformed
 
     private String[] uf(){

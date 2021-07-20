@@ -21,7 +21,7 @@ public class ClienteDAO {
         try {
             this.salvarClienteNome(c);//unica variável obrigatoria para o cadastro em Cliente É o nome e telefone
             //variáveis a baixo são opcionais 
-            id = this.getId();//pega o id do cliente no BD cadastrado na linha a cima
+            id = this.getId();//pega o ultimo id do ultimo cliente no BD cadastrado na linha a cima
             c.setId(id);
             if(!c.getCpf().isEmpty()){
                 this.salvarClienteCpf(c);
