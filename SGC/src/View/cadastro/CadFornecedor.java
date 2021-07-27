@@ -7,13 +7,14 @@ package View.cadastro;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-import model.bean.Cliente;
 import model.bean.Endereco;
-import model.dao.ClienteDAO;
-import model.dao.MolduraDAO;
+import model.bean.Fornecedor;
+import model.dao.FornecedorDAO;
 
 /**
  *
@@ -31,9 +32,6 @@ public class CadFornecedor extends javax.swing.JInternalFrame {
     private String maskTel;
     private String maskCel;
     
-    /**
-     * Creates new form CadCliente
-     */
     public CadFornecedor() {
         initComponents();
         this.idTelCel = 0;
@@ -118,7 +116,7 @@ public class CadFornecedor extends javax.swing.JInternalFrame {
         jLabel11.setText("CNPJ: ");
 
         try {
-            edtCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("")));
+            edtCnpj.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##.###.###/####-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -570,23 +568,27 @@ public class CadFornecedor extends javax.swing.JInternalFrame {
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         
         if(this.isCamposVazios()==false){
-            Cliente c = new Cliente();
+            Fornecedor f = new Fornecedor();
             
             
             if(!this.edtCnpj.getText().equals(maskCnpj)){
-                c.setCnpj(this.edtCnpj.getText());
+                f.setCnpj(this.edtCnpj.getText());
             }
            
             if(!this.edtInscEstadual.getText().equals(maskInscEstadual)){
-               c.setInscEstadual(this.edtInscEstadual.getText()); 
+               f.setInscEstadual(this.edtInscEstadual.getText()); 
             }
-            c.setEmail(this.edtEmail.getText());
+            f.setEmail(this.edtEmail.getText());
             
-            c.setListaTelefone(this.listaTelefone);
-            c.setListaEndereco(this.listaEndereco);
+            f.setListaTelefone(this.listaTelefone);
+            f.setListaEndereco(this.listaEndereco);
             
-            ClienteDAO dao = new ClienteDAO();
-            dao.salvar(c);
+            FornecedorDAO dao = new FornecedorDAO();
+            try {
+                dao.salvar(f);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CadFornecedor.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         

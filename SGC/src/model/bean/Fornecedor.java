@@ -21,6 +21,7 @@ public class Fornecedor {
     private String email;
     private List<Endereco> listaEndereco;
     private List<String> listaTelefone;
+    private String inscEstadual;
     
     public Fornecedor(){
         this.cnpj = "";
@@ -29,6 +30,7 @@ public class Fornecedor {
         this.email = "";
         this.listaEndereco = new ArrayList<>();
         this.listaTelefone = new ArrayList<>();
+        this.inscEstadual = "";
     }
     
      /**
@@ -113,5 +115,19 @@ public class Fornecedor {
      */
     public void setListaTelefone(List<String> listaTelefone) {
         this.listaTelefone = listaTelefone;
+    }
+
+    /**
+     * @return the inscEstadual
+     */
+    public String getInscEstadual() {
+        return inscEstadual;
+    }
+
+    /**
+     * @param inscEstadual the inscEstadual to set
+     */
+    public void setInscEstadual(String inscEstadual) {
+        this.inscEstadual = inscEstadual;
     }
 }

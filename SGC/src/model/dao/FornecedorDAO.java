@@ -41,9 +41,56 @@ public class FornecedorDAO {
                 
                 stmt.executeUpdate();
             }
+            
+            if(!f.getListaEndereco().isEmpty()){
+                this.salvarEndereco(f);
+            }
         } catch (SQLException e) {
             Logger.getLogger(FornecedorDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Fornecedor, Classe FornecedorDAO :"+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+    
+    private void salvarEndereco(Fornecedor f) throws ClassNotFoundException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        
+        int idEndereco = -1;
+        EnderecoDAO eDao = new EnderecoDAO();
+        try {
+            for(int i=0;i<f.getListaEndereco().size();i++){
+                
+                stmt = con.prepareStatement("INSERT INTO endereco (uf,cidade,bairro,rua,complemento,numero,referencia)"
+                                          + " VALUES(?,?,?,?,?,?,?)");
+               //id AUTO INCREMENTADO
+                stmt.setString(1, f.getListaEndereco().get(i).getUf());
+                stmt.setString(2, f.getListaEndereco().get(i).getCidade());
+                stmt.setString(3, f.getListaEndereco().get(i).getBairro());
+                stmt.setString(4, f.getListaEndereco().get(i).getRua());
+                stmt.setString(5, f.getListaEndereco().get(i).getComplemento());
+                stmt.setString(6, f.getListaEndereco().get(i).getNumero());
+                stmt.setString(7, f.getListaEndereco().get(i).getReferencia());
+                 
+                stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
+                                //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
+                
+             
+                //TABELA DE RELACIONAMENTO CLIENTE-ENDEREÇO
+                idEndereco = eDao.getUltimoId();//pega o ID que foi inserido com auto incremento
+                
+                stmt = con.prepareStatement("INSERT INTO fornecedor_endereco(idFornecedor,idEndereco)VALUES(?,?)");
+                stmt.setString(1, f.getCnpj());
+                stmt.setInt(2, idEndereco);
+                
+                stmt.executeUpdate();
+
+                                
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar Endereço do Cliente no Banco de Dados :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
