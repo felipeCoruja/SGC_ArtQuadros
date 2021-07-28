@@ -17,6 +17,7 @@ public class Vidro {
     private int espessuraChapa;//Milímetros
     private int quantidadeChapas;
     private double precoCusto;// Por metro quadrado
+    private String fornecedorCnpj;
     
     
     public Vidro(){
@@ -27,6 +28,7 @@ public class Vidro {
         this.espessuraChapa = -1;
         this.quantidadeChapas = -1;
         this.precoCusto = -1.0;
+        this.fornecedorCnpj = "";
     }
 
     public int getId() {
@@ -83,5 +85,13 @@ public class Vidro {
 
     public void setPrecoCusto(double precoCusto) {
         this.precoCusto = precoCusto;
+    }
+
+    public String getFornecedorCnpj() {
+        return fornecedorCnpj;
+    }
+
+    public void setFornecedorCnpj(String fornecedorCnpj) {
+        this.fornecedorCnpj = fornecedorCnpj;
     }
 }

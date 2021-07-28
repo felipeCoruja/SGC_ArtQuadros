@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Eucatex;
 import model.dao.EucatexDAO;
+import model.dao.FornecedorDAO;
 
 /**
  *
@@ -77,7 +78,7 @@ public class CadEucatex extends javax.swing.JInternalFrame {
         btnExcluir = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         btnLimpar = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboxFornecedor = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         edtAlturaChapa = new javax.swing.JFormattedTextField();
         edtComprimentoChapa = new javax.swing.JFormattedTextField();
@@ -134,7 +135,7 @@ public class CadEucatex extends javax.swing.JInternalFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaFornecedor()));
 
         jLabel8.setText("Fornecedor");
 
@@ -199,7 +200,7 @@ public class CadEucatex extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel7)
                                 .addGap(28, 28, 28)
                                 .addComponent(spinQtdChapa, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboxFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,8 +278,8 @@ public class CadEucatex extends javax.swing.JInternalFrame {
                         .addGap(19, 19, 19)
                         .addComponent(jLabel8)
                         .addGap(6, 6, 6)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 159, Short.MAX_VALUE))
+                        .addComponent(cboxFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 161, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -342,6 +343,7 @@ public class CadEucatex extends javax.swing.JInternalFrame {
         this.edtComprimentoChapa.setText("");
         this.edtPrecoCusto.setText("");
         this.spinQtdChapa.setValue(0);
+        this.cboxFornecedor.setSelectedIndex(0);
     }
     
     private String formatoStringDouble(String str){
@@ -369,6 +371,15 @@ public class CadEucatex extends javax.swing.JInternalFrame {
             
             e.setTipo(this.edtTipo.getText());
             e.setQuantidadeChapas(Integer.parseInt(this.spinQtdChapa.getValue().toString()));
+            
+            FornecedorDAO fDao = new FornecedorDAO();
+            
+            try {
+                e.setFornecedorCnpj(fDao.getCnpj(this.cboxFornecedor.getSelectedItem().toString()));
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CadEucatex.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "ERRO CadEucatex - "+ex);
+            }
             
             EucatexDAO eDao = new EucatexDAO();
             try {
@@ -426,17 +437,33 @@ public class CadEucatex extends javax.swing.JInternalFrame {
         this.row =  this.tabela.getSelectedRow();
     }//GEN-LAST:event_tabelaMouseClicked
 
+    
+    private String[] listaFornecedor(){
+        FornecedorDAO dao = new FornecedorDAO();
+        String[] list = null;
+        try {
+            list = dao.getNomeFornecedor();
+            if(list.length <1 ){//Sem ter o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou Fornecedores registrados no Banco de Dados ");
+                String aux = "Sem Registro;";
+                list = aux.split(";");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JComboBox<String> cboxFornecedor;
     private javax.swing.JFormattedTextField edtAlturaChapa;
     private javax.swing.JFormattedTextField edtComprimentoChapa;
     private javax.swing.JFormattedTextField edtPrecoCusto;
     private javax.swing.JTextField edtTipo;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;

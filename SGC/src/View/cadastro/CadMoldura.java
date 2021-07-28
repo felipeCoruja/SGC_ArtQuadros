@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Moldura;
+import model.dao.FornecedorDAO;
 import model.dao.MolduraDAO;
 
 /**
@@ -109,7 +110,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
 
         jLabel8.setText("cm");
 
-        jLabel9.setText("Quantidade Varas");
+        jLabel9.setText("Qtd Varas");
 
         jLabel10.setText("Descrição");
 
@@ -185,7 +186,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
 
         edtLarguraVara.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
 
-        cboxFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaFornecedor()));
 
         jLabel15.setText("Fornecedor:");
 
@@ -199,14 +200,6 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addGap(40, 40, 40)
-                        .addComponent(jLabel13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel5))
                     .addComponent(jLabel10)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -256,7 +249,15 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(133, 133, 133))
-                            .addComponent(edtMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(edtMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel11)
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabel13)
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel5)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2))
         );
@@ -281,9 +282,8 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
                             .addComponent(jLabel13)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel5)))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6))
                         .addGap(6, 6, 6)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(edtPrecoCusto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,7 +309,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
                         .addComponent(jLabel10)
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnCadastrar)
                             .addComponent(btnSalvar)
@@ -360,6 +360,9 @@ public class CadMoldura extends javax.swing.JInternalFrame {
         }else if(this.spinerQtd.getValue().equals(0)){
             flag = true;
             JOptionPane.showMessageDialog(null, "Insira um valor para 'Quantidade Varas' !", "Atenção", JOptionPane.WARNING_MESSAGE);
+        }else if(this.cboxFornecedor.getSelectedItem().equals("")){
+            flag = true;
+            JOptionPane.showMessageDialog(null, "Selecione um 'Fornecedor' para esse cadastro !", "Atenção", JOptionPane.WARNING_MESSAGE);
         }
         
         return flag;
@@ -387,7 +390,7 @@ public class CadMoldura extends javax.swing.JInternalFrame {
         this.edtLarguraVara.setText("");
         this.spinerQtd.setValue(0);
         this.edtDescricao.setText("");
-       // this.cboxFornecedor.setSelectedItem(1);
+        this.cboxFornecedor.setSelectedItem(1);
     
     }
     
@@ -412,6 +415,22 @@ public class CadMoldura extends javax.swing.JInternalFrame {
         }
         
         
+    }
+    
+    private String[] listaFornecedor(){
+        FornecedorDAO dao = new FornecedorDAO();
+        String[] list = null;
+        try {
+            list = dao.getNomeFornecedor();
+            if(list.length <1 ){//Sem ter o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou Fornecedores registrados no Banco de Dados ");
+                String aux = "Sem Registro;";
+                list = aux.split(";");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
     }
     
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
@@ -439,6 +458,14 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             m.setQuantMetros(Double.parseDouble(aux));
             
             m.setDescricao(this.edtDescricao.getText());
+            
+            FornecedorDAO fDao = new FornecedorDAO();
+            try {
+                m.setFornecedorCnpj(fDao.getCnpj(this.cboxFornecedor.getSelectedItem().toString()));
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "ERRO CadMoldura - "+ex);
+            }
             
             MolduraDAO dao = new MolduraDAO();
             try {

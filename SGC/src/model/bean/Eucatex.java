@@ -16,6 +16,7 @@ public class Eucatex {
     private double comprimentoChapa;
     private int quantidadeChapas;
     private double precoCusto;
+    private String fornecedorCnpj;
     
     public Eucatex(){
         this.id = -1;
@@ -24,6 +25,7 @@ public class Eucatex {
         this.comprimentoChapa = -1.0;
         this.quantidadeChapas = -1;
         this.precoCusto = -1.0;
+        this.fornecedorCnpj = "";
     }
 
     /**
@@ -108,5 +110,13 @@ public class Eucatex {
      */
     public void setPrecoCusto(double precoCusto) {
         this.precoCusto = precoCusto;
+    }
+
+    public String getFornecedorCnpj() {
+        return fornecedorCnpj;
+    }
+
+    public void setFornecedorCnpj(String fornecedorCnpj) {
+        this.fornecedorCnpj = fornecedorCnpj;
     }
 }

@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Vidro;
+import model.dao.FornecedorDAO;
 import model.dao.VidroDAO;
 
 /**
@@ -93,6 +94,7 @@ public class CadVidro extends javax.swing.JInternalFrame {
         this.edtPrecoCusto.setText("");
         this.spinEspessura.setValue(0);
         this.spinQtd.setValue(0);
+        this.cboxFornecedor.setSelectedIndex(0);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -195,7 +197,12 @@ public class CadVidro extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Fornecedor");
 
-        cboxFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaFornecedor()));
+        cboxFornecedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboxFornecedorActionPerformed(evt);
+            }
+        });
 
         edtPrecoCusto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
 
@@ -302,7 +309,7 @@ public class CadVidro extends javax.swing.JInternalFrame {
                         .addComponent(jLabel8)
                         .addGap(6, 6, 6)
                         .addComponent(cboxFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 216, Short.MAX_VALUE))
+                        .addGap(0, 218, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -354,6 +361,16 @@ public class CadVidro extends javax.swing.JInternalFrame {
             v.setQuantidadeChapas((int)this.spinQtd.getValue());
             v.setEspessuraChapa((int)this.spinEspessura.getValue());
             
+            FornecedorDAO fDao = new FornecedorDAO();
+            
+            try {
+                v.setFornecedorCnpj(fDao.getCnpj(this.cboxFornecedor.getSelectedItem().toString()));
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CadVidro.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, "ERRO CadVidro - "+ex);
+            }
+            
+            
             VidroDAO dao = new VidroDAO();
             
             try {
@@ -368,6 +385,27 @@ public class CadVidro extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
+    private void cboxFornecedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxFornecedorActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboxFornecedorActionPerformed
+
+    private String[] listaFornecedor(){
+        FornecedorDAO dao = new FornecedorDAO();
+        String[] list = null;
+        try {
+            list = dao.getNomeFornecedor();
+            if(list.length <1 ){//Sem ter o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou Fornecedores registrados no Banco de Dados ");
+                String aux = "Sem Registro;";
+                list = aux.split(";");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;

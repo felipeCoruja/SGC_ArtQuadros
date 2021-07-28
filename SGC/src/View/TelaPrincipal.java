@@ -189,6 +189,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         menuCadastro = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        menuProduto = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
@@ -315,6 +316,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         menuCadastro.add(jMenuItem5);
+
+        menuProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/business_inventory_maintenance_product_box_boxes_2326.png"))); // NOI18N
+        menuProduto.setText("Produto");
+        menuProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuProdutoActionPerformed(evt);
+            }
+        });
+        menuCadastro.add(menuProduto);
 
         jMenu1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/framework_theapplication_2896.png"))); // NOI18N
         jMenu1.setText("Materia Prima");
@@ -543,6 +553,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         ((BasicInternalFrameUI)this.cadVidro.getUI()).setNorthPane(null);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void menuProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuProdutoActionPerformed
+        this.setMenuOpaqueAll(black);
+        this.menuCadastro.setForeground(azul);
+        
+        this.destruirTelasExistentes();
+        this.cadProduto = new CadProduto();
+        TelaPrincipal.desktopPane.add(cadProduto);
+        cadProduto.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+        cadProduto.setLocation(0,0);
+        this.cadProduto.setVisible(true);
+        ((BasicInternalFrameUI)this.cadProduto.getUI()).setNorthPane(null);
+    }//GEN-LAST:event_menuProdutoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -570,5 +593,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu menuHome;
     private javax.swing.JMenu menuNota;
     private javax.swing.JMenu menuOrcamento;
+    private javax.swing.JMenuItem menuProduto;
     // End of variables declaration//GEN-END:variables
 }

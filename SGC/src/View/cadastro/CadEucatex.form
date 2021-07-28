@@ -51,7 +51,7 @@
                                   <EmptySpace min="28" pref="28" max="-2" attributes="0"/>
                                   <Component id="spinQtdChapa" min="-2" pref="71" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jComboBox1" min="-2" pref="322" max="-2" attributes="0"/>
+                              <Component id="cboxFornecedor" min="-2" pref="322" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -155,8 +155,8 @@
                           <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                           <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="159" max="32767" attributes="0"/>
+                          <Component id="cboxFornecedor" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="161" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
@@ -259,15 +259,10 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLimparActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="cboxFornecedor">
           <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(this.listaFornecedor())" type="code"/>
             </Property>
           </Properties>
           <AuxValues>

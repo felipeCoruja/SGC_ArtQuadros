@@ -42,9 +42,18 @@ public class FornecedorDAO {
                 stmt.executeUpdate();
             }
             
+            if(!f.getInscEstadual().isEmpty()){
+                stmt = con.prepareStatement(" INSERT INTO fornecedor_insc_estadual(cnpj,insc_estadual)VALUES(?,?)");
+                stmt.setString(1, f.getCnpj());
+                stmt.setString(2, f.getInscEstadual());
+                
+                stmt.executeUpdate();
+            }
+            
             if(!f.getListaEndereco().isEmpty()){
                 this.salvarEndereco(f);
             }
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
         } catch (SQLException e) {
             Logger.getLogger(FornecedorDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null, "Erro ao salvar Fornecedor, Classe FornecedorDAO :"+e);
@@ -104,16 +113,18 @@ public class FornecedorDAO {
         List<Fornecedor> lista = new ArrayList<>();
         
         try {
-            stmt = con.prepareStatement("SELECT * FROM fornecedor AS f JOIN fornecedor_email AS fm ON f.cnpj = fm.cnpj");
+            stmt = con.prepareStatement("SELECT * FROM fornecedor AS f LEFT JOIN fornecedor_email AS fm ON f.cnpj = fm.cnpj "
+                                        + "LEFT JOIN fornecedor_insc_estadual AS insc ON f.cnpj = insc.cnpj");
             rs = stmt.executeQuery();
             
             while(rs.next()){
                 Fornecedor f = new Fornecedor();
                 
-                f.setCnpj(rs.getString("fornecedor.cnpj"));
+                f.setCnpj(rs.getString("f.cnpj"));
                 f.setNome(rs.getString("nome"));
                 f.setDescricao(rs.getString("descricao"));
                 f.setEmail(rs.getString("email"));
+                f.setInscEstadual(rs.getString("insc_estadual"));
                 
                 lista.add(f);
             }
@@ -125,11 +136,35 @@ public class FornecedorDAO {
         }
         return lista;
     }
+    
+    public String getCnpj(String nome) throws ClassNotFoundException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String result = "";
+        
+        try {
+            stmt = con.prepareStatement("SELECT cnpj FROM fornecedor WHERE nome = ?");
+            stmt.setString(1, nome);
+            
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                result = rs.getString("cnpj");
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(FornecedorDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro em getCnpj, Classe FornecedorDAO :"+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return result;
+    }
+    
     public String[] getNomeFornecedor() throws ClassNotFoundException{
         String[] listId = null;
         int i = 0;
         List<Fornecedor> listaMoldura = this.load();
-        String str = "Não;";
+        String str = ";";
         
         for(int j = 0; j <listaMoldura.size();j++){
             str = str+listaMoldura.get(j).getNome()+";";

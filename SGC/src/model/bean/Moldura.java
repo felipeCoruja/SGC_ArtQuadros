@@ -19,6 +19,7 @@ public class Moldura {
     private double larguraVara;
     private double precoCusto;
     private double precoVenda;
+    private String fornecedorCnpj;
 
     public Moldura() {
         this.id = "";
@@ -30,6 +31,7 @@ public class Moldura {
         this.larguraVara = -1.0;
         this.precoCusto = -1.0;
         this.precoVenda = -1.0;
+        this.fornecedorCnpj = "";
     } 
 
     public Moldura(Moldura m) {
@@ -168,5 +170,21 @@ public class Moldura {
      */
     public void setPrecoVenda(double precoVenda) {
         this.precoVenda = precoVenda;
+    }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public String getFornecedorCnpj() {
+        return fornecedorCnpj;
+    }
+
+    public void setFornecedorCnpj(String fornecedorCnpj) {
+        this.fornecedorCnpj = fornecedorCnpj;
     }
 }

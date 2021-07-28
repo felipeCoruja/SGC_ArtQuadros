@@ -18,6 +18,7 @@ public class Produto {
     private String dataVenda;
     private double precoCusto;
     private double precoVenda;
+    private String fornecedorCnpj;
     
     public Produto(){
         this.id = -1;
@@ -27,6 +28,7 @@ public class Produto {
         this.dataVenda = "";
         this.precoCusto = -1.0;
         this.precoVenda = -1.0;
+        this.fornecedorCnpj = "";
     }
 
     /**
@@ -125,6 +127,14 @@ public class Produto {
      */
     public void setPrecoVenda(double precoVenda) {
         this.precoVenda = precoVenda;
+    }
+
+    public String getFornecedorCnpj() {
+        return fornecedorCnpj;
+    }
+
+    public void setFornecedorCnpj(String fornecedorCnpj) {
+        this.fornecedorCnpj = fornecedorCnpj;
     }
     
 }
