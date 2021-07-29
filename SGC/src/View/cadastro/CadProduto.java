@@ -5,11 +5,14 @@
  */
 package View.cadastro;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import model.bean.Produto;
 import model.dao.FornecedorDAO;
 import model.dao.ProdutoDAO;
@@ -23,8 +26,13 @@ public class CadProduto extends javax.swing.JInternalFrame {
     /**
      * Creates new form CadMoldura
      */
-    public CadProduto() {
+    
+    private List<Produto> listaProdutos;
+    
+    public CadProduto() throws ClassNotFoundException {
         initComponents();
+        this.listaProdutos = new ProdutoDAO().load();
+        this.loadTabela();
     }
 
     private void limparCampos(){
@@ -52,6 +60,29 @@ public class CadProduto extends javax.swing.JInternalFrame {
         
         return flag;
     }
+    
+    
+    private void loadTabela(){
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabela.getModel();
+        tableModel.setNumRows(0);
+        tableModel.setColumnIdentifiers(new Object[]{"Id","Tipo","Descrição","Preço Custo","Preço Venda","Chegada","Saida"});
+        
+        for(Produto p:this.listaProdutos){
+            tableModel.addRow(new Object[]{
+                p.getId(),
+                p.getTipo(),
+                p.getDescricao(),
+                p.getPrecoCusto(),
+                p.getPrecoVenda(),
+                p.getDataChegada(),
+                p.getDataVenda()
+            });
+            
+        }
+        
+    
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,7 +97,7 @@ public class CadProduto extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         edtTipo = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabela = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -89,7 +120,7 @@ public class CadProduto extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Tipo");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -97,7 +128,7 @@ public class CadProduto extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tabela);
 
         jLabel4.setText("Preço de Custo");
 
@@ -151,13 +182,13 @@ public class CadProduto extends javax.swing.JInternalFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnCadastrar)
-                .addGap(282, 282, 282)
-                .addComponent(btnLimparCampos)
                 .addGap(18, 18, 18)
+                .addComponent(btnLimparCampos)
+                .addGap(98, 98, 98)
                 .addComponent(btnExcluir)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalvar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(380, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,7 +204,7 @@ public class CadProduto extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Fornecedor");
 
-        cboxFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboxFornecedor.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaFornecedor()));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -239,7 +270,7 @@ public class CadProduto extends javax.swing.JInternalFrame {
                         .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cboxFornecedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 73, Short.MAX_VALUE))
+                        .addGap(0, 75, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -318,10 +349,31 @@ public class CadProduto extends javax.swing.JInternalFrame {
                 Logger.getLogger(CadProduto.class.getName()).log(Level.SEVERE, null, ex);
             }
             limparCampos();
-            
+            try {
+                this.listaProdutos = pDao.load();
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CadProduto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.loadTabela();
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
+    
+    private String[] listaFornecedor(){
+        FornecedorDAO dao = new FornecedorDAO();
+        String[] list = null;
+        try {
+            list = dao.getNomeFornecedor();
+            if(list.length <1 ){//Sem ter o registro padrao "Não"
+                JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou Fornecedores registrados no Banco de Dados ");
+                String aux = "Sem Registro;";
+                list = aux.split(";");
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
@@ -345,6 +397,6 @@ public class CadProduto extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }
