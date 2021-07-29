@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.sql.ResultSet;
 /**
  *
  * @author Felipe
@@ -22,30 +23,38 @@ public class ProdutoDAO {
     public void save(Produto p) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int id = -1;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO produto(id,descricao,data_chegada,data_venda,tipo) "
-                                        + "VALUES(?,?,?,?,?)");
-            stmt.setInt(1, p.getId());
-            stmt.setString(2, p.getDescricao());
-            stmt.setString(3, p.getDataChegada());
-            stmt.setString(4, p.getDataVenda());
-            stmt.setString(5, p.getTipo());
+            stmt = con.prepareStatement("INSERT INTO produto(descricao,data_chegada,tipo) "
+                                        + "VALUES(?,?,?)");
+            
+            stmt.setString(1, p.getDescricao());
+            stmt.setString(2, p.getDataChegada());
+            stmt.setString(3, p.getTipo());
             
             stmt.executeUpdate();
-            stmt = null;
             
+            stmt = con.prepareStatement("SELECT id FROM produto ORDER BY id DESC LIMIT 1");
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                id = rs.getInt("id");
+            }
             stmt = con.prepareStatement("INSERT INTO produto_preco(id,preco_custo,preco_venda)"
                                         + " VALUES(?,?,?)");
-            stmt.setInt(1, p.getId());
+            stmt.setInt(1, id);
             stmt.setDouble(2, p.getPrecoCusto());
             stmt.setDouble(3, p.getPrecoVenda());
             
             stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!");
             
         } catch (SQLException e) {
             Logger.getLogger(ProdutoDAO.class.getName()).log(Level.SEVERE, null, e);
             JOptionPane.showMessageDialog(null,"Erro ao salvar dados na classe ProdutoDAO "+e);
+        }finally{
+          ConnectionFactory.closeConnection(con, stmt, rs);
         }
     }
 }
