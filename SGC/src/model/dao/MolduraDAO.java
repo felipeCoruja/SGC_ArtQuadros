@@ -146,4 +146,34 @@ public class MolduraDAO {
         listId = str.split(";");
         return listId;
     }
+    
+    public Moldura getMoldura(String id) throws ClassNotFoundException{
+        Moldura m = new Moldura();
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            stmt = con.prepareStatement("SELECT * FROM moldura AS m JOIN moldura_preco AS mp ON m.id = mp.id WHERE id = ?");
+            stmt.setString(1, id);
+            
+            rs = stmt.executeQuery();
+            if(rs.next()){
+                m.setId(rs.getString("m.id"));
+                m.setCor(rs.getString("cor"));
+                m.setDescricao(rs.getString("descricao"));
+                m.setMareial(rs.getString("material"));
+                m.setQuantMetros(rs.getDouble("quant_metros"));
+                m.setComprimentoVara(rs.getDouble("comprimento_vara"));
+                m.setLarguraVara(rs.getDouble("largura_vara"));
+                m.setPrecoCusto(rs.getDouble("mp.preco_custo"));
+                m.setPrecoVenda(rs.getDouble("preco_venda"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MolduraDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return m;
+    }
 }

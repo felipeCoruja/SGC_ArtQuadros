@@ -5,9 +5,12 @@
  */
 package view.orcamento;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import model.dao.EucatexDAO;
 import model.dao.MolduraDAO;
 import model.dao.VidroDAO;
@@ -78,6 +81,32 @@ public class Orcamento extends javax.swing.JInternalFrame {
         return list;
     }
 
+    
+    private double calculaVidro(double alt, double larg,double precoVidro){
+        double valor = alt*larg*precoVidro;
+        return valor;
+    }
+    
+    private double calculaMoldura(double alt, double larg, double precoMoldura){
+        double porcentagem = 0;
+        double valor = ((alt + larg)*2) * precoMoldura;
+        valor = valor + (valor*porcentagem);
+        return valor;
+    }
+    private double calculaEucatex(double alt, double larg, double precoEucatex){
+        double valor = alt*larg*precoEucatex;
+        return valor;
+    }
+    
+    private List<String> getPaspatus(){
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
+        List<String> lista = new ArrayList<>();
+        
+        for (int i = 0; i < this.tabelaPaspatu.getRowCount(); i++) {
+            lista.add(tableModel.getValueAt(i, 1).toString());
+        }
+        return lista;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -108,7 +137,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaPaspatu = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
@@ -122,7 +151,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         btnCalcular = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tabelaPrincipal = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -175,7 +204,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
 
         jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaPaspatu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -191,10 +220,10 @@ public class Orcamento extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
+        jScrollPane3.setViewportView(tabelaPaspatu);
+        if (tabelaPaspatu.getColumnModel().getColumnCount() > 0) {
+            tabelaPaspatu.getColumnModel().getColumn(0).setResizable(false);
+            tabelaPaspatu.getColumnModel().getColumn(0).setPreferredWidth(30);
         }
 
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -311,9 +340,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel8)
                                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(20, 20, 20)
                             .addComponent(jLabel10))))
@@ -376,7 +403,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaPrincipal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -395,14 +422,14 @@ public class Orcamento extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setResizable(false);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(15);
-            jTable2.getColumnModel().getColumn(2).setResizable(false);
-            jTable2.getColumnModel().getColumn(2).setPreferredWidth(50);
-            jTable2.getColumnModel().getColumn(6).setResizable(false);
-            jTable2.getColumnModel().getColumn(6).setPreferredWidth(12);
+        jScrollPane2.setViewportView(tabelaPrincipal);
+        if (tabelaPrincipal.getColumnModel().getColumnCount() > 0) {
+            tabelaPrincipal.getColumnModel().getColumn(0).setResizable(false);
+            tabelaPrincipal.getColumnModel().getColumn(0).setPreferredWidth(15);
+            tabelaPrincipal.getColumnModel().getColumn(2).setResizable(false);
+            tabelaPrincipal.getColumnModel().getColumn(2).setPreferredWidth(50);
+            tabelaPrincipal.getColumnModel().getColumn(6).setResizable(false);
+            tabelaPrincipal.getColumnModel().getColumn(6).setPreferredWidth(12);
         }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -553,11 +580,11 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JTable tabelaPaspatu;
+    private javax.swing.JTable tabelaPrincipal;
     // End of variables declaration//GEN-END:variables
 
  
