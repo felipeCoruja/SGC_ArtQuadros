@@ -29,9 +29,13 @@ public class CadProduto extends javax.swing.JInternalFrame {
     
     private List<Produto> listaProdutos;
     
-    public CadProduto() throws ClassNotFoundException {
+    public CadProduto()  {
         initComponents();
-        this.listaProdutos = new ProdutoDAO().load();
+        try {
+            this.listaProdutos = new ProdutoDAO().load();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(CadProduto.class.getName()).log(Level.SEVERE, null, ex);
+        }
         this.loadTabela();
     }
 

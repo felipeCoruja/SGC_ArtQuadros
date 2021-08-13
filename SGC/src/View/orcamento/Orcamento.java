@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.dao.ConfigDAO;
 import model.dao.EucatexDAO;
 import model.dao.MolduraDAO;
 import model.dao.VidroDAO;
@@ -21,9 +22,18 @@ import model.dao.VidroDAO;
  */
 public class Orcamento extends javax.swing.JInternalFrame {
     
+    private int rowPasp;
+    
     public Orcamento() {
         initComponents();
-      
+        ConfigDAO cDao = new ConfigDAO();
+        try {
+            model.bean.Config c = cDao.load();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        this.rowPasp = -1;
     }
     
     private String[] listaMolduras(){
@@ -118,18 +128,18 @@ public class Orcamento extends javax.swing.JInternalFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cboxTipo = new javax.swing.JComboBox<>();
+        cboxMoldura = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        cboxPaspatu = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        edtLargura = new javax.swing.JTextField();
+        edtAltura = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        spinQtd = new javax.swing.JSpinner();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -139,15 +149,15 @@ public class Orcamento extends javax.swing.JInternalFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaPaspatu = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jComboBox5 = new javax.swing.JComboBox<>();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        cbVidro = new javax.swing.JCheckBox();
+        cbEucatex = new javax.swing.JCheckBox();
+        cbEntreVidros = new javax.swing.JCheckBox();
+        cboxVidro = new javax.swing.JComboBox<>();
+        cboxEntreVidros = new javax.swing.JComboBox<>();
+        cboxEucatex = new javax.swing.JComboBox<>();
+        btnAddPasp = new javax.swing.JButton();
+        btnLimpar = new javax.swing.JButton();
+        btnRemovePasp = new javax.swing.JButton();
         btnCalcular = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -162,13 +172,13 @@ public class Orcamento extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaMolduras()));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"tipo"}));
+        cboxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaMolduras()));
+        cboxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[]{"tipo"}));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaMolduras()));
-        jComboBox2.addActionListener(new java.awt.event.ActionListener() {
+        cboxMoldura.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaMolduras()));
+        cboxMoldura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox2ActionPerformed(evt);
+                cboxMolduraActionPerformed(evt);
             }
         });
 
@@ -176,13 +186,13 @@ public class Orcamento extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Moldura");
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaMolduras()));
+        cboxPaspatu.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaMolduras()));
 
         jLabel4.setText("Paspatu");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        edtAltura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                edtAlturaActionPerformed(evt);
             }
         });
 
@@ -220,6 +230,11 @@ public class Orcamento extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tabelaPaspatu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaPaspatuMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tabelaPaspatu);
         if (tabelaPaspatu.getColumnModel().getColumnCount() > 0) {
             tabelaPaspatu.getColumnModel().getColumn(0).setResizable(false);
@@ -228,17 +243,17 @@ public class Orcamento extends javax.swing.JInternalFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jCheckBox1.setText("Vidro");
+        cbVidro.setText("Vidro");
 
-        jCheckBox2.setText("Eucatex");
+        cbEucatex.setText("Eucatex");
 
-        jCheckBox3.setText("Entre Vidros");
+        cbEntreVidros.setText("Entre Vidros");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaVidros()));
+        cboxVidro.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaVidros()));
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaVidros()));
+        cboxEntreVidros.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaVidros()));
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaEucatex()));
+        cboxEucatex.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaEucatex()));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -246,105 +261,111 @@ public class Orcamento extends javax.swing.JInternalFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox2))
+                    .addComponent(cbVidro)
+                    .addComponent(cbEntreVidros)
+                    .addComponent(cbEucatex))
                 .addGap(7, 7, 7)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox5, 0, 197, Short.MAX_VALUE)
-                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(cboxEntreVidros, 0, 197, Short.MAX_VALUE)
+                    .addComponent(cboxVidro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cboxEucatex, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbVidro)
+                    .addComponent(cboxVidro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbEucatex)
+                    .addComponent(cboxEucatex, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbEntreVidros)
+                    .addComponent(cboxEntreVidros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        jButton6.setText("Add");
+        btnAddPasp.setText("Add");
+        btnAddPasp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddPaspActionPerformed(evt);
+            }
+        });
 
-        jButton7.setText("Limpar");
+        btnLimpar.setText("Limpar");
+        btnLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparActionPerformed(evt);
+            }
+        });
 
-        jButton8.setText("Remover");
+        btnRemovePasp.setText("Remover");
+        btnRemovePasp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemovePaspActionPerformed(evt);
+            }
+        });
 
         btnCalcular.setText("Calcular");
+        btnCalcular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addComponent(jLabel4))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(208, 208, 208)
-                            .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(31, 31, 31)
-                            .addComponent(jLabel9)
-                            .addGap(4, 4, 4)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addGap(150, 150, 150)
-                                    .addComponent(jLabel3)))
-                            .addGap(27, 27, 27)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(10, 10, 10)
-                                    .addComponent(jLabel5))
-                                .addComponent(jLabel6))
-                            .addGap(10, 10, 10)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(2, 2, 2)
-                                    .addComponent(jButton6))
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addComponent(jButton8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton7)
-                                    .addGap(3, 3, 3)))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                    .addGap(17, 17, 17)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel8)
-                                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addComponent(jLabel10))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(150, 150, 150)
+                        .addComponent(jLabel3)
+                        .addGap(137, 137, 137)
+                        .addComponent(jLabel6)
+                        .addGap(23, 23, 23)
+                        .addComponent(jLabel7))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(cboxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(cboxMoldura, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(edtLargura, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel5)
+                        .addGap(10, 10, 10)
+                        .addComponent(edtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel4)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(cboxPaspatu, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(2, 2, 2)
+                                .addComponent(btnAddPasp))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(17, 17, 17)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(spinQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(btnRemovePasp)
+                        .addGap(32, 32, 32)
+                        .addComponent(btnLimpar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel9)
+                        .addGap(4, 4, 4)
+                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -355,48 +376,51 @@ public class Orcamento extends javax.swing.JInternalFrame {
                         .addGap(1, 1, 1)
                         .addComponent(jLabel2))
                     .addComponent(jLabel3)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel6)))
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
                 .addGap(4, 4, 4)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboxMoldura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(edtLargura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(4, 4, 4)
                         .addComponent(jLabel5))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(edtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(20, 20, 20)
                 .addComponent(jLabel4)
                 .addGap(4, 4, 4)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton6)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboxPaspatu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAddPasp))
                         .addGap(1, 1, 1)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(6, 6, 6)
+                        .addComponent(spinQtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(6, 6, 6)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton8)
+                    .addComponent(btnRemovePasp)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel9)
-                            .addComponent(jButton7)
-                            .addComponent(btnCalcular))))
+                            .addComponent(btnCalcular)
+                            .addComponent(btnLimpar)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jLabel9))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addGap(7, 7, 7)
@@ -529,38 +553,107 @@ public class Orcamento extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void edtAlturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtAlturaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_edtAlturaActionPerformed
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
+    private void cboxMolduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboxMolduraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    }//GEN-LAST:event_cboxMolduraActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnAddPaspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPaspActionPerformed
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
+        int ordem = tableModel.getRowCount()+1;
+        if(!this.cboxPaspatu.getSelectedItem().toString().equals("Não")){
+            tableModel.addRow(new Object[]{
+            ordem,
+            this.cboxPaspatu.getSelectedItem().toString()
+            });
+            this.cboxPaspatu.setSelectedIndex(0);
+        }
+        
+    }//GEN-LAST:event_btnAddPaspActionPerformed
+
+    private void btnRemovePaspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemovePaspActionPerformed
+      DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
+      tableModel.removeRow(this.rowPasp);
+      
+      for(int i = 0; i < tableModel.getRowCount();i++){
+          tableModel.setValueAt(i+1, i, 0);
+      }
+    }//GEN-LAST:event_btnRemovePaspActionPerformed
+
+    private void tabelaPaspatuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPaspatuMouseClicked
+        this.rowPasp = this.tabelaPaspatu.getSelectedRow();
+    }//GEN-LAST:event_tabelaPaspatuMouseClicked
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
+        tableModel.setRowCount(0);
+    }//GEN-LAST:event_btnLimparActionPerformed
+    
+    private boolean cbVidroEucatexEntreVidrosSelected(){
+        boolean flag = false;
+        if(this.cbVidro.isSelected()){
+            flag = true;
+        }else if(this.cbEucatex.isSelected()){
+            flag = true;
+        }else if(this.cbEntreVidros.isSelected()){
+            flag = true;
+        }
+        return flag;
+    }
+    private boolean isCamposPreenchidos(){
+        boolean flag = true;
+       
+        if(this.edtLargura.getText().isEmpty()){
+            flag = false;
+            JOptionPane.showMessageDialog(null, "O campo Largura está vazio!");
+        }else if(this.edtAltura.getText().isEmpty()){
+            flag = false;
+            JOptionPane.showMessageDialog(null, "O campo Altura está vazio!");
+        }else if(this.cboxMoldura.getSelectedItem().equals("Não") && cbVidroEucatexEntreVidrosSelected()== false){
+            flag = false;
+            
+            JOptionPane.showMessageDialog(null, "Falta informações para o Calculo de valores, verifique se o campo moldura"
+                                             + " ou de eucatex e semelhantes foram preenchidos");
+            
+        }
+        return flag;
+    }
+    
+    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
+        if(this.isCamposPreenchidos()){
+        
+        }
+    }//GEN-LAST:event_btnCalcularActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddPasp;
     private javax.swing.JButton btnCalcular;
+    private javax.swing.JButton btnLimpar;
+    private javax.swing.JButton btnRemovePasp;
+    private javax.swing.JCheckBox cbEntreVidros;
+    private javax.swing.JCheckBox cbEucatex;
+    private javax.swing.JCheckBox cbVidro;
+    private javax.swing.JComboBox<String> cboxEntreVidros;
+    private javax.swing.JComboBox<String> cboxEucatex;
+    private javax.swing.JComboBox<String> cboxMoldura;
+    private javax.swing.JComboBox<String> cboxPaspatu;
+    private javax.swing.JComboBox<String> cboxTipo;
+    private javax.swing.JComboBox<String> cboxVidro;
+    private javax.swing.JTextField edtAltura;
+    private javax.swing.JTextField edtLargura;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -579,10 +672,8 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JSpinner spinQtd;
     private javax.swing.JTable tabelaPaspatu;
     private javax.swing.JTable tabelaPrincipal;
     // End of variables declaration//GEN-END:variables

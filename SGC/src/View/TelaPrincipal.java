@@ -17,6 +17,7 @@ import View.cadastro.CadPedidoCabecalho;
 import View.cadastro.CadPedidoFinal;
 import View.cadastro.CadProduto;
 import View.cadastro.CadVidro;
+import View.config.Config;
 import View.home.Home;
 import java.awt.Color;
 import view.orcamento.Orcamento;
@@ -44,6 +45,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private BuscarCliente buscarCliente;
     private BuscarFornecedor buscarFornecedor;
     private CadFornecedor cadFornecedor;
+    private Config config;
        
     Color azul = new java.awt.Color(51,164,235);
     Color black = Color.BLACK;
@@ -120,6 +122,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }else if(this.cadPedidoCabecalho != null){
             cadPedidoCabecalho.dispose();
             cadPedidoCabecalho = null;
+        }else if(this.config != null){
+            this.config.dispose();
+            this.config = null;
         }
     }
     
@@ -367,6 +372,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuConfiguracoes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/settings.png"))); // NOI18N
         menuConfiguracoes.setText("Configurações");
+        menuConfiguracoes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuConfiguracoesMouseClicked(evt);
+            }
+        });
         menuBar.add(menuConfiguracoes);
 
         setJMenuBar(menuBar);
@@ -565,6 +575,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         this.cadProduto.setVisible(true);
         ((BasicInternalFrameUI)this.cadProduto.getUI()).setNorthPane(null);
     }//GEN-LAST:event_menuProdutoActionPerformed
+
+    private void menuConfiguracoesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuConfiguracoesMouseClicked
+        this.setMenuOpaqueAll(black);
+        this.menuConfiguracoes.setForeground(azul);
+        
+        this.destruirTelasExistentes();
+        this.config = new Config();
+        TelaPrincipal.desktopPane.add(this.config);
+        this.config.setSize(TelaPrincipal.desktopPane.getWidth(),TelaPrincipal.desktopPane.getHeight());
+        this.config.setLocation(0,0);
+        this.config.setVisible(true);
+        ((BasicInternalFrameUI)this.config.getUI()).setNorthPane(null);
+    }//GEN-LAST:event_menuConfiguracoesMouseClicked
 
     /**
      * @param args the command line arguments

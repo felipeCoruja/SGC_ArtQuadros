@@ -201,6 +201,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Configura&#xe7;&#xf5;es"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="menuConfiguracoesMouseClicked"/>
+          </Events>
         </Menu>
       </SubComponents>
     </Menu>
