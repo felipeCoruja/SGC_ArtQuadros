@@ -76,7 +76,7 @@ public class SGC {
                 Logger.getLogger(CadMoldura.class.getName()).log(Level.SEVERE, null, ex);
             }
         */
-        System.exit(0);
+        System.exit(0);     
     }
     
 }

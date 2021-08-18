@@ -154,7 +154,7 @@ public class MolduraDAO {
         ResultSet rs = null;
         
         try {
-            stmt = con.prepareStatement("SELECT * FROM moldura AS m JOIN moldura_preco AS mp ON m.id = mp.id WHERE id = ?");
+            stmt = con.prepareStatement("SELECT * FROM moldura AS m JOIN moldura_preco AS mp ON m.id = mp.id WHERE m.id = ?");
             stmt.setString(1, id);
             
             rs = stmt.executeQuery();

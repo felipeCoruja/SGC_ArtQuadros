@@ -67,9 +67,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         } catch (PropertyVetoException ex) {
             Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-       
+  
         
         this.menuHome.setForeground(azul);
         TelaPrincipal.desktopPane.add(home);

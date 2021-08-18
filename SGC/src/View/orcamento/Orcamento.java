@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.bean.Config;
+import model.bean.Moldura;
 import model.dao.ConfigDAO;
 import model.dao.EucatexDAO;
 import model.dao.MolduraDAO;
@@ -21,31 +23,37 @@ import model.dao.VidroDAO;
  * @author felip
  */
 public class Orcamento extends javax.swing.JInternalFrame {
-    
+
     private int rowPasp;
-    
+    private List<String> listaPasp;
+    private Object[] ultimoCalculo;
+
     public Orcamento() {
         initComponents();
+        ultimoCalculo = null;
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
+        tableModel.setNumRows(0);
+        this.listaPasp = new ArrayList<>();
         ConfigDAO cDao = new ConfigDAO();
         try {
             model.bean.Config c = cDao.load();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         this.rowPasp = -1;
     }
-    
-    private String[] listaMolduras(){
+
+    private String[] listaMolduras() {
         MolduraDAO dao = new MolduraDAO();
         String[] list = null;
         try {
             list = dao.getIdsMolduras();
-            if(list.length <1 ){//Sem ter o registro padrao "Não"
+            if (list.length < 1) {//Sem ter o registro padrao "Não"
                 JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou molduras registradas no Banco de Dados ");
                 String aux = "Sem Registro;";
                 list = aux.split(";");
-            }else if(list.length == 1){//contendo apena o registro padrao "Não"
+            } else if (list.length == 1) {//contendo apena o registro padrao "Não"
                 JOptionPane.showMessageDialog(null, "O sistema não achou molduras registradas no Banco de Dados ");
             }
         } catch (ClassNotFoundException ex) {
@@ -53,18 +61,17 @@ public class Orcamento extends javax.swing.JInternalFrame {
         }
         return list;
     }
-    
-    
-    private String[] listaEucatex(){
+
+    private String[] listaEucatex() {
         EucatexDAO dao = new EucatexDAO();
         String[] list = null;
         try {
             list = dao.getTiposEucatex();
-            if(list.length <1 ){//Sem ter o registro padrao "Não"
+            if (list.length < 1) {//Sem ter o registro padrao "Não"
                 JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou Eucatex registrados no Banco de Dados ");
                 String aux = "Sem Registro;";
                 list = aux.split(";");
-            }else if(list.length == 1){//contendo apena o registro padrao "Não"
+            } else if (list.length == 1) {//contendo apena o registro padrao "Não"
                 JOptionPane.showMessageDialog(null, "O sistema não achou Eucatex registrados no Banco de Dados ");
             }
         } catch (ClassNotFoundException ex) {
@@ -72,17 +79,17 @@ public class Orcamento extends javax.swing.JInternalFrame {
         }
         return list;
     }
-    
-    private String[] listaVidros(){
+
+    private String[] listaVidros() {
         VidroDAO dao = new VidroDAO();
         String[] list = null;
         try {
             list = dao.getTiposVidro();
-            if(list.length <1 ){//Sem ter o registro padrao "Não"
+            if (list.length < 1) {//Sem ter o registro padrao "Não"
                 JOptionPane.showMessageDialog(null, "ERRO - O sistema não achou Vidros registrados no Banco de Dados ");
                 String aux = "Sem Registro;";
                 list = aux.split(";");
-            }else if(list.length == 1){//contendo apena o registro padrao "Não"
+            } else if (list.length == 1) {//contendo apena o registro padrao "Não"
                 JOptionPane.showMessageDialog(null, "O sistema não achou Vidros registrados no Banco de Dados ");
             }
         } catch (ClassNotFoundException ex) {
@@ -91,32 +98,33 @@ public class Orcamento extends javax.swing.JInternalFrame {
         return list;
     }
 
-    
-    private double calculaVidro(double alt, double larg,double precoVidro){
-        double valor = alt*larg*precoVidro;
+    private double calculaVidro(double alt, double larg, double precoVidro) {
+        double valor = alt * larg * precoVidro;
         return valor;
     }
-    
-    private double calculaMoldura(double alt, double larg, double precoMoldura){
+
+    private double calculaMoldura(double alt, double larg, double precoMoldura) {
         double porcentagem = 0;
-        double valor = ((alt + larg)*2) * precoMoldura;
-        valor = valor + (valor*porcentagem);
+        double valor = ((alt + larg) * 2) * precoMoldura;
+        valor = valor + (valor * porcentagem);
         return valor;
     }
-    private double calculaEucatex(double alt, double larg, double precoEucatex){
-        double valor = alt*larg*precoEucatex;
+
+    private double calculaEucatex(double alt, double larg, double precoEucatex) {
+        double valor = alt * larg * precoEucatex;
         return valor;
     }
-    
-    private List<String> getPaspatus(){
+
+    private List<String> getPaspatus() {
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
         List<String> lista = new ArrayList<>();
-        
+
         for (int i = 0; i < this.tabelaPaspatu.getRowCount(); i++) {
             lista.add(tableModel.getValueAt(i, 1).toString());
         }
         return lista;
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -145,7 +153,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
+        edtCampoCalcular = new javax.swing.JFormattedTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaPaspatu = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
@@ -212,7 +220,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        edtCampoCalcular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
 
         tabelaPaspatu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -342,30 +350,30 @@ public class Orcamento extends javax.swing.JInternalFrame {
                         .addGap(10, 10, 10)
                         .addComponent(edtAltura, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4)
+                    .addComponent(jLabel10)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(cboxPaspatu, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(2, 2, 2)
                                 .addComponent(btnAddPasp))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnRemovePasp)
+                                .addGap(32, 32, 32)
+                                .addComponent(btnLimpar)))
                         .addGap(17, 17, 17)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(46, 46, 46)
+                                .addComponent(jLabel9)
+                                .addGap(4, 4, 4)
+                                .addComponent(edtCampoCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8)
-                            .addComponent(spinQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnRemovePasp)
-                        .addGap(32, 32, 32)
-                        .addComponent(btnLimpar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel9)
-                        .addGap(4, 4, 4)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel10)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(spinQtd, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -413,14 +421,14 @@ public class Orcamento extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCalcular)
-                            .addComponent(btnLimpar)))
+                            .addComponent(btnLimpar)
+                            .addComponent(btnCalcular)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(5, 5, 5)
                         .addComponent(jLabel9))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(2, 2, 2)
-                        .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(edtCampoCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
                 .addGap(7, 7, 7)
@@ -562,29 +570,35 @@ public class Orcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cboxMolduraActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
+        this.calculaPedido();
+        tableModel.addRow(this.ultimoCalculo);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnAddPaspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPaspActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
-        int ordem = tableModel.getRowCount()+1;
-        if(!this.cboxPaspatu.getSelectedItem().toString().equals("Não")){
+        int ordem = tableModel.getRowCount() + 1;
+        if (!this.cboxPaspatu.getSelectedItem().toString().equals("Não")) {
             tableModel.addRow(new Object[]{
-            ordem,
-            this.cboxPaspatu.getSelectedItem().toString()
+                ordem,
+                this.cboxPaspatu.getSelectedItem().toString()
             });
+            this.listaPasp.add(this.cboxPaspatu.getSelectedItem().toString());
             this.cboxPaspatu.setSelectedIndex(0);
         }
-        
+
     }//GEN-LAST:event_btnAddPaspActionPerformed
 
     private void btnRemovePaspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemovePaspActionPerformed
-      DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
-      tableModel.removeRow(this.rowPasp);
-      
-      for(int i = 0; i < tableModel.getRowCount();i++){
-          tableModel.setValueAt(i+1, i, 0);
-      }
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
+        if (this.rowPasp != -1) {
+            tableModel.removeRow(this.rowPasp);
+
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                tableModel.setValueAt(i + 1, i, 0);
+            }
+            this.rowPasp = -1;
+        }
     }//GEN-LAST:event_btnRemovePaspActionPerformed
 
     private void tabelaPaspatuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPaspatuMouseClicked
@@ -594,41 +608,128 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
         tableModel.setRowCount(0);
+        this.rowPasp = -1;
     }//GEN-LAST:event_btnLimparActionPerformed
-    
-    private boolean cbVidroEucatexEntreVidrosSelected(){
+
+    private boolean cbVidroEucatexEntreVidrosSelected() {
         boolean flag = false;
-        if(this.cbVidro.isSelected()){
+        if (this.cbVidro.isSelected()) {
             flag = true;
-        }else if(this.cbEucatex.isSelected()){
+        } else if (this.cbEucatex.isSelected()) {
             flag = true;
-        }else if(this.cbEntreVidros.isSelected()){
+        } else if (this.cbEntreVidros.isSelected()) {
             flag = true;
         }
         return flag;
     }
-    private boolean isCamposPreenchidos(){
+
+    private boolean isCamposPreenchidos() {
         boolean flag = true;
-       
-        if(this.edtLargura.getText().isEmpty()){
+
+        if (this.edtLargura.getText().isEmpty()) {
             flag = false;
             JOptionPane.showMessageDialog(null, "O campo Largura está vazio!");
-        }else if(this.edtAltura.getText().isEmpty()){
+        } else if (this.edtAltura.getText().isEmpty()) {
             flag = false;
             JOptionPane.showMessageDialog(null, "O campo Altura está vazio!");
-        }else if(this.cboxMoldura.getSelectedItem().equals("Não") && cbVidroEucatexEntreVidrosSelected()== false){
+        } else if (this.cboxMoldura.getSelectedItem().equals("Não") && cbVidroEucatexEntreVidrosSelected() == false) {
             flag = false;
-            
+
             JOptionPane.showMessageDialog(null, "Falta informações para o Calculo de valores, verifique se o campo moldura"
-                                             + " ou de eucatex e semelhantes foram preenchidos");
-            
+                    + " ou de eucatex e semelhantes foram preenchidos");
+
         }
         return flag;
     }
-    
-    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
-        if(this.isCamposPreenchidos()){
+
+    private void calculaPedido() {
+        double vidro = 0.0;
+        double eucatex = 0.0;
+        double pmo = -1; //porcentagem de mao de obra
+        double moldura = 0.0;
+        double paspatu = 0.0;
+        double alt = Double.parseDouble(this.edtAltura.getText())/100;
+        double larg = Double.parseDouble(this.edtLargura.getText())/100;
+        double valorUnitario = 0.0;
+        double valorTotal = 0.0;
         
+        Config c = new Config();
+        try {
+            c = new ConfigDAO().load();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        eucatex = this.calculaEucatex(alt, larg, c.getEucatex_metro());
+        if(cbVidro.isSelected()){
+            vidro = this.calculaVidro(alt, larg, c.getVidro_metro());
+        }else if(cbEntreVidros.isSelected()){
+            vidro = this.calculaVidro(alt, larg, c.getVidro_metro()) * 2;
+        }
+        
+        
+        Moldura m = new Moldura();
+        if (!this.listaPasp.isEmpty()) {
+            for (int i = this.listaPasp.size()-1; i >= 0; i--) {
+                String idMold = this.listaPasp.get(i);
+               
+                try {
+                    m = new MolduraDAO().getMoldura(idMold);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                paspatu = paspatu + calculaMoldura(alt, larg, m.getPrecoVenda());
+                alt = alt + ((m.getLarguraVara()*2)/100);
+                larg = larg + ((m.getLarguraVara()*2)/100);
+                
+            }
+        }
+        try {
+            m  = new MolduraDAO().getMoldura(this.cboxMoldura.getSelectedItem().toString());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        moldura = this.calculaMoldura(alt, larg, m.getPrecoVenda());
+        
+        
+        pmo = c.getMao_de_obra()/100;
+        
+        paspatu = paspatu + (paspatu*pmo);
+        moldura = moldura + (moldura*pmo);
+        vidro = vidro +(vidro*pmo);
+        eucatex = eucatex + (eucatex*pmo);
+        
+        System.out.println("Paspatu "+paspatu+
+                            " moldura "+moldura+
+                            " vidro "+vidro+
+                            " eucatex "+eucatex);
+        
+        valorUnitario = vidro + eucatex + paspatu + moldura;
+        valorTotal = valorUnitario * (int)this.spinQtd.getValue();
+        
+        this.edtCampoCalcular.setText(valorTotal+"");
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
+        
+        Object b;
+        b = new Object[]{
+            tableModel.getRowCount()+1,
+            moldura,
+            paspatu,
+            vidro,
+            eucatex,
+            this.edtAltura.getText()+"X"+this.edtLargura.getText(),
+            this.spinQtd.getValue(),
+            valorUnitario,
+            valorTotal
+        };
+        
+        ultimoCalculo = (Object[]) b;   
+    }
+
+    private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
+        if (this.isCamposPreenchidos()) {
+            this.calculaPedido();
         }
     }//GEN-LAST:event_btnCalcularActionPerformed
 
@@ -648,13 +749,13 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboxTipo;
     private javax.swing.JComboBox<String> cboxVidro;
     private javax.swing.JTextField edtAltura;
+    private javax.swing.JFormattedTextField edtCampoCalcular;
     private javax.swing.JTextField edtLargura;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -678,5 +779,4 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private javax.swing.JTable tabelaPrincipal;
     // End of variables declaration//GEN-END:variables
 
- 
 }

@@ -54,7 +54,7 @@ public class ConfigDAO {
                 c.setVidro_metro(rs.getDouble("vidro_metro_quadrado"));
                 c.setEucatex_metro(rs.getDouble("eucatex_metro_quadrado"));
                 c.setEspelho_metro(rs.getDouble("espelho_metro_quadrado"));
-                c.setMao_de_obra(rs.getDouble("mao_de_obra"));
+                c.setMao_de_obra(rs.getDouble("valor_mao_de_obra"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(ConfigDAO.class.getName()).log(Level.SEVERE, null, ex);
