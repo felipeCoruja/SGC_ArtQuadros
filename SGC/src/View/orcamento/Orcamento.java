@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Config;
 import model.bean.Moldura;
@@ -25,11 +26,17 @@ import model.dao.VidroDAO;
 public class Orcamento extends javax.swing.JInternalFrame {
 
     private int rowPasp;
+    private int row;
     private List<String> listaPasp;
     private Object[] ultimoCalculo;
+    private List<Object> dados;
 
     public Orcamento() {
         initComponents();
+        
+        this.dados = new ArrayList<>();
+        SpinnerNumberModel model = new SpinnerNumberModel(1,1,500,1);//(valor padrao,valor min,valor max,passo)
+        this.spinQtd.setModel(model);
         ultimoCalculo = null;
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
         tableModel.setNumRows(0);
@@ -42,6 +49,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         }
 
         this.rowPasp = -1;
+        this.row = -1;
     }
 
     private String[] listaMolduras() {
@@ -252,10 +260,25 @@ public class Orcamento extends javax.swing.JInternalFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         cbVidro.setText("Vidro");
+        cbVidro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbVidroActionPerformed(evt);
+            }
+        });
 
         cbEucatex.setText("Eucatex");
+        cbEucatex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbEucatexActionPerformed(evt);
+            }
+        });
 
         cbEntreVidros.setText("Entre Vidros");
+        cbEntreVidros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbEntreVidrosActionPerformed(evt);
+            }
+        });
 
         cboxVidro.setModel(new javax.swing.DefaultComboBoxModel<>(this.listaVidros()));
 
@@ -317,7 +340,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
             }
         });
 
-        btnCalcular.setText("Calcular");
+        btnCalcular.setText("Calculo Detalhado");
         btnCalcular.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCalcularActionPerformed(evt);
@@ -366,8 +389,8 @@ public class Orcamento extends javax.swing.JInternalFrame {
                         .addGap(17, 17, 17)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(46, 46, 46)
+                                .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
                                 .addComponent(jLabel9)
                                 .addGap(4, 4, 4)
                                 .addComponent(edtCampoCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -454,6 +477,11 @@ public class Orcamento extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tabelaPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaPrincipalMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tabelaPrincipal);
         if (tabelaPrincipal.getColumnModel().getColumnCount() > 0) {
             tabelaPrincipal.getColumnModel().getColumn(0).setResizable(false);
@@ -512,6 +540,11 @@ public class Orcamento extends javax.swing.JInternalFrame {
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/lixo.png"))); // NOI18N
         jButton5.setText("Excluir");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -573,6 +606,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
         this.calculaPedido();
         tableModel.addRow(this.ultimoCalculo);
+        this.dados.add(this.ultimoCalculo);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnAddPaspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPaspActionPerformed
@@ -670,6 +704,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         
         
         Moldura m = new Moldura();
+       
         if (!this.listaPasp.isEmpty()) {
             for (int i = this.listaPasp.size()-1; i >= 0; i--) {
                 String idMold = this.listaPasp.get(i);
@@ -685,12 +720,16 @@ public class Orcamento extends javax.swing.JInternalFrame {
                 
             }
         }
-        try {
+        
+        if(!this.cboxMoldura.equals("Não")){
+            try {
             m  = new MolduraDAO().getMoldura(this.cboxMoldura.getSelectedItem().toString());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            moldura = this.calculaMoldura(alt, larg, m.getPrecoVenda());
         }
-        moldura = this.calculaMoldura(alt, larg, m.getPrecoVenda());
+        
         
         
         pmo = c.getMao_de_obra()/100;
@@ -732,6 +771,51 @@ public class Orcamento extends javax.swing.JInternalFrame {
             this.calculaPedido();
         }
     }//GEN-LAST:event_btnCalcularActionPerformed
+
+    private void cbVidroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVidroActionPerformed
+        if(this.cbVidro.isSelected()){
+            this.cbEntreVidros.setSelected(false);
+            this.cboxEntreVidros.setSelectedIndex(0);
+            this.cboxVidro.setSelectedIndex(1);
+        }else{
+            this.cboxVidro.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_cbVidroActionPerformed
+
+    private void cbEucatexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEucatexActionPerformed
+        if(this.cbEucatex.isSelected()){
+            this.cbEntreVidros.setSelected(false);
+            this.cboxEntreVidros.setSelectedIndex(0);
+            this.cboxEucatex.setSelectedIndex(1);
+        }else{
+            this.cboxEucatex.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_cbEucatexActionPerformed
+
+    private void cbEntreVidrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEntreVidrosActionPerformed
+        if(this.cbEntreVidros.isSelected()){
+            this.cbVidro.setSelected(false);
+            this.cbEucatex.setSelected(false);
+            this.cboxEntreVidros.setSelectedIndex(1);
+            this.cboxVidro.setSelectedIndex(0);
+            this.cboxEucatex.setSelectedIndex(0);
+        }else{
+            this.cboxEntreVidros.setSelectedIndex(0);
+            this.cboxEucatex.setSelectedIndex(0);
+            this.cboxVidro.setSelectedIndex(0);
+        }
+    }//GEN-LAST:event_cbEntreVidrosActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
+        tableModel.removeRow(this.row);
+        this.dados.remove(this.row);
+        this.row = -1;
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void tabelaPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPrincipalMouseClicked
+        this.row = this.tabelaPrincipal.getSelectedRow();
+    }//GEN-LAST:event_tabelaPrincipalMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
