@@ -5,6 +5,7 @@
  */
 package view.orcamento;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,16 +29,22 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private int rowPasp;
     private int row;
     private List<String> listaPasp;
-    private Object[] ultimoCalculo;
-    private List<Object> dados;
+    private Object[] valorDoUltimoCalculo;
+    private Object[] dadosDoUltimoCalculo;
+    private List<Object> dadosDeResultado;// todos os resultados do calculo feito
+    private List<Object> dadosDeCalculo; // todos os dados de configurações necessários para o calculo de um pedido
 
     public Orcamento() {
         initComponents();
         
-        this.dados = new ArrayList<>();
+        
+        this.dadosDeResultado = new ArrayList<>();
         SpinnerNumberModel model = new SpinnerNumberModel(1,1,500,1);//(valor padrao,valor min,valor max,passo)
         this.spinQtd.setModel(model);
-        ultimoCalculo = null;
+        this.dadosDeCalculo = new ArrayList<>();
+        this.dadosDeResultado = new ArrayList<>();
+        this.valorDoUltimoCalculo = null;
+        this.dadosDoUltimoCalculo = null;
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
         tableModel.setNumRows(0);
         this.listaPasp = new ArrayList<>();
@@ -133,6 +140,27 @@ public class Orcamento extends javax.swing.JInternalFrame {
         return lista;
     }
 
+    private void limparCampos(){
+        this.cboxTipo.setSelectedIndex(0);
+        this.cboxMoldura.setSelectedIndex(0);
+        this.edtLargura.setText("");
+        this.edtAltura.setText("");
+        
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
+        tableModel.setNumRows(0);
+        
+        this.cbVidro.setSelected(false);
+        this.cboxVidro.setSelectedIndex(0);
+        this.cbEucatex.setSelected(false);
+        this.cboxEucatex.setSelectedIndex(0);
+        this.cbEntreVidros.setSelected(false);
+        this.cboxEntreVidros.setSelectedIndex(0);
+        
+        this.spinQtd.setValue(1);
+        this.edtCampoCalcular.setText("");
+        this.edtDescricao.setText("");
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,7 +188,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        edtDescricao = new javax.swing.JTextArea();
         edtCampoCalcular = new javax.swing.JFormattedTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         tabelaPaspatu = new javax.swing.JTable();
@@ -184,6 +212,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setMaximizable(true);
         setResizable(true);
@@ -224,9 +253,9 @@ public class Orcamento extends javax.swing.JInternalFrame {
 
         jLabel10.setText("Descrição");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        edtDescricao.setColumns(20);
+        edtDescricao.setRows(5);
+        jScrollPane1.setViewportView(edtDescricao);
 
         edtCampoCalcular.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
 
@@ -546,6 +575,9 @@ public class Orcamento extends javax.swing.JInternalFrame {
             }
         });
 
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
+        jButton6.setText("Limpar Campos");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -555,7 +587,9 @@ public class Orcamento extends javax.swing.JInternalFrame {
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addGap(248, 248, 248)
+                .addGap(18, 18, 18)
+                .addComponent(jButton6)
+                .addGap(90, 90, 90)
                 .addComponent(jButton3)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
@@ -572,7 +606,8 @@ public class Orcamento extends javax.swing.JInternalFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton5)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(jButton6))
                 .addGap(30, 30, 30))
         );
 
@@ -605,8 +640,11 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
         this.calculaPedido();
-        tableModel.addRow(this.ultimoCalculo);
-        this.dados.add(this.ultimoCalculo);
+        tableModel.addRow(this.valorDoUltimoCalculo);
+        this.dadosDeResultado.add(this.valorDoUltimoCalculo);
+        this.dadosDeCalculo.add(this.dadosDoUltimoCalculo);
+        
+        this.limparCampos();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnAddPaspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPaspActionPerformed
@@ -695,7 +733,10 @@ public class Orcamento extends javax.swing.JInternalFrame {
             Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        eucatex = this.calculaEucatex(alt, larg, c.getEucatex_metro());
+        if(this.cbEucatex.isSelected()){
+            eucatex = this.calculaEucatex(alt, larg, c.getEucatex_metro());
+        }
+        
         if(cbVidro.isSelected()){
             vidro = this.calculaVidro(alt, larg, c.getVidro_metro());
         }else if(cbEntreVidros.isSelected()){
@@ -747,11 +788,20 @@ public class Orcamento extends javax.swing.JInternalFrame {
         valorUnitario = vidro + eucatex + paspatu + moldura;
         valorTotal = valorUnitario * (int)this.spinQtd.getValue();
         
+        
+        // Arredondando os valores para duas casas decimais
+        moldura = converterParaDoubleCentesimal(moldura);
+        paspatu = converterParaDoubleCentesimal(paspatu);
+        vidro = converterParaDoubleCentesimal(vidro);
+        eucatex = converterParaDoubleCentesimal(eucatex);
+        valorUnitario = converterParaDoubleCentesimal(valorUnitario);
+        valorTotal = converterParaDoubleCentesimal(valorTotal);
+        
+        
         this.edtCampoCalcular.setText(valorTotal+"");
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
         
-        Object b;
-        b = new Object[]{
+        Object b = new Object[]{
             tableModel.getRowCount()+1,
             moldura,
             paspatu,
@@ -763,7 +813,22 @@ public class Orcamento extends javax.swing.JInternalFrame {
             valorTotal
         };
         
-        ultimoCalculo = (Object[]) b;   
+        //Pegando as informações do pedido necessarias para o calculo de valores
+        Object a = new Object[]{
+            this.cboxTipo.getSelectedIndex(),
+            this.cboxMoldura.getSelectedIndex(),
+            this.edtLargura.getText(),
+            this.edtAltura.getText(),
+            this.listaPasp,
+            this.cboxVidro.getSelectedIndex(),
+            this.cboxEucatex.getSelectedIndex(),
+            this.cboxEntreVidros.getSelectedIndex(),
+            this.spinQtd.getValue(),
+            this.edtDescricao.getText()
+        };
+                
+        this.dadosDoUltimoCalculo = (Object[]) a;
+        this.valorDoUltimoCalculo = (Object[]) b;   
     }
 
     private void btnCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularActionPerformed
@@ -809,14 +874,73 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
         tableModel.removeRow(this.row);
-        this.dados.remove(this.row);
+        this.dadosDeResultado.remove(this.row);
+        this.dadosDeCalculo.remove(this.row);
         this.row = -1;
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void tabelaPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPrincipalMouseClicked
         this.row = this.tabelaPrincipal.getSelectedRow();
+        
+        Object[] aux = null;
+        aux = (Object[]) this.dadosDeCalculo.get(this.row);
+       
+        this.cboxTipo.setSelectedIndex(Integer.parseInt(aux[0].toString()));
+        this.cboxMoldura.setSelectedIndex(Integer.parseInt(aux[1].toString()));
+        this.edtLargura.setText(aux[2].toString());
+        this.edtAltura.setText(aux[3].toString());
+        
+        List listaP = (List)aux[4];
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
+        tableModel.setNumRows(0);
+        for(int i = 0; i<listaP.size();i++){
+            tableModel.addRow(new Object[]{i+1,listaP.get(i)});
+        }
+        
+        this.cboxVidro.setSelectedIndex(Integer.parseInt(aux[5].toString()));
+        if(this.cboxVidro.getSelectedIndex() == 0){
+            this.cbVidro.setSelected(false);
+        }else{
+            this.cbVidro.setSelected(true);
+        }
+        this.cboxEucatex.setSelectedIndex(Integer.parseInt(aux[6].toString()));
+        if(this.cboxEucatex.getSelectedIndex() == 0){
+            this.cbEucatex.setSelected(false);
+        }else{
+            this.cbEucatex.setSelected(true);
+        }
+        this.cboxEntreVidros.setSelectedIndex(Integer.parseInt(aux[7].toString()));
+        if(this.cboxEntreVidros.getSelectedIndex() == 0){
+            this.cbEntreVidros.setSelected(false);
+        }else{
+            this.cbEntreVidros.setSelected(true);
+        }
+        
+        this.spinQtd.setValue(Integer.parseInt(aux[8].toString()));
+        this.edtDescricao.setText(aux[9].toString());
     }//GEN-LAST:event_tabelaPrincipalMouseClicked
 
+    private String converterDoubleStringCentesimal(double precoDouble) {
+        /*Transformando um double em 2 casas decimais*/
+        DecimalFormat fmt = new DecimalFormat("0.00");   //limita o número de casas decimais    
+        String string = fmt.format(precoDouble);
+        //tirando a virgula que vem por padrão no DecimalFormat
+        String[] part = string.split("[,]"); 
+        String preco = part[0]+"."+part[1];
+        
+        return preco;
+    }
+    
+    private double converterParaDoubleCentesimal(double precoDouble) {
+        /*Transformando um double em 2 casas decimais*/
+        DecimalFormat fmt = new DecimalFormat("0.00");   //limita o número de casas decimais    
+        String string = fmt.format(precoDouble);
+        //tirando a virgula que vem por padrão no DecimalFormat
+        String[] part = string.split("[,]"); 
+        String preco = part[0]+"."+part[1];
+        
+        return Double.parseDouble(preco);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddPasp;
@@ -834,12 +958,14 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cboxVidro;
     private javax.swing.JTextField edtAltura;
     private javax.swing.JFormattedTextField edtCampoCalcular;
+    private javax.swing.JTextArea edtDescricao;
     private javax.swing.JTextField edtLargura;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -857,7 +983,6 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JSpinner spinQtd;
     private javax.swing.JTable tabelaPaspatu;
     private javax.swing.JTable tabelaPrincipal;

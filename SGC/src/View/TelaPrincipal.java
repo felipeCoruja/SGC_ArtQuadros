@@ -5,6 +5,7 @@
  */
 package View;
 
+import View.Estoque.Estoque;
 import View.busca.BuscarCliente;
 import View.busca.BuscarFornecedor;
 import View.busca.BuscarNota;
@@ -46,7 +47,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private BuscarFornecedor buscarFornecedor;
     private CadFornecedor cadFornecedor;
     private Config config;
-       
+    private Estoque estoque;   
+    
     Color azul = new java.awt.Color(51,164,235);
     Color black = Color.BLACK;
     /**
@@ -123,6 +125,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }else if(this.config != null){
             this.config.dispose();
             this.config = null;
+        }else if(this.estoque !=null){
+            this.estoque.dispose();
+            this.estoque = null;
         }
     }
     
@@ -362,6 +367,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuEstoque.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/drawer_115243.png"))); // NOI18N
         menuEstoque.setText("Estoque");
+        menuEstoque.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuEstoqueMouseClicked(evt);
+            }
+        });
         menuBar.add(menuEstoque);
 
         menuCaixa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/cash_icon-icons.com_51090.png"))); // NOI18N
@@ -586,6 +596,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
         this.config.setVisible(true);
         ((BasicInternalFrameUI)this.config.getUI()).setNorthPane(null);
     }//GEN-LAST:event_menuConfiguracoesMouseClicked
+
+    private void menuEstoqueMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuEstoqueMouseClicked
+        this.setMenuOpaqueAll(black);
+        this.menuEstoque.setForeground(azul);
+        
+        this.destruirTelasExistentes();
+        this.estoque = new Estoque();
+        TelaPrincipal.desktopPane.add(this.estoque);
+        this.estoque.setSize(TelaPrincipal.desktopPane.getWidth(),TelaPrincipal.desktopPane.getHeight());
+        this.estoque.setLocation(0,0);
+        this.estoque.setVisible(true);
+        ((BasicInternalFrameUI)this.estoque.getUI()).setNorthPane(null);
+    }//GEN-LAST:event_menuEstoqueMouseClicked
 
     /**
      * @param args the command line arguments
