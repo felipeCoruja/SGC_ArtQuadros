@@ -213,11 +213,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         desktopPane.setLayout(desktopPaneLayout);
         desktopPaneLayout.setHorizontalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+            .addGap(0, 877, Short.MAX_VALUE)
         );
         desktopPaneLayout.setVerticalGroup(
             desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 716, Short.MAX_VALUE)
+            .addGap(0, 432, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -628,14 +628,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JMenuBar menuBar;
+    public javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuBusca;
     private javax.swing.JMenu menuCadastro;
     private javax.swing.JMenu menuCaixa;
     private javax.swing.JMenu menuConfiguracoes;
     private javax.swing.JMenu menuEstoque;
     private javax.swing.JMenu menuHome;
-    private javax.swing.JMenu menuNota;
+    public static javax.swing.JMenu menuNota;
     private javax.swing.JMenu menuOrcamento;
     private javax.swing.JMenuItem menuProduto;
     // End of variables declaration//GEN-END:variables

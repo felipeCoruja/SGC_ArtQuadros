@@ -5,6 +5,11 @@
  */
 package view.orcamento;
 
+import View.TelaPrincipal;
+import static View.TelaPrincipal.desktopPane;
+import View.cadastro.CadPedidoCabecalho;
+import java.awt.Color;
+import static java.awt.Color.black;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Config;
 import model.bean.Moldura;
@@ -207,12 +213,12 @@ public class Orcamento extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelaPrincipal = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnNovaNota = new javax.swing.JButton();
+        btnLimparTabela = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
+        btnLimparCampos = new javax.swing.JButton();
 
         setMaximizable(true);
         setResizable(true);
@@ -550,33 +556,48 @@ public class Orcamento extends javax.swing.JInternalFrame {
                 .addGap(0, 11, Short.MAX_VALUE))
         );
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1491254405-plusaddmoredetail_82972.png"))); // NOI18N
-        jButton1.setText("Adicionar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1491254405-plusaddmoredetail_82972.png"))); // NOI18N
+        btnAdd.setText("Adicionar");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1492616984-7-docs-document-file-data-google-suits_83406.png"))); // NOI18N
-        jButton2.setText("Nova Nota");
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
-        jButton3.setText("Limpar Tabela");
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/diskette.png"))); // NOI18N
-        jButton4.setText("Salvar");
-
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/lixo.png"))); // NOI18N
-        jButton5.setText("Excluir");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnNovaNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1492616984-7-docs-document-file-data-google-suits_83406.png"))); // NOI18N
+        btnNovaNota.setText("Nova Nota");
+        btnNovaNota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnNovaNotaActionPerformed(evt);
             }
         });
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
-        jButton6.setText("Limpar Campos");
+        btnLimparTabela.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
+        btnLimparTabela.setText("Limpar Tabela");
+        btnLimparTabela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparTabelaActionPerformed(evt);
+            }
+        });
+
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/diskette.png"))); // NOI18N
+        btnSalvar.setText("Salvar");
+
+        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/lixo.png"))); // NOI18N
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
+
+        btnLimparCampos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
+        btnLimparCampos.setText("Limpar Campos");
+        btnLimparCampos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimparCamposActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -584,17 +605,17 @@ public class Orcamento extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(btnAdd)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btnNovaNota)
                 .addGap(18, 18, 18)
-                .addComponent(jButton6)
+                .addComponent(btnLimparCampos)
                 .addGap(90, 90, 90)
-                .addComponent(jButton3)
+                .addComponent(btnLimparTabela)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addComponent(btnSalvar)
                 .addGap(18, 18, 18)
-                .addComponent(jButton5)
+                .addComponent(btnExcluir)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -602,12 +623,12 @@ public class Orcamento extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton5)
-                    .addComponent(jButton4)
-                    .addComponent(jButton6))
+                    .addComponent(btnAdd)
+                    .addComponent(btnNovaNota)
+                    .addComponent(btnLimparTabela)
+                    .addComponent(btnExcluir)
+                    .addComponent(btnSalvar)
+                    .addComponent(btnLimparCampos))
                 .addGap(30, 30, 30))
         );
 
@@ -637,15 +658,19 @@ public class Orcamento extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboxMolduraActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
-        this.calculaPedido();
-        tableModel.addRow(this.valorDoUltimoCalculo);
-        this.dadosDeResultado.add(this.valorDoUltimoCalculo);
-        this.dadosDeCalculo.add(this.dadosDoUltimoCalculo);
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         
-        this.limparCampos();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        if(this.isCamposPreenchidos()){
+            DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
+            this.calculaPedido();
+            tableModel.addRow(this.valorDoUltimoCalculo);
+            this.dadosDeResultado.add(this.valorDoUltimoCalculo);
+            this.dadosDeCalculo.add(this.dadosDoUltimoCalculo);
+
+            this.limparCampos();
+        }
+        
+    }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnAddPaspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPaspActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
@@ -871,13 +896,13 @@ public class Orcamento extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_cbEntreVidrosActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
         tableModel.removeRow(this.row);
         this.dadosDeResultado.remove(this.row);
         this.dadosDeCalculo.remove(this.row);
         this.row = -1;
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void tabelaPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPrincipalMouseClicked
         this.row = this.tabelaPrincipal.getSelectedRow();
@@ -920,6 +945,42 @@ public class Orcamento extends javax.swing.JInternalFrame {
         this.edtDescricao.setText(aux[9].toString());
     }//GEN-LAST:event_tabelaPrincipalMouseClicked
 
+    private void btnLimparCamposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparCamposActionPerformed
+        this.limparCampos();
+    }//GEN-LAST:event_btnLimparCamposActionPerformed
+
+    private void btnLimparTabelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparTabelaActionPerformed
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
+        
+        if(tableModel.getRowCount() != 0){
+            int value = JOptionPane.showConfirmDialog(null, "Todos os dados da tabela serão apagados, realmente deseja continuar?",
+                "ATENÇÂO", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        
+            if(value == JOptionPane.YES_OPTION){    
+
+                tableModel.setNumRows(0);
+                this.dadosDeCalculo.clear();
+                this.dadosDeResultado.clear();
+                this.dadosDoUltimoCalculo = null;
+                this.valorDoUltimoCalculo = null;
+            }
+        }
+        
+    }//GEN-LAST:event_btnLimparTabelaActionPerformed
+
+    private void btnNovaNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaNotaActionPerformed
+//        this.setVisible(false);
+       
+//        TelaPrincipal.menuNota.setForeground(Color.BLUE);
+//        CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho();
+//        TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
+//        cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+//        cadPedidoCabecalho.setLocation(0,0);
+//        cadPedidoCabecalho.setVisible(true);
+//        ((BasicInternalFrameUI)cadPedidoCabecalho.getUI()).setNorthPane(null);
+
+    }//GEN-LAST:event_btnNovaNotaActionPerformed
+
     private String converterDoubleStringCentesimal(double precoDouble) {
         /*Transformando um double em 2 casas decimais*/
         DecimalFormat fmt = new DecimalFormat("0.00");   //limita o número de casas decimais    
@@ -943,10 +1004,16 @@ public class Orcamento extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddPasp;
     private javax.swing.JButton btnCalcular;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnLimpar;
+    private javax.swing.JButton btnLimparCampos;
+    private javax.swing.JButton btnLimparTabela;
+    private javax.swing.JButton btnNovaNota;
     private javax.swing.JButton btnRemovePasp;
+    private javax.swing.JButton btnSalvar;
     private javax.swing.JCheckBox cbEntreVidros;
     private javax.swing.JCheckBox cbEucatex;
     private javax.swing.JCheckBox cbVidro;
@@ -960,12 +1027,6 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private javax.swing.JFormattedTextField edtCampoCalcular;
     private javax.swing.JTextArea edtDescricao;
     private javax.swing.JTextField edtLargura;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

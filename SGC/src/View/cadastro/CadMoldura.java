@@ -529,7 +529,6 @@ public class CadMoldura extends javax.swing.JInternalFrame {
             this.edtReferencia.setText(tableModel.getValueAt(row, 0).toString());
             this.edtCor.setText(tableModel.getValueAt(row, 1).toString());
             this.edtMaterial.setText(tableModel.getValueAt(row, 2).toString());
-            this.spinerQtd.setValue(Integer.parseInt(tableModel.getValueAt(row, 3).toString()));
             
         }
     }//GEN-LAST:event_tabelaMouseClicked
