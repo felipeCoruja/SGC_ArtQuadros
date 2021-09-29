@@ -44,7 +44,7 @@ public class Orcamento extends javax.swing.JInternalFrame {
         initComponents();
         
         
-        this.dadosDeResultado = new ArrayList<>();
+       
         SpinnerNumberModel model = new SpinnerNumberModel(1,1,500,1);//(valor padrao,valor min,valor max,passo)
         this.spinQtd.setModel(model);
         this.dadosDeCalculo = new ArrayList<>();
@@ -969,16 +969,16 @@ public class Orcamento extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnLimparTabelaActionPerformed
 
     private void btnNovaNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaNotaActionPerformed
-//        this.setVisible(false);
+        this.setVisible(false);
        
-//        TelaPrincipal.menuNota.setForeground(Color.BLUE);
-//        CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho();
-//        TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
-//        cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
-//        cadPedidoCabecalho.setLocation(0,0);
-//        cadPedidoCabecalho.setVisible(true);
-//        ((BasicInternalFrameUI)cadPedidoCabecalho.getUI()).setNorthPane(null);
-
+        TelaPrincipal.menuNota.setForeground(Color.BLUE);
+        CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho(this.dadosDeResultado,this.dadosDeCalculo);
+        TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
+        cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+        cadPedidoCabecalho.setLocation(0,0);
+        cadPedidoCabecalho.setVisible(true);
+        ((BasicInternalFrameUI)cadPedidoCabecalho.getUI()).setNorthPane(null);
+        dispose();
     }//GEN-LAST:event_btnNovaNotaActionPerformed
 
     private String converterDoubleStringCentesimal(double precoDouble) {

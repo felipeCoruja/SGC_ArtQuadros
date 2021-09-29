@@ -219,6 +219,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
         btnSalvar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnLimparCampos = new javax.swing.JButton();
+        btnNovaNota1 = new javax.swing.JButton();
 
         setMaximizable(true);
         setResizable(true);
@@ -564,8 +565,8 @@ public class CadPedido extends javax.swing.JInternalFrame {
             }
         });
 
-        btnNovaNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/1492616984-7-docs-document-file-data-google-suits_83406.png"))); // NOI18N
-        btnNovaNota.setText("Nova Nota");
+        btnNovaNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/share.png"))); // NOI18N
+        btnNovaNota.setText("Avançar");
         btnNovaNota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNovaNotaActionPerformed(evt);
@@ -599,6 +600,14 @@ public class CadPedido extends javax.swing.JInternalFrame {
             }
         });
 
+        btnNovaNota1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/reply-message.png"))); // NOI18N
+        btnNovaNota1.setText("Voltar");
+        btnNovaNota1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovaNota1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -606,15 +615,17 @@ public class CadPedido extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnAdd)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNovaNota)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNovaNota1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLimparCampos)
-                .addGap(90, 90, 90)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnLimparTabela)
                 .addGap(18, 18, 18)
                 .addComponent(btnSalvar)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnExcluir)
                 .addContainerGap())
         );
@@ -628,7 +639,8 @@ public class CadPedido extends javax.swing.JInternalFrame {
                     .addComponent(btnLimparTabela)
                     .addComponent(btnExcluir)
                     .addComponent(btnSalvar)
-                    .addComponent(btnLimparCampos))
+                    .addComponent(btnLimparCampos)
+                    .addComponent(btnNovaNota1))
                 .addGap(30, 30, 30))
         );
 
@@ -981,6 +993,10 @@ public class CadPedido extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_btnNovaNotaActionPerformed
 
+    private void btnNovaNota1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaNota1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnNovaNota1ActionPerformed
+
     private String converterDoubleStringCentesimal(double precoDouble) {
         /*Transformando um double em 2 casas decimais*/
         DecimalFormat fmt = new DecimalFormat("0.00");   //limita o número de casas decimais    
@@ -1012,6 +1028,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnLimparCampos;
     private javax.swing.JButton btnLimparTabela;
     private javax.swing.JButton btnNovaNota;
+    private javax.swing.JButton btnNovaNota1;
     private javax.swing.JButton btnRemovePasp;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JCheckBox cbEntreVidros;
