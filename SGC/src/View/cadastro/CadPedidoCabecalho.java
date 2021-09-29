@@ -5,9 +5,11 @@
  */
 package View.cadastro;
 
+import View.TelaPrincipal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Endereco;
 import model.dao.MolduraDAO;
@@ -22,11 +24,12 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     private int idTelCel;
     private int rowContatos;
     private int rowEnderecos;
-    
+    private List<Object> dadosResultado; 
+    private List<Object> dadosCalculo; 
     /**
      * Creates new form CadCliente
      */
-    public CadPedidoCabecalho() {
+    public CadPedidoCabecalho(List<Object> dadosRes, List<Object> dadosCalc) {
         initComponents();
         this.idTelCel = 0;
         this.listaEndereco = new ArrayList<>();
@@ -34,6 +37,8 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         this.rowContatos = -1;
         this.rowEnderecos = -1;
         this.cboxUf.setSelectedIndex(12);//MG
+        this.dadosResultado = dadosRes;
+        this.dadosCalculo = dadosCalc;
     }
 
     /**
@@ -533,8 +538,16 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         
-        if(this.isCamposVazios()){
-    
+        if(!this.isCamposVazios()){
+            
+            setVisible(false);
+            CadPedido cadPedido = new CadPedido(dadosResultado,dadosCalculo);
+            TelaPrincipal.desktopPane.add(cadPedido);
+            cadPedido.setSize(TelaPrincipal.desktopPane.getWidth(), TelaPrincipal.desktopPane.getHeight());
+            cadPedido.setLocation(0,0);
+            cadPedido.setVisible(true);
+            ((BasicInternalFrameUI)cadPedido.getUI()).setNorthPane(null);
+            dispose();
         }
         
         

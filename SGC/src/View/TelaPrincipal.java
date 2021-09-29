@@ -23,6 +23,8 @@ import View.home.Home;
 import java.awt.Color;
 import view.orcamento.Orcamento;
 import java.beans.PropertyVetoException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -409,7 +411,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         this.menuNota.setForeground(azul);
         
         this.destruirTelasExistentes();
-        this.cadPedidoCabecalho = new CadPedidoCabecalho();
+        List<Object> dadosRes = new ArrayList<>();
+        List<Object> dadosCalc = new ArrayList<>();
+        this.cadPedidoCabecalho = new CadPedidoCabecalho(dadosRes,dadosCalc);
         TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
         cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
         cadPedidoCabecalho.setLocation(0,0);
