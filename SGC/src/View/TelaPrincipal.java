@@ -640,7 +640,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu menuEstoque;
     private javax.swing.JMenu menuHome;
     public static javax.swing.JMenu menuNota;
-    private javax.swing.JMenu menuOrcamento;
+    public static javax.swing.JMenu menuOrcamento;
     private javax.swing.JMenuItem menuProduto;
     // End of variables declaration//GEN-END:variables
 }

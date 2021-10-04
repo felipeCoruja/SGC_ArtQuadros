@@ -5,17 +5,24 @@
  */
 package View.cadastro;
 
+import View.TelaPrincipal;
+import java.util.List;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+
 /**
  *
  * @author Felipe
  */
 public class CadPedidoFinal extends javax.swing.JInternalFrame {
-
-    /**
-     * Creates new form CadPedidoFinal
-     */
-    public CadPedidoFinal() {
+    
+    private List<Object> dadosDeRes;
+    private List<Object> dadosDeCalc;
+    
+    public CadPedidoFinal(List<Object> dadosDeRes, List<Object> dadosDeCalc) {
         initComponents();
+        
+        this.dadosDeRes = dadosDeRes;
+        this.dadosDeCalc = dadosDeCalc;
     }
 
     /**
@@ -262,6 +269,11 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/reply-message.png"))); // NOI18N
         jButton7.setText("Voltar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/delete-file_40456.png"))); // NOI18N
         jButton1.setText("Cancelar");
@@ -353,6 +365,17 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        setVisible(false);
+        CadPedido cadPedido = new CadPedido(this.dadosDeRes,this.dadosDeCalc);
+        TelaPrincipal.desktopPane.add(cadPedido);
+        cadPedido.setSize(TelaPrincipal.desktopPane.getWidth(), TelaPrincipal.desktopPane.getHeight());
+        cadPedido.setLocation(0,0);
+        cadPedido.setVisible(true);
+        ((BasicInternalFrameUI)cadPedido.getUI()).setNorthPane(null);
+        dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -653,9 +653,11 @@
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Component id="btnCadastrar" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btnCadastrar1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btnLimparDados" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnLimparDados1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnLimparDados2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -666,9 +668,10 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnCadastrar" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnLimparDados" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnCadastrar1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnLimparDados1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnLimparDados2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="51" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="55" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -693,16 +696,21 @@
             <Property name="text" type="java.lang.String" value="Limpar Dados"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="btnCadastrar1">
+        <Component class="javax.swing.JButton" name="btnLimparDados1">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Icones PNG/reply-message.png"/>
+              <Image iconType="3" name="/Icones PNG/business-color_calculator_icon-icons.com_53466.png"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Voltar"/>
+            <Property name="text" type="java.lang.String" value="Retornar ao Or&#xe7;amento"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCadastrar1ActionPerformed"/>
-          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnLimparDados2">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Icones PNG/delete-file_40456.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Cancelar Nota"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

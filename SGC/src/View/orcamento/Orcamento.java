@@ -10,6 +10,7 @@ import static View.TelaPrincipal.desktopPane;
 import View.cadastro.CadPedidoCabecalho;
 import java.awt.Color;
 import static java.awt.Color.black;
+import static java.awt.PageAttributes.ColorType.COLOR;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +40,11 @@ public class Orcamento extends javax.swing.JInternalFrame {
     private Object[] dadosDoUltimoCalculo;
     private List<Object> dadosDeResultado;// todos os resultados do calculo feito
     private List<Object> dadosDeCalculo; // todos os dados de configurações necessários para o calculo de um pedido
-
+    private Color azul;
     public Orcamento() {
         initComponents();
         
-        
+        azul = new java.awt.Color(51,164,235);
        
         SpinnerNumberModel model = new SpinnerNumberModel(1,1,500,1);//(valor padrao,valor min,valor max,passo)
         this.spinQtd.setModel(model);
@@ -970,8 +971,9 @@ public class Orcamento extends javax.swing.JInternalFrame {
 
     private void btnNovaNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaNotaActionPerformed
         this.setVisible(false);
-       
-        TelaPrincipal.menuNota.setForeground(Color.BLUE);
+        TelaPrincipal.menuOrcamento.setForeground(black);
+        TelaPrincipal.menuNota.setForeground(azul);
+        
         CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho(this.dadosDeResultado,this.dadosDeCalculo);
         TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
         cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());

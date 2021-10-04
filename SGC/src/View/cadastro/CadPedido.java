@@ -26,6 +26,7 @@ import model.dao.ConfigDAO;
 import model.dao.EucatexDAO;
 import model.dao.MolduraDAO;
 import model.dao.VidroDAO;
+import view.orcamento.Orcamento;
 
 /**
  *
@@ -214,12 +215,12 @@ public class CadPedido extends javax.swing.JInternalFrame {
         tabelaPrincipal = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
-        btnNovaNota = new javax.swing.JButton();
+        btnVoltar = new javax.swing.JButton();
         btnLimparTabela = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnLimparCampos = new javax.swing.JButton();
-        btnNovaNota1 = new javax.swing.JButton();
+        btnAvancar = new javax.swing.JButton();
 
         setMaximizable(true);
         setResizable(true);
@@ -565,11 +566,11 @@ public class CadPedido extends javax.swing.JInternalFrame {
             }
         });
 
-        btnNovaNota.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/share.png"))); // NOI18N
-        btnNovaNota.setText("Avançar");
-        btnNovaNota.addActionListener(new java.awt.event.ActionListener() {
+        btnVoltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/reply-message.png"))); // NOI18N
+        btnVoltar.setText("Voltar");
+        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovaNotaActionPerformed(evt);
+                btnVoltarActionPerformed(evt);
             }
         });
 
@@ -600,11 +601,11 @@ public class CadPedido extends javax.swing.JInternalFrame {
             }
         });
 
-        btnNovaNota1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/reply-message.png"))); // NOI18N
-        btnNovaNota1.setText("Voltar");
-        btnNovaNota1.addActionListener(new java.awt.event.ActionListener() {
+        btnAvancar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/share.png"))); // NOI18N
+        btnAvancar.setText("Avançar");
+        btnAvancar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNovaNota1ActionPerformed(evt);
+                btnAvancarActionPerformed(evt);
             }
         });
 
@@ -616,9 +617,9 @@ public class CadPedido extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(btnAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNovaNota)
+                .addComponent(btnVoltar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNovaNota1)
+                .addComponent(btnAvancar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnLimparCampos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -635,12 +636,12 @@ public class CadPedido extends javax.swing.JInternalFrame {
                 .addContainerGap(15, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
-                    .addComponent(btnNovaNota)
+                    .addComponent(btnVoltar)
                     .addComponent(btnLimparTabela)
                     .addComponent(btnExcluir)
                     .addComponent(btnSalvar)
                     .addComponent(btnLimparCampos)
-                    .addComponent(btnNovaNota1))
+                    .addComponent(btnAvancar))
                 .addGap(30, 30, 30))
         );
 
@@ -980,22 +981,30 @@ public class CadPedido extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnLimparTabelaActionPerformed
 
-    private void btnNovaNotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaNotaActionPerformed
-//        this.setVisible(false);
+    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
+        this.setVisible(false);
        
-//        TelaPrincipal.menuNota.setForeground(Color.BLUE);
-//        CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho();
-//        TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
-//        cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
-//        cadPedidoCabecalho.setLocation(0,0);
-//        cadPedidoCabecalho.setVisible(true);
-//        ((BasicInternalFrameUI)cadPedidoCabecalho.getUI()).setNorthPane(null);
+      
+        CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho(dadosDeResultado, dadosDeCalculo);
+        TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
+        cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+        cadPedidoCabecalho.setLocation(0,0);
+        cadPedidoCabecalho.setVisible(true);
+        ((BasicInternalFrameUI)cadPedidoCabecalho.getUI()).setNorthPane(null);
+        dispose();
+    }//GEN-LAST:event_btnVoltarActionPerformed
 
-    }//GEN-LAST:event_btnNovaNotaActionPerformed
-
-    private void btnNovaNota1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovaNota1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNovaNota1ActionPerformed
+    private void btnAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvancarActionPerformed
+        this.setVisible(false);
+    
+        CadPedidoFinal pedidoFinal = new CadPedidoFinal(dadosDeResultado,dadosDeCalculo);
+        TelaPrincipal.desktopPane.add(pedidoFinal);
+        pedidoFinal.setSize(desktopPane.getWidth(),desktopPane.getHeight());
+        pedidoFinal.setLocation(0,0);
+        pedidoFinal.setVisible(true);
+        ((BasicInternalFrameUI)pedidoFinal.getUI()).setNorthPane(null);
+        dispose();
+    }//GEN-LAST:event_btnAvancarActionPerformed
 
     private String converterDoubleStringCentesimal(double precoDouble) {
         /*Transformando um double em 2 casas decimais*/
@@ -1022,15 +1031,15 @@ public class CadPedido extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddPasp;
+    private javax.swing.JButton btnAvancar;
     private javax.swing.JButton btnCalcular;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JButton btnLimparCampos;
     private javax.swing.JButton btnLimparTabela;
-    private javax.swing.JButton btnNovaNota;
-    private javax.swing.JButton btnNovaNota1;
     private javax.swing.JButton btnRemovePasp;
     private javax.swing.JButton btnSalvar;
+    private javax.swing.JButton btnVoltar;
     private javax.swing.JCheckBox cbEntreVidros;
     private javax.swing.JCheckBox cbEucatex;
     private javax.swing.JCheckBox cbVidro;

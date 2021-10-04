@@ -98,7 +98,8 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         jPanel4 = new javax.swing.JPanel();
         btnCadastrar = new javax.swing.JButton();
         btnLimparDados = new javax.swing.JButton();
-        btnCadastrar1 = new javax.swing.JButton();
+        btnLimparDados1 = new javax.swing.JButton();
+        btnLimparDados2 = new javax.swing.JButton();
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Cadastro de Cliente");
@@ -456,13 +457,11 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         btnLimparDados.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/broom.png"))); // NOI18N
         btnLimparDados.setText("Limpar Dados");
 
-        btnCadastrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/reply-message.png"))); // NOI18N
-        btnCadastrar1.setText("Voltar");
-        btnCadastrar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastrar1ActionPerformed(evt);
-            }
-        });
+        btnLimparDados1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/business-color_calculator_icon-icons.com_53466.png"))); // NOI18N
+        btnLimparDados1.setText("Retornar ao Orçamento");
+
+        btnLimparDados2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/delete-file_40456.png"))); // NOI18N
+        btnLimparDados2.setText("Cancelar Nota");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -472,9 +471,11 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(btnCadastrar)
                 .addGap(18, 18, 18)
-                .addComponent(btnCadastrar1)
-                .addGap(18, 18, 18)
                 .addComponent(btnLimparDados)
+                .addGap(18, 18, 18)
+                .addComponent(btnLimparDados1)
+                .addGap(18, 18, 18)
+                .addComponent(btnLimparDados2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -483,8 +484,9 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCadastrar)
                     .addComponent(btnLimparDados)
-                    .addComponent(btnCadastrar1))
-                .addGap(0, 51, Short.MAX_VALUE))
+                    .addComponent(btnLimparDados1)
+                    .addComponent(btnLimparDados2))
+                .addGap(0, 55, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -719,10 +721,6 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnRemoveEnderecoActionPerformed
 
-    private void btnCadastrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCadastrar1ActionPerformed
-
     private String[] uf(){
        return new String[]{"AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE",
                             "PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"};
@@ -734,9 +732,10 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAddEndereco;
     private javax.swing.JButton btnAdicionarNumero;
     private javax.swing.JButton btnCadastrar;
-    private javax.swing.JButton btnCadastrar1;
     private javax.swing.JButton btnEditEndereco;
     private javax.swing.JButton btnLimparDados;
+    private javax.swing.JButton btnLimparDados1;
+    private javax.swing.JButton btnLimparDados2;
     private javax.swing.JButton btnRemoveEndereco;
     private javax.swing.JButton btnRemoverNumero;
     private javax.swing.JComboBox<String> cboxUf;
