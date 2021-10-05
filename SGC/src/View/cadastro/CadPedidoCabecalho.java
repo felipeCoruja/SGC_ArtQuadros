@@ -42,6 +42,18 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         this.dadosResultado = dadosRes;
         this.dadosCalculo = dadosCalc;
         this.dadosTemporarios = dadosTemp;
+        
+        if(!this.dadosTemporarios.isEmpty()){
+            setDadosInseridos();
+        }
+        
+        if(!this.listaTelefone.isEmpty()){
+            insereListaTelefoneNaTabela();
+        }
+        
+        if(!this.listaEndereco.isEmpty()){
+            insereListaEnderecoNaTabela();
+        }
     }
 
     public void getDadosInseridos(){
@@ -76,6 +88,31 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         this.edtComplemento.setText(this.dadosTemporarios.get(9));
         this.edtNumero.setText(this.dadosTemporarios.get(10));
         this.edtReferencia.setText(this.dadosTemporarios.get(11));
+    }
+    
+    private void insereListaTelefoneNaTabela(){
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaContatos.getModel();
+        
+        for(int i =0;i<listaTelefone.size();i++){
+            String[] vet = listaTelefone.get(i).split(";");
+            tableModel.addRow(new Object[]{i+1,vet[0],vet[1]});
+        }
+    
+    }
+    
+    private void insereListaEnderecoNaTabela(){
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaContatos.getModel();
+        
+        for(int i=0;i<this.listaEndereco.size();i++){
+            tableModel.addRow(new Object[]{
+                this.listaEndereco.get(i).getCidade(),
+                this.listaEndereco.get(i).getBairro(),
+                this.listaEndereco.get(i).getRua(),
+                this.listaEndereco.get(i).getNumero(),
+                this.listaEndereco.get(i).getComplemento() 
+            });
+        }
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -576,7 +613,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         
-        if(!this.isCamposVazios()){
+       // if(!this.isCamposVazios()){
             getDadosInseridos();
             
             setVisible(false);
@@ -587,7 +624,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
             cadPedido.setVisible(true);
             ((BasicInternalFrameUI)cadPedido.getUI()).setNorthPane(null);
             dispose();
-        }
+       // }
         
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
