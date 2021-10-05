@@ -21,6 +21,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Config;
+import model.bean.Endereco;
 import model.bean.Moldura;
 import model.dao.ConfigDAO;
 import model.dao.EucatexDAO;
@@ -974,7 +975,12 @@ public class Orcamento extends javax.swing.JInternalFrame {
         TelaPrincipal.menuOrcamento.setForeground(black);
         TelaPrincipal.menuNota.setForeground(azul);
         
-        CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho(this.dadosDeResultado,this.dadosDeCalculo);
+        List<String> dadosTemp = new ArrayList<>();
+        List<Endereco> listaEnd = new ArrayList<>();
+        List<String> listaTel = new ArrayList<>();
+        
+        CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho(this.dadosDeResultado,this.dadosDeCalculo,dadosTemp,
+                                                                        listaEnd,listaTel);
         TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
         cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
         cadPedidoCabecalho.setLocation(0,0);

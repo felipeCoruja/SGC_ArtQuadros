@@ -8,6 +8,7 @@ package View.cadastro;
 import View.TelaPrincipal;
 import java.util.List;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import model.bean.Endereco;
 
 /**
  *
@@ -17,12 +18,19 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
     
     private List<Object> dadosDeRes;
     private List<Object> dadosDeCalc;
+    private List<String> dadosTemporarios;
+    private List<Endereco> listaEndereco;
+    private List<String> listaTelefone;
     
-    public CadPedidoFinal(List<Object> dadosDeRes, List<Object> dadosDeCalc) {
+    public CadPedidoFinal(List<Object> dadosDeRes, List<Object> dadosDeCalc,List<String>
+                    dadosTemp,List<Endereco> listaEnd,List<String> listaTel) {
         initComponents();
         
         this.dadosDeRes = dadosDeRes;
         this.dadosDeCalc = dadosDeCalc;
+        this.dadosTemporarios = dadosTemp;
+        this.listaEndereco = listaEnd;
+        this.listaTelefone = listaTel;
     }
 
     /**
@@ -368,7 +376,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         setVisible(false);
-        CadPedido cadPedido = new CadPedido(this.dadosDeRes,this.dadosDeCalc);
+        CadPedido cadPedido = new CadPedido(this.dadosDeRes,this.dadosDeCalc,dadosTemporarios,listaEndereco,listaTelefone);
         TelaPrincipal.desktopPane.add(cadPedido);
         cadPedido.setSize(TelaPrincipal.desktopPane.getWidth(), TelaPrincipal.desktopPane.getHeight());
         cadPedido.setLocation(0,0);

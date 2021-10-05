@@ -26,21 +26,57 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     private int rowEnderecos;
     private List<Object> dadosResultado; 
     private List<Object> dadosCalculo; 
+    private List<String> dadosTemporarios;
     /**
      * Creates new form CadCliente
      */
-    public CadPedidoCabecalho(List<Object> dadosRes, List<Object> dadosCalc) {
+    public CadPedidoCabecalho(List<Object> dadosRes, List<Object> dadosCalc,List<String> dadosTemp,
+                            List<Endereco> listaEnd,List<String> listaTel) {
         initComponents();
         this.idTelCel = 0;
-        this.listaEndereco = new ArrayList<>();
-        this.listaTelefone = new ArrayList<>();
+        this.listaEndereco = listaEnd;
+        this.listaTelefone = listaTel;
         this.rowContatos = -1;
         this.rowEnderecos = -1;
         this.cboxUf.setSelectedIndex(12);//MG
         this.dadosResultado = dadosRes;
         this.dadosCalculo = dadosCalc;
+        this.dadosTemporarios = dadosTemp;
     }
 
+    public void getDadosInseridos(){
+        this.dadosTemporarios.clear();
+        
+        this.dadosTemporarios.add(this.edtNome.getText());
+        this.dadosTemporarios.add(this.edtEmail.getText());
+        this.dadosTemporarios.add(this.edtCpf.getText());
+        this.dadosTemporarios.add(this.edtCnpj.getText());
+        this.dadosTemporarios.add(this.edtInscEstadual.getText());
+
+        this.dadosTemporarios.add(this.cboxUf.getSelectedIndex()+"");
+        this.dadosTemporarios.add(this.edtCidade.getText());
+        this.dadosTemporarios.add(this.edtBairro.getText());
+        this.dadosTemporarios.add(this.edtRua.getText());
+        this.dadosTemporarios.add(this.edtComplemento.getText());
+        this.dadosTemporarios.add(this.edtNumero.getText());
+        this.dadosTemporarios.add(this.edtReferencia.getText());
+    }
+    
+    public void setDadosInseridos(){
+        this.edtNome.setText(this.dadosTemporarios.get(0));
+        this.edtEmail.setText(this.dadosTemporarios.get(1));
+        this.edtCpf.setText(this.dadosTemporarios.get(2));
+        this.edtCnpj.setText(this.dadosTemporarios.get(3));
+        this.edtInscEstadual.setText(this.dadosTemporarios.get(4));
+        
+        this.cboxUf.setSelectedIndex(Integer.parseInt(this.dadosTemporarios.get(5)));
+        this.edtCidade.setText(this.dadosTemporarios.get(6));
+        this.edtBairro.setText(this.dadosTemporarios.get(7));
+        this.edtRua.setText(this.dadosTemporarios.get(8));
+        this.edtComplemento.setText(this.dadosTemporarios.get(9));
+        this.edtNumero.setText(this.dadosTemporarios.get(10));
+        this.edtReferencia.setText(this.dadosTemporarios.get(11));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -541,9 +577,10 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
         
         if(!this.isCamposVazios()){
+            getDadosInseridos();
             
             setVisible(false);
-            CadPedido cadPedido = new CadPedido(dadosResultado,dadosCalculo);
+            CadPedido cadPedido = new CadPedido(dadosResultado,dadosCalculo,dadosTemporarios,listaEndereco,listaTelefone);
             TelaPrincipal.desktopPane.add(cadPedido);
             cadPedido.setSize(TelaPrincipal.desktopPane.getWidth(), TelaPrincipal.desktopPane.getHeight());
             cadPedido.setLocation(0,0);

@@ -21,6 +21,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Config;
+import model.bean.Endereco;
 import model.bean.Moldura;
 import model.dao.ConfigDAO;
 import model.dao.EucatexDAO;
@@ -41,15 +42,22 @@ public class CadPedido extends javax.swing.JInternalFrame {
     private Object[] dadosDoUltimoCalculo;
     private List<Object> dadosDeResultado;// todos os resultados do calculo feito
     private List<Object> dadosDeCalculo; // todos os dados de configurações necessários para o calculo de um pedido
-
-    public CadPedido(List<Object> dadosRes, List<Object> dadosCalc) {
+    private List<String> listaTelefone;
+    private List<Endereco> listaEndereco;
+    private List<String> dadosTemporarios;
+    
+    public CadPedido(List<Object> dadosRes, List<Object> dadosCalc,List<String>
+                    dadosTemp,List<Endereco> listaEnd,List<String> listaTel) {
+        
         initComponents();
         
-        
-        SpinnerNumberModel model = new SpinnerNumberModel(1,1,500,1);//(valor padrao,valor min,valor max,passo)
-        this.spinQtd.setModel(model);
         this.dadosDeCalculo = dadosCalc;
         this.dadosDeResultado = dadosRes;
+        this.dadosTemporarios = dadosTemp;
+        this.listaTelefone = listaTel;
+        this.listaEndereco = listaEnd;
+        SpinnerNumberModel model = new SpinnerNumberModel(1,1,500,1);//(valor padrao,valor min,valor max,passo)
+        this.spinQtd.setModel(model);
         this.valorDoUltimoCalculo = null;
         this.dadosDoUltimoCalculo = null;
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
@@ -985,7 +993,8 @@ public class CadPedido extends javax.swing.JInternalFrame {
         this.setVisible(false);
        
       
-        CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho(dadosDeResultado, dadosDeCalculo);
+        CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho(dadosDeResultado,dadosDeCalculo,dadosTemporarios,
+                                                                        listaEndereco,listaTelefone);
         TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
         cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
         cadPedidoCabecalho.setLocation(0,0);
@@ -997,7 +1006,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
     private void btnAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvancarActionPerformed
         this.setVisible(false);
     
-        CadPedidoFinal pedidoFinal = new CadPedidoFinal(dadosDeResultado,dadosDeCalculo);
+        CadPedidoFinal pedidoFinal = new CadPedidoFinal(dadosDeResultado,dadosDeCalculo,dadosTemporarios,listaEndereco,listaTelefone);
         TelaPrincipal.desktopPane.add(pedidoFinal);
         pedidoFinal.setSize(desktopPane.getWidth(),desktopPane.getHeight());
         pedidoFinal.setLocation(0,0);

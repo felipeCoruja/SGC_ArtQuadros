@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import model.bean.Endereco;
 
 /**
  *
@@ -413,7 +414,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         this.destruirTelasExistentes();
         List<Object> dadosRes = new ArrayList<>();
         List<Object> dadosCalc = new ArrayList<>();
-        this.cadPedidoCabecalho = new CadPedidoCabecalho(dadosRes,dadosCalc);
+        List<String> dadosTemp = new ArrayList<>();
+        List<Endereco> listaEnd = new ArrayList<>();
+        List<String> listaTel = new ArrayList<>();
+        this.cadPedidoCabecalho = new CadPedidoCabecalho(dadosRes,dadosCalc,dadosTemp,listaEnd,listaTel);
         TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
         cadPedidoCabecalho.setSize(desktopPane.getWidth(),desktopPane.getHeight());
         cadPedidoCabecalho.setLocation(0,0);
