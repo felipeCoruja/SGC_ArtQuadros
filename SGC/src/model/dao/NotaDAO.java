@@ -29,7 +29,7 @@ public class NotaDAO {
         try {//INSERT TABELA nota
             stmt = con.prepareStatement("INSERT INTO nota(id,data_entrega,data_da_nota,desconto,"
                                       + "valor_total,valor_entrada,forma_pagamento)"
-                                      + " VALUES(?,?,?,?,?,?,?)");
+                                      + " VALUES(?,?,?,?,?,?,?,?)");
             
             stmt.setInt(1, n.getId());
             stmt.setString(2, n.getDataEntrega());
@@ -38,6 +38,7 @@ public class NotaDAO {
             stmt.setDouble(5, n.getValorTotal());
             stmt.setDouble(6, n.getValorEntrada());
             stmt.setString(7, n.getFormaPagamento());
+            stmt.setString(8, n.getDescricao());
             
             stmt.executeUpdate();
             stmt = null;
@@ -76,7 +77,7 @@ public class NotaDAO {
             while(rs.next()){
                 Nota n = new Nota();
                 
-                n.setId(rs.getInt("nota.id"));
+                n.setId(rs.getInt("n.id"));
                 n.setDataEntrega(rs.getString("data_entrega"));
                 n.setDataNota(rs.getString("data_da_nota"));
                 n.setDesconto(rs.getInt("desconto"));
@@ -85,6 +86,7 @@ public class NotaDAO {
                 n.setFormaPagamento(rs.getString("forma_pagamento"));
                 n.setStatusPagamento(rs.getString("status_pagamento"));
                 n.setDataEncerramento(rs.getString("data_encerramento"));
+                n.setDescricao(rs.getString("descricao"));
             }
         } catch (SQLException e) {
             Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);

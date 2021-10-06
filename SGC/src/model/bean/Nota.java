@@ -19,6 +19,7 @@ public class Nota {
     private String formaPagamento;
     private String statusPagamento;
     private String dataEncerramento;
+    private String descricao;
     
     public Nota(){
         this.id = -1;
@@ -30,6 +31,15 @@ public class Nota {
         this.formaPagamento = "";
         this.statusPagamento = "";
         this.dataEncerramento = "";
+        this.descricao = "";
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     /**
