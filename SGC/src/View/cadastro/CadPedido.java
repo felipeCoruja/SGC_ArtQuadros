@@ -72,8 +72,21 @@ public class CadPedido extends javax.swing.JInternalFrame {
 
         this.rowPasp = -1;
         this.row = -1;
+        
+        if(!this.dadosDeResultado.isEmpty()){
+            setDadosDeResultadoTabela();
+        }
     }
 
+    private void setDadosDeResultadoTabela(){
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
+        
+        for(int i=0;i<this.dadosDeResultado.size();i++){
+            tableModel.addRow((Object[])this.dadosDeResultado.get(i));
+        }
+    
+    }
+    
     private String[] listaMolduras() {
         MolduraDAO dao = new MolduraDAO();
         String[] list = null;

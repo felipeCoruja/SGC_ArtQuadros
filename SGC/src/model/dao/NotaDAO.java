@@ -50,6 +50,10 @@ public class NotaDAO {
             stmt.setString(3, n.getDataEncerramento());
             
             stmt.executeUpdate();
+            stmt = null;
+            
+            stmt = con.prepareStatement("INSERT INTO contador_nota(id) VALUE(?)");
+            stmt.setInt(1, n.getId());
             
         } catch (SQLException e) {
             Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -108,5 +112,35 @@ public class NotaDAO {
         }finally{
             ConnectionFactory.closeConnection(con,stmt);
         }
+    }
+    
+    public String getIdProximaNota() throws ClassNotFoundException{
+        String str = "-1";
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            stmt = con.prepareStatement("SELECT * FROM contador_nota ORDER BY id DESC LIMIT 1");
+            rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                int ultimoId = rs.getInt("id");
+                int proximoId = ultimoId + 1;
+                
+                if(proximoId <10){
+                    str = "00"+proximoId;
+                }else if(proximoId <100){
+                    str = "0"+proximoId;
+                }
+               
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        
+        return str;
     }
 }
