@@ -992,7 +992,6 @@ public class CadPedido extends javax.swing.JInternalFrame {
     private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
         this.setVisible(false);
        
-      
         CadPedidoCabecalho cadPedidoCabecalho = new CadPedidoCabecalho(dadosDeResultado,dadosDeCalculo,dadosTemporarios,
                                                                         listaEndereco,listaTelefone);
         TelaPrincipal.desktopPane.add(cadPedidoCabecalho);
@@ -1001,6 +1000,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
         cadPedidoCabecalho.setVisible(true);
         ((BasicInternalFrameUI)cadPedidoCabecalho.getUI()).setNorthPane(null);
         dispose();
+        
     }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void btnAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvancarActionPerformed

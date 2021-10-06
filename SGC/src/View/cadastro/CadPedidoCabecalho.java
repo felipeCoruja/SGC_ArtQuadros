@@ -29,6 +29,11 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     private List<String> dadosTemporarios;
     /**
      * Creates new form CadCliente
+     * @param dadosRes
+     * @param dadosCalc
+     * @param listaEnd
+     * @param dadosTemp
+     * @param listaTel
      */
     public CadPedidoCabecalho(List<Object> dadosRes, List<Object> dadosCalc,List<String> dadosTemp,
                             List<Endereco> listaEnd,List<String> listaTel) {
@@ -61,9 +66,9 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         
         this.dadosTemporarios.add(this.edtNome.getText());
         this.dadosTemporarios.add(this.edtEmail.getText());
-        this.dadosTemporarios.add(this.edtCpf.getText());
-        this.dadosTemporarios.add(this.edtCnpj.getText());
-        this.dadosTemporarios.add(this.edtInscEstadual.getText());
+        this.dadosTemporarios.add(removeMask(this.edtCpf.getText()));
+        this.dadosTemporarios.add(removeMask(this.edtCnpj.getText()));
+        this.dadosTemporarios.add(removeMask(this.edtInscEstadual.getText()));
 
         this.dadosTemporarios.add(this.cboxUf.getSelectedIndex()+"");
         this.dadosTemporarios.add(this.edtCidade.getText());
@@ -77,6 +82,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     public void setDadosInseridos(){
         this.edtNome.setText(this.dadosTemporarios.get(0));
         this.edtEmail.setText(this.dadosTemporarios.get(1));
+        
         this.edtCpf.setText(this.dadosTemporarios.get(2));
         this.edtCnpj.setText(this.dadosTemporarios.get(3));
         this.edtInscEstadual.setText(this.dadosTemporarios.get(4));
@@ -101,8 +107,8 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     }
     
     private void insereListaEnderecoNaTabela(){
-        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaContatos.getModel();
-        
+        DefaultTableModel tableModel = (DefaultTableModel) this.tabelaEnderecos.getModel();
+       
         for(int i=0;i<this.listaEndereco.size();i++){
             tableModel.addRow(new Object[]{
                 this.listaEndereco.get(i).getCidade(),
