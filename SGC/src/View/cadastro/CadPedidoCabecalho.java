@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Endereco;
+import model.bean.Nota;
 import model.dao.MolduraDAO;
 import model.dao.NotaDAO;
 
@@ -30,6 +31,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     private List<Object> dadosResultado; 
     private List<Object> dadosCalculo; 
     private List<String> dadosTemporarios;
+    private Nota nota;
     /**
      * Creates new form CadCliente
      * @param dadosRes
@@ -50,6 +52,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         this.dadosResultado = dadosRes;
         this.dadosCalculo = dadosCalc;
         this.dadosTemporarios = dadosTemp;
+        this.nota = new Nota();
         
         getIdNota();
         
@@ -630,37 +633,48 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_edtCelularActionPerformed
      
     private boolean isCamposVazios() {//apenas os campos necessários, nome,telefone/celular,e um endereço
-        boolean flag = true;
         
         if(this.edtNome.getText().isEmpty()){
-            flag = false;
             JOptionPane.showMessageDialog(null, "O Campo 'Nome' está vazio!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            return false;
         }else if(listaTelefone.isEmpty()){
-            flag = false;
             JOptionPane.showMessageDialog(null, "Insira um número de telefone ou celular para concluir o cadastro", "Atenção", JOptionPane.WARNING_MESSAGE);
-        }else if(this.listaEndereco.isEmpty()){
-            flag = false;
+            return false;
+        }else if(this.listaEndereco.isEmpty()){ 
             JOptionPane.showMessageDialog(null, "Insira um endereço para concluir o cadastro", "Atenção", JOptionPane.WARNING_MESSAGE);
+            return false;
         }
-        return flag;
+        return true;
     }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        
-       // if(!this.isCamposVazios()){
+
+        if(isCamposVazios()){
+            
             getDadosInseridos();
+            montarNota();
             
             setVisible(false);
-            CadPedido cadPedido = new CadPedido(dadosResultado,dadosCalculo,dadosTemporarios,listaEndereco,listaTelefone);
+            CadPedido cadPedido = new CadPedido(dadosResultado,dadosCalculo,dadosTemporarios,listaEndereco,listaTelefone,nota);
             TelaPrincipal.desktopPane.add(cadPedido);
             cadPedido.setSize(TelaPrincipal.desktopPane.getWidth(), TelaPrincipal.desktopPane.getHeight());
             cadPedido.setLocation(0,0);
             cadPedido.setVisible(true);
             ((BasicInternalFrameUI)cadPedido.getUI()).setNorthPane(null);
             dispose();
-       // }
-        
+        }
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
+    
+    private void montarNota(){
+        this.nota.getCliente().setNome(this.edtNome.getText());
+        this.nota.getCliente().setCpf(this.edtCpf.getText());
+        this.nota.getCliente().setCnpj(this.edtCnpj.getText());
+        this.nota.getCliente().setInscEstadual(this.edtInscEstadual.getText());
+        this.nota.getCliente().setEmail(this.edtEmail.getText());
+        
+        this.nota.getCliente().setListaEndereco(this.listaEndereco);
+        this.nota.getCliente().setListaTelefone(this.listaTelefone);//Cada String da lista segue o modelo >> "numero;descricao;"
+    }
     private String removeMask(String str){
         str = str.replace("(", "");
         str = str.replace(")", "");

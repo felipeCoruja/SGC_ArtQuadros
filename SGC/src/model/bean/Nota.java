@@ -5,6 +5,9 @@
  */
 package model.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author felip
@@ -20,6 +23,8 @@ public class Nota {
     private String statusPagamento;
     private String dataEncerramento;
     private String descricao;
+    private Cliente cliente;
+    private List<Pedido> listaPedido;
     
     public Nota(){
         this.id = -1;
@@ -32,6 +37,24 @@ public class Nota {
         this.statusPagamento = "";
         this.dataEncerramento = "";
         this.descricao = "";
+        this.cliente = new Cliente();
+        this.listaPedido = new ArrayList<>();
+    }
+
+    public List<Pedido> getListaPedido() {
+        return listaPedido;
+    }
+
+    public void setListaPedido(List<Pedido> listaPedido) {
+        this.listaPedido = listaPedido;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public String getDescricao() {

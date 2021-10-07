@@ -5,6 +5,9 @@
  */
 package model.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author felip
@@ -17,6 +20,14 @@ public class Pedido {
     private String tipo;
     private int quantidade;
     
+    private String moldura;
+    private List<String> listaPaspatu;
+    private String vidro;
+    private int idVidro;
+    private String eucatex;
+    private int idEucatex;
+    private boolean entreVidros;
+    
     public Pedido(){
         this.id = -1;
         this.altura = -1.0;
@@ -24,6 +35,14 @@ public class Pedido {
         this.valorUnitario = -1.0;
         this.tipo = "";
         this.quantidade = -1;
+        
+        this.moldura = "";
+        this.listaPaspatu = new ArrayList<>();
+        this.vidro = "";
+        this.eucatex = "";
+        this.entreVidros = false;
+        this.idVidro = -1;
+        this.idEucatex = -1;
     }
 
     /**
@@ -108,5 +127,61 @@ public class Pedido {
      */
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    public String getMoldura() {
+        return moldura;
+    }
+
+    public void setMoldura(String moldura) {
+        this.moldura = moldura;
+    }
+
+    public List<String> getListaPaspatu() {
+        return listaPaspatu;
+    }
+
+    public void setListaPaspatu(List<String> pasp) {
+        this.listaPaspatu = pasp;
+    }
+
+    public String getVidro() {
+        return vidro;
+    }
+
+    public void setVidro(String vidro) {
+        this.vidro = vidro;
+    }
+
+    public String getEucatex() {
+        return eucatex;
+    }
+
+    public void setEucatex(String eucatex) {
+        this.eucatex = eucatex;
+    }
+
+    public boolean isEntreVidros() {
+        return entreVidros;
+    }
+
+    public void setEntreVidros(boolean entreVidros) {
+        this.entreVidros = entreVidros;
+    }
+
+    public int getIdVidro() {
+        return idVidro;
+    }
+
+    public void setIdVidro(int idVidro) {
+        this.idVidro = idVidro;
+    }
+
+    public int getIdEucatex() {
+        return idEucatex;
+    }
+
+    public void setIdEucatex(int idEucatex) {
+        this.idEucatex = idEucatex;
     }
 }

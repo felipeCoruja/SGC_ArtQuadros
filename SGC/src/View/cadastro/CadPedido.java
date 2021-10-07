@@ -23,6 +23,8 @@ import javax.swing.table.DefaultTableModel;
 import model.bean.Config;
 import model.bean.Endereco;
 import model.bean.Moldura;
+import model.bean.Nota;
+import model.bean.Pedido;
 import model.dao.ConfigDAO;
 import model.dao.EucatexDAO;
 import model.dao.MolduraDAO;
@@ -45,9 +47,10 @@ public class CadPedido extends javax.swing.JInternalFrame {
     private List<String> listaTelefone;
     private List<Endereco> listaEndereco;
     private List<String> dadosTemporarios;
+    private Nota nota;
     
     public CadPedido(List<Object> dadosRes, List<Object> dadosCalc,List<String>
-                    dadosTemp,List<Endereco> listaEnd,List<String> listaTel) {
+                    dadosTemp,List<Endereco> listaEnd,List<String> listaTel,Nota n) {
         
         initComponents();
         
@@ -56,6 +59,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
         this.dadosTemporarios = dadosTemp;
         this.listaTelefone = listaTel;
         this.listaEndereco = listaEnd;
+        this.nota = n;
         SpinnerNumberModel model = new SpinnerNumberModel(1,1,500,1);//(valor padrao,valor min,valor max,passo)
         this.spinQtd.setModel(model);
         this.valorDoUltimoCalculo = null;
@@ -698,6 +702,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
             DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
             this.calculaPedido();
             tableModel.addRow(this.valorDoUltimoCalculo);
+            this.addPedidoNaNota();
             this.dadosDeResultado.add(this.valorDoUltimoCalculo);
             this.dadosDeCalculo.add(this.dadosDoUltimoCalculo);
 
@@ -706,6 +711,25 @@ public class CadPedido extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void addPedidoNaNota(){
+        Pedido pedido = new Pedido();
+        
+        pedido.setTipo(this.cboxTipo.getSelectedItem().toString());
+        pedido.setMoldura(this.cboxMoldura.getSelectedItem().toString());
+        pedido.setAltura((Double.parseDouble(this.edtAltura.getText()))/100);
+        pedido.setLargura((Double.parseDouble(this.edtLargura.getText()))/100);
+        pedido.setId(this.tabelaPrincipal.getRowCount()+1);
+        pedido.setListaPaspatu(this.listaPasp);
+        pedido.setVidro(this.cboxVidro.getSelectedItem().toString());
+        pedido.setEucatex(this.cboxEucatex.getSelectedItem().toString());
+        pedido.setEntreVidros(this.cbEntreVidros.isSelected());
+        pedido.setQuantidade(Integer.parseInt(this.spinQtd.getValue().toString()));
+        pedido.setValorUnitario(Double.parseDouble(this.valorDoUltimoCalculo[7].toString()));
+        
+        this.nota.getListaPedido().add(pedido);
+        
+    }
+    
     private void btnAddPaspActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPaspActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
         int ordem = tableModel.getRowCount() + 1;
@@ -724,6 +748,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPaspatu.getModel();
         if (this.rowPasp != -1) {
             tableModel.removeRow(this.rowPasp);
+            this.listaPasp.remove(this.rowPasp);
 
             for (int i = 0; i < tableModel.getRowCount(); i++) {
                 tableModel.setValueAt(i + 1, i, 0);
@@ -933,6 +958,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
         tableModel.removeRow(this.row);
+        this.nota.getListaPedido().remove(this.row);
         this.dadosDeResultado.remove(this.row);
         this.dadosDeCalculo.remove(this.row);
         this.row = -1;
@@ -1019,7 +1045,8 @@ public class CadPedido extends javax.swing.JInternalFrame {
     private void btnAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvancarActionPerformed
         this.setVisible(false);
     
-        CadPedidoFinal pedidoFinal = new CadPedidoFinal(dadosDeResultado,dadosDeCalculo,dadosTemporarios,listaEndereco,listaTelefone);
+        CadPedidoFinal pedidoFinal = new CadPedidoFinal(dadosDeResultado,dadosDeCalculo,dadosTemporarios,listaEndereco,
+                                                        listaTelefone,nota);
         TelaPrincipal.desktopPane.add(pedidoFinal);
         pedidoFinal.setSize(desktopPane.getWidth(),desktopPane.getHeight());
         pedidoFinal.setLocation(0,0);

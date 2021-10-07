@@ -100,11 +100,11 @@ public class EucatexDAO {
     public String[] getTiposEucatex() throws ClassNotFoundException{
         String[] listId = null;
         int i = 0;
-        List<Eucatex> listaMoldura = this.load();
+        List<Eucatex> listaEucatex = this.load();
         String str = "Não;";
         
-        for(int j = 0; j <listaMoldura.size();j++){
-            str = str+listaMoldura.get(j).getTipo()+";";
+        for(int j = 0; j <listaEucatex.size();j++){
+            str = str+listaEucatex.get(j).getTipo()+" |"+listaEucatex.get(j).getId()+";";
         }
        
         listId = str.split(";");

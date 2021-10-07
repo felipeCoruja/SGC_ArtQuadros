@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Endereco;
+import model.bean.Nota;
 import model.dao.NotaDAO;
 
 /**
@@ -27,9 +28,10 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
     private List<String> dadosTemporarios;
     private List<Endereco> listaEndereco;
     private List<String> listaTelefone;
+    private Nota nota;
     
     public CadPedidoFinal(List<Object> dadosDeRes, List<Object> dadosDeCalc,List<String>
-                    dadosTemp,List<Endereco> listaEnd,List<String> listaTel) {
+                    dadosTemp,List<Endereco> listaEnd,List<String> listaTel, Nota n) {
         initComponents();
         setIdNota();
         setDataDaNota();
@@ -44,6 +46,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
         this.dadosTemporarios = dadosTemp;
         this.listaEndereco = listaEnd;
         this.listaTelefone = listaTel;
+        this.nota = n;
         
         if(!this.dadosDeRes.isEmpty()){
             setDadosDeResultadoTabela();
@@ -505,7 +508,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         setVisible(false);
-        CadPedido cadPedido = new CadPedido(this.dadosDeRes,this.dadosDeCalc,dadosTemporarios,listaEndereco,listaTelefone);
+        CadPedido cadPedido = new CadPedido(this.dadosDeRes,this.dadosDeCalc,dadosTemporarios,listaEndereco,listaTelefone,nota);
         TelaPrincipal.desktopPane.add(cadPedido);
         cadPedido.setSize(TelaPrincipal.desktopPane.getWidth(), TelaPrincipal.desktopPane.getHeight());
         cadPedido.setLocation(0,0);
