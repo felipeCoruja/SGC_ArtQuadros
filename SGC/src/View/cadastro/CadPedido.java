@@ -697,6 +697,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_cboxMolduraActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        //VERIFICAR SE TEM MATERIAL SUFICIENTE NO ESTOQUE PARA O PEDIDO
         
         if(this.isCamposPreenchidos()){
             DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();

@@ -648,7 +648,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     }
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
 
-        if(isCamposVazios()){
+       // if(isCamposVazios()){
             
             getDadosInseridos();
             montarNota();
@@ -661,7 +661,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
             cadPedido.setVisible(true);
             ((BasicInternalFrameUI)cadPedido.getUI()).setNorthPane(null);
             dispose();
-        }
+        //}
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
     

@@ -158,7 +158,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaPrincipal = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
+        btnFinalizar = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
@@ -341,11 +341,9 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
                     .addComponent(jLabel6))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel16)
-                            .addComponent(rbSinal)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel16)
+                        .addComponent(rbSinal))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(edtValorSinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -397,11 +395,11 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/vcsnormal_93488.png"))); // NOI18N
-        jButton6.setText("Finalizar");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        btnFinalizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/vcsnormal_93488.png"))); // NOI18N
+        btnFinalizar.setText("Finalizar");
+        btnFinalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                btnFinalizarActionPerformed(evt);
             }
         });
 
@@ -421,7 +419,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jButton6)
+                .addComponent(btnFinalizar)
                 .addGap(18, 18, 18)
                 .addComponent(jButton7)
                 .addGap(18, 18, 18)
@@ -433,7 +431,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
+                    .addComponent(btnFinalizar)
                     .addComponent(jButton7)
                     .addComponent(jButton1))
                 .addGap(30, 30, 30))
@@ -502,9 +500,10 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
+        //cadastrar dados no banco de dados
+        //dar baixa nos materiais utilizados 
+    }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         setVisible(false);
@@ -532,6 +531,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFinalizar;
     private javax.swing.JComboBox cbDesconto;
     private javax.swing.JComboBox cbPagamento;
     private javax.swing.JTextField edtDataDaNota;
@@ -539,7 +539,6 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
     private javax.swing.JTextField edtValorSinal;
     private javax.swing.JTextField edtValorTotalSemDesconto;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private com.toedter.calendar.JDateChooser jCalendarEntrega;
     private javax.swing.JComboBox<String> jComboBox1;
