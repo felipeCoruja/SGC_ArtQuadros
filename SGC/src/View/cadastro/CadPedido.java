@@ -847,13 +847,15 @@ public class CadPedido extends javax.swing.JInternalFrame {
             }
         }
         
-        if(!this.cboxMoldura.equals("Não")){
+        if(!this.cboxMoldura.getSelectedItem().toString().equals("Não")){
             try {
             m  = new MolduraDAO().getMoldura(this.cboxMoldura.getSelectedItem().toString());
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
             moldura = this.calculaMoldura(alt, larg, m.getPrecoVenda());
+        }else{
+            moldura = 0;
         }
         
         
@@ -963,6 +965,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
         this.dadosDeResultado.remove(this.row);
         this.dadosDeCalculo.remove(this.row);
         this.row = -1;
+        limparCampos();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void tabelaPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaPrincipalMouseClicked
@@ -970,7 +973,9 @@ public class CadPedido extends javax.swing.JInternalFrame {
         
         Object[] aux = null;
         aux = (Object[]) this.dadosDeCalculo.get(this.row);
-       
+        
+        
+        
         this.cboxTipo.setSelectedIndex(Integer.parseInt(aux[0].toString()));
         this.cboxMoldura.setSelectedIndex(Integer.parseInt(aux[1].toString()));
         this.edtLargura.setText(aux[2].toString());

@@ -790,13 +790,16 @@ public class Orcamento extends javax.swing.JInternalFrame {
             }
         }
         
-        if(!this.cboxMoldura.equals("Não")){
+        if(!this.cboxMoldura.getSelectedItem().toString().equals("Não")){
+            
             try {
             m  = new MolduraDAO().getMoldura(this.cboxMoldura.getSelectedItem().toString());
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Orcamento.class.getName()).log(Level.SEVERE, null, ex);
             }
             moldura = this.calculaMoldura(alt, larg, m.getPrecoVenda());
+        }else{
+            moldura = 0;
         }
         
         

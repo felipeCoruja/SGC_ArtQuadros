@@ -27,6 +27,7 @@ public class Pedido {
     private String eucatex;
     private int idEucatex;
     private boolean entreVidros;
+    private String descricao;
     
     public Pedido(){
         this.id = -1;
@@ -43,6 +44,7 @@ public class Pedido {
         this.entreVidros = false;
         this.idVidro = -1;
         this.idEucatex = -1;
+        this.descricao = "";
     }
 
     /**
@@ -183,5 +185,13 @@ public class Pedido {
 
     public void setIdEucatex(int idEucatex) {
         this.idEucatex = idEucatex;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

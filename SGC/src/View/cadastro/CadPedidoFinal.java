@@ -33,7 +33,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
     public CadPedidoFinal(List<Object> dadosDeRes, List<Object> dadosDeCalc,List<String>
                     dadosTemp,List<Endereco> listaEnd,List<String> listaTel, Nota n) {
         initComponents();
-        setIdNota();
+        setIdNota();//na tela
         setDataDaNota();
         this.edtValorSinal.setEnabled(false);
         
@@ -501,8 +501,10 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        //cadastrar dados no banco de dados
+        //setar o ID de cliente antes de salvar        
+       //cadastrar dados no banco de dados
         //dar baixa nos materiais utilizados 
+       
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed

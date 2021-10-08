@@ -26,7 +26,36 @@ public class NotaDAO {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
-        try {//INSERT TABELA nota
+        try {
+            //salva cliente e suas dependencias como contato, endereço e relações entre eles
+            ClienteDAO cDao = new ClienteDAO();
+            cDao.salvar(n.getCliente());
+            n.getCliente().setId(cDao.getId());//cDao.getId() pega o ultimo id cadastrado na tabela cliente_nome
+            
+            //salva nota e suas dependencias 
+            this.salvarNota(n);
+            
+            this.salvarRelacaoNotaCliente(n);
+            
+            //salva pedido e suas dependências como moldura,vidro,eucatex e relações entre os eles
+            PedidoDAO pDao = new PedidoDAO();
+            pDao.salvar(n.getListaPedido());
+            
+           
+            this.salvarRelacaoNotaPedido(n);
+            
+        } catch (ClassNotFoundException e) {
+            Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar Nota na Classe NotaDAO :"+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+    
+    private void salvarNota(Nota n) throws ClassNotFoundException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        try {
             stmt = con.prepareStatement("INSERT INTO nota(id,data_entrega,data_da_nota,desconto,"
                                       + "valor_total,valor_entrada,forma_pagamento)"
                                       + " VALUES(?,?,?,?,?,?,?,?)");
@@ -53,8 +82,11 @@ public class NotaDAO {
             stmt.executeUpdate();
             stmt = null;
             
+            //INSERT NA TABELA contador_nota
             stmt = con.prepareStatement("INSERT INTO contador_nota(id) VALUE(?)");
             stmt.setInt(1, n.getId());
+            
+            stmt.executeUpdate();
             
         } catch (SQLException e) {
             Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -62,6 +94,52 @@ public class NotaDAO {
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
+    
+    }
+    
+    private void salvarRelacaoNotaCliente(Nota n) throws ClassNotFoundException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+    
+        
+        try {
+            //INSERT NA TABELA DE RELAÇÃO nota_cliente
+            stmt = con.prepareStatement("INSERT INTO nota_cliente(id_nota,id_cliente)VALUES(?,?)");
+            stmt.setInt(1, n.getId());
+            stmt.setInt(2, n.getCliente().getId());
+            
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar Nota na Classe NotaDAO :"+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    }
+    
+    private void salvarRelacaoNotaPedido(Nota n) throws ClassNotFoundException{
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+    
+        
+        try {
+            
+            for(int i=0;i<n.getListaPedido().size();i++){
+                //INSERT NA TABELA DE RELAÇÃO nota_pedido
+                stmt = con.prepareStatement("INSERT INTO nota_pedido(id_nota,id_pedido)VALUES(?,?)");
+                stmt.setInt(1, n.getId());
+                stmt.setInt(2, n.getListaPedido().get(i).getId());
+
+                stmt.executeUpdate();
+            }
+            
+        } catch (SQLException e) {
+            Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "Erro ao salvar Nota na Classe NotaDAO :"+e);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+    
     }
     
     public List<Nota> load() throws ClassNotFoundException{

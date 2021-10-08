@@ -665,6 +665,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnCadastrarActionPerformed
     
+    
     private void montarNota(){
         this.nota.getCliente().setNome(this.edtNome.getText());
         this.nota.getCliente().setCpf(this.edtCpf.getText());

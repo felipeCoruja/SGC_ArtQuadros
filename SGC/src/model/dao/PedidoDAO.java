@@ -10,6 +10,7 @@ import model.bean.Pedido;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -19,21 +20,52 @@ import javax.swing.JOptionPane;
  */
 public class PedidoDAO {
     
-    public void salvar(Pedido p) throws ClassNotFoundException{
+//    public void salvar(Pedido p) throws ClassNotFoundException{
+//        Connection con = ConnectionFactory.getConnection();
+//        PreparedStatement stmt = null;
+//        
+//        try {
+//            stmt = con.prepareStatement("INSERT INTO pedido(id,altura,largura,valor_unitario,tipo,quantidade)"
+//                                      + " VALUES(?,?,?,?,?,?)");
+//            stmt.setInt(1, p.getId());
+//            stmt.setDouble(2, p.getAltura());
+//            stmt.setDouble(3, p.getLargura());
+//            stmt.setDouble(4, p.getValorUnitario());
+//            stmt.setString(5, p.getTipo());
+//            stmt.setInt(6, p.getQuantidade());
+//            
+//            stmt.executeUpdate();
+//            
+//        } catch (SQLException ex) {
+//            Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
+//            JOptionPane.showMessageDialog(null, "Erro ao salvar pedido na Classe PedidoDAO :"+ex);
+//        }finally{
+//            ConnectionFactory.closeConnection(con, stmt);
+//        }
+//    }
+//    
+    public void salvar(List<Pedido> listaPedido) throws ClassNotFoundException{
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         
         try {
-            stmt = con.prepareStatement("INSERT INTO pedido(id,altura,largura,valor_unitario,tipo,quantidade)"
-                                      + " VALUES(?,?,?,?,?,?)");
-            stmt.setInt(1, p.getId());
-            stmt.setDouble(2, p.getAltura());
-            stmt.setDouble(3, p.getLargura());
-            stmt.setDouble(4, p.getValorUnitario());
-            stmt.setString(5, p.getTipo());
-            stmt.setInt(6, p.getQuantidade());
             
-            stmt.executeUpdate();
+            for(int i =0; i<listaPedido.size();i++){   
+                
+                stmt = con.prepareStatement("INSERT INTO pedido(id,altura,largura,valor_unitario,tipo,quantidade)"
+                                      + " VALUES(?,?,?,?,?,?,?)");
+                stmt.setInt(1, listaPedido.get(i).getId());
+                stmt.setDouble(2, listaPedido.get(i).getAltura());
+                stmt.setDouble(3, listaPedido.get(i).getLargura());
+                stmt.setDouble(4, listaPedido.get(i).getValorUnitario());
+                stmt.setString(5, listaPedido.get(i).getTipo());
+                stmt.setInt(6, listaPedido.get(i).getQuantidade());
+                stmt.setString(7, listaPedido.get(i).getDescricao());
+
+                stmt.executeUpdate();
+                
+            }
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);

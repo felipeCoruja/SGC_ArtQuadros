@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.sql.ResultSet;
+import model.bean.Nota;
 /**
  *
  * @author felip
@@ -207,10 +208,11 @@ public class ClienteDAO {
                 stmt.setString(5, c.getListaEndereco().get(i).getComplemento());
                 stmt.setString(6, c.getListaEndereco().get(i).getNumero());
                 stmt.setString(7, c.getListaEndereco().get(i).getReferencia());
+               
                  
                 stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()
                                 //é responsável pelos comandos DML(INSERT,UPDATE,DELETE)
-                
+                stmt = null;
              
                 //TABELA DE RELACIONAMENTO CLIENTE-ENDEREÇO
                 idEndereco = eDao.getUltimoId();//pega o ID que foi inserido com auto incremento
@@ -219,9 +221,7 @@ public class ClienteDAO {
                 stmt.setInt(1, c.getId());
                 stmt.setInt(2, idEndereco);
                 
-                stmt.executeUpdate();
-
-                                
+                stmt.executeUpdate();               
             }
         } catch (SQLException e) {
             Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, e);
@@ -297,7 +297,7 @@ public class ClienteDAO {
         return c;
     }
      
-    private int getId() throws ClassNotFoundException{
+    public int getId() throws ClassNotFoundException{
         int id = 0;
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
