@@ -151,7 +151,7 @@
                               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jComboBox2" min="-2" pref="116" max="-2" attributes="0"/>
+                                  <Component id="cbStatusPagamento" min="-2" pref="116" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -175,7 +175,7 @@
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                               <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jTextField2" max="32767" attributes="0"/>
+                              <Component id="edtValorFinal" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -216,7 +216,7 @@
                               <Component id="edtValorSinal" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
+                          <Component id="edtValorFinal" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -230,7 +230,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="edtDataDaNota" min="-2" max="-2" attributes="0"/>
                           <Component id="jCalendarEntrega" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox2" min="-2" max="-2" attributes="0"/>
+                          <Component id="cbStatusPagamento" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="34" pref="34" max="-2" attributes="0"/>
                       <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
@@ -348,7 +348,7 @@
                 <Property name="text" type="java.lang.String" value="Valor Final"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField2">
+            <Component class="javax.swing.JTextField" name="edtValorFinal">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
               </Properties>
@@ -376,7 +376,7 @@
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="jCalendarEntrega">
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox2">
+            <Component class="javax.swing.JComboBox" name="cbStatusPagamento">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(this.getStatus())" type="code"/>
@@ -403,7 +403,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTextArea" name="jTextArea1">
+                <Component class="javax.swing.JTextArea" name="edtDescricao">
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="rows" type="int" value="5"/>

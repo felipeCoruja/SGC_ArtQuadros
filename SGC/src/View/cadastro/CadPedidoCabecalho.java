@@ -6,7 +6,6 @@
 package View.cadastro;
 
 import View.TelaPrincipal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +14,6 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Endereco;
 import model.bean.Nota;
-import model.dao.MolduraDAO;
 import model.dao.NotaDAO;
 
 /**
@@ -192,7 +190,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         jLabel16 = new javax.swing.JLabel();
         edtId = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        btnCadastrar = new javax.swing.JButton();
+        btnAvancar = new javax.swing.JButton();
         btnLimparDados = new javax.swing.JButton();
         btnLimparDados2 = new javax.swing.JButton();
 
@@ -556,11 +554,11 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
                 .addGap(0, 0, 0))
         );
 
-        btnCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/share.png"))); // NOI18N
-        btnCadastrar.setText("Avançar");
-        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        btnAvancar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/share.png"))); // NOI18N
+        btnAvancar.setText("Avançar");
+        btnAvancar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastrarActionPerformed(evt);
+                btnAvancarActionPerformed(evt);
             }
         });
 
@@ -581,7 +579,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnCadastrar)
+                .addComponent(btnAvancar)
                 .addGap(18, 18, 18)
                 .addComponent(btnLimparDados)
                 .addGap(18, 18, 18)
@@ -592,7 +590,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCadastrar)
+                    .addComponent(btnAvancar)
                     .addComponent(btnLimparDados)
                     .addComponent(btnLimparDados2))
                 .addGap(30, 30, 30))
@@ -646,7 +644,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         }
         return true;
     }
-    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+    private void btnAvancarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvancarActionPerformed
 
        // if(isCamposVazios()){
             
@@ -663,7 +661,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
             dispose();
         //}
         
-    }//GEN-LAST:event_btnCadastrarActionPerformed
+    }//GEN-LAST:event_btnAvancarActionPerformed
     
     
     private void montarNota(){
@@ -676,6 +674,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         this.nota.getCliente().setListaEndereco(this.listaEndereco);
         this.nota.getCliente().setListaTelefone(this.listaTelefone);//Cada String da lista segue o modelo >> "numero;descricao;"
     }
+    
     private String removeMask(String str){
         str = str.replace("(", "");
         str = str.replace(")", "");
@@ -857,7 +856,7 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddEndereco;
     private javax.swing.JButton btnAdicionarNumero;
-    private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnAvancar;
     private javax.swing.JButton btnEditEndereco;
     private javax.swing.JButton btnLimparDados;
     private javax.swing.JButton btnLimparDados2;

@@ -703,7 +703,7 @@ public class CadPedido extends javax.swing.JInternalFrame {
             DefaultTableModel tableModel = (DefaultTableModel) this.tabelaPrincipal.getModel();
             this.calculaPedido();
             tableModel.addRow(this.valorDoUltimoCalculo);
-            this.addPedidoNaNota();
+            addPedidoNaNota();
             this.dadosDeResultado.add(this.valorDoUltimoCalculo);
             this.dadosDeCalculo.add(this.dadosDoUltimoCalculo);
 
@@ -714,6 +714,8 @@ public class CadPedido extends javax.swing.JInternalFrame {
 
     private void addPedidoNaNota(){
         Pedido pedido = new Pedido();
+        String aux;
+        String[]vet;
         
         pedido.setTipo(this.cboxTipo.getSelectedItem().toString());
         pedido.setMoldura(this.cboxMoldura.getSelectedItem().toString());
@@ -726,6 +728,19 @@ public class CadPedido extends javax.swing.JInternalFrame {
         pedido.setEntreVidros(this.cbEntreVidros.isSelected());
         pedido.setQuantidade(Integer.parseInt(this.spinQtd.getValue().toString()));
         pedido.setValorUnitario(Double.parseDouble(this.valorDoUltimoCalculo[7].toString()));
+        
+        if(!cboxVidro.getSelectedItem().equals("Não")){
+            aux = cboxVidro.getSelectedItem().toString();
+            vet = aux.split("|");
+            pedido.setIdVidro(Integer.parseInt((String)vet[1]));
+        }
+       
+        if(!cboxEucatex.getSelectedItem().equals("Não")){
+            aux = cboxEucatex.getSelectedItem().toString();
+            vet = aux.split("|");
+            pedido.setIdEucatex(Integer.parseInt((String)vet[1]));
+        }
+        
         
         this.nota.getListaPedido().add(pedido);
         

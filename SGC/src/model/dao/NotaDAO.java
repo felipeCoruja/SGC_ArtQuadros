@@ -57,7 +57,7 @@ public class NotaDAO {
         PreparedStatement stmt = null;
         try {
             stmt = con.prepareStatement("INSERT INTO nota(id,data_entrega,data_da_nota,desconto,"
-                                      + "valor_total,valor_entrada,forma_pagamento)"
+                                      + "valor_total,valor_entrada,forma_pagamento,descricao)"
                                       + " VALUES(?,?,?,?,?,?,?,?)");
             
             stmt.setInt(1, n.getId());
@@ -73,12 +73,11 @@ public class NotaDAO {
             stmt = null;
             
             //INSERT TABELA nota_status
-            stmt = con.prepareStatement("INSERT INTO nota_status(id,status_pagamento,data_encerramento) "
-                                        + "VALUES(?,?,?)");
+            stmt = con.prepareStatement("INSERT INTO nota_status(id,status_pagamento) "
+                                        + "VALUES(?,?)");
             stmt.setInt(1, n.getId());
             stmt.setString(2, n.getStatusPagamento());
-            stmt.setString(3, n.getDataEncerramento());
-            
+   
             stmt.executeUpdate();
             stmt = null;
             
@@ -90,7 +89,7 @@ public class NotaDAO {
             
         } catch (SQLException e) {
             Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(null, "Erro ao salvar Nota na Classe NotaDAO :"+e);
+            JOptionPane.showMessageDialog(null, "Erro em salvarNota() na Classe NotaDAO :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt);
         }
@@ -168,7 +167,7 @@ public class NotaDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(null, "Erro ao salvar Nota na Classe NotaDAO :"+e);
+            JOptionPane.showMessageDialog(null, "Erro de Load da Nota na Classe NotaDAO :"+e);
         }finally{
             ConnectionFactory.closeConnection(con, stmt, rs);
         }

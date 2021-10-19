@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import model.bean.Endereco;
@@ -142,17 +143,17 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        edtValorFinal = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         edtDataDaNota = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jCalendarEntrega = new com.toedter.calendar.JDateChooser();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        cbStatusPagamento = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        edtDescricao = new javax.swing.JTextArea();
         jLabel16 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -223,7 +224,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Valor Final");
 
-        jTextField2.setEditable(false);
+        edtValorFinal.setEditable(false);
 
         jLabel9.setText("R$");
 
@@ -234,15 +235,15 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Data de Entrega:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(this.getStatus()));
+        cbStatusPagamento.setModel(new javax.swing.DefaultComboBoxModel<>(this.getStatus()));
 
         jLabel13.setText("Status");
 
         jLabel14.setText("Anotações Sobre a Nota:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        edtDescricao.setColumns(20);
+        edtDescricao.setRows(5);
+        jScrollPane2.setViewportView(edtDescricao);
 
         jLabel16.setText("R$");
 
@@ -298,7 +299,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
                         .addGap(45, 45, 45)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel13)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cbStatusPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
@@ -317,7 +318,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
                         .addGap(26, 26, 26)
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2))))
+                        .addComponent(edtValorFinal))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -348,7 +349,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(edtValorSinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel9))
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(edtValorFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
@@ -359,7 +360,7 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(edtDataDaNota, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCalendarEntrega, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbStatusPagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
                 .addComponent(jLabel14)
                 .addGap(6, 6, 6)
@@ -500,10 +501,70 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
+    private boolean isNotaOk(){
+        if(this.cbPagamento.getSelectedIndex() == 0 && jCalendarEntrega.getDateFormatString().equals("")){
+            return false;
+        }
+        return true;
+    }
+    private void montarNota(){
+        this.nota.setId(Integer.parseInt(this.edtIdNota.getText()));
+        this.nota.setFormaPagamento(this.cbPagamento.getSelectedItem().toString());
+        this.nota.setDataNota(this.edtDataDaNota.getText());
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        this.nota.setDataEntrega(sdf.format(this.jCalendarEntrega.getDate()));
+        
+        if(this.cbDesconto.getSelectedIndex() != 0){
+            this.nota.setDesconto(Integer.parseInt(this.cbDesconto.getSelectedItem().toString()));
+        }else{
+            this.nota.setDesconto(0);
+        }
+        this.nota.setValorTotal(Double.parseDouble(this.edtValorTotalSemDesconto.getText()));
+        
+        if(!this.edtValorSinal.getText().equals("")){
+            this.nota.setValorEntrada(Double.parseDouble(this.edtValorSinal.getText()));
+        }else{
+            this.nota.setValorEntrada(0);
+        }
+        
+        this.nota.setDescricao(this.edtDescricao.getText());
+        this.nota.setStatusPagamento(this.cbStatusPagamento.getSelectedItem().toString());
+        
+        
+    }
+    
+    private void formatarDatasDaNota(){
+        String aux = this.nota.getDataEntrega()+"/";
+        String[] vet = aux.split("/");
+        aux = vet[2]+"-"+vet[1]+"-"+vet[0];
+        this.nota.setDataEntrega(aux);
+        System.out.println(aux);
+        
+        aux = this.nota.getDataNota()+"/";
+        vet = aux.split("/");
+        aux = vet[2]+"-"+vet[1]+"-"+vet[0];
+        this.nota.setDataNota(aux);
+        System.out.println(aux);
+    }
     private void btnFinalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarActionPerformed
-        //setar o ID de cliente antes de salvar        
+        
+        if(isNotaOk()){
+            montarNota();
+            formatarDatasDaNota();
+            NotaDAO nDao = new NotaDAO();
+            
+            try {
+                nDao.salvar(this.nota);
+                JOptionPane.showMessageDialog(null, "Nota Salva Com Sucesso!");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CadPedidoFinal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+       //setar o ID de cliente antes de salvar a nota
+        
        //cadastrar dados no banco de dados
-        //dar baixa nos materiais utilizados 
+       //dar baixa nos materiais utilizados 
        
     }//GEN-LAST:event_btnFinalizarActionPerformed
 
@@ -536,15 +597,17 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnFinalizar;
     private javax.swing.JComboBox cbDesconto;
     private javax.swing.JComboBox cbPagamento;
+    private javax.swing.JComboBox<String> cbStatusPagamento;
     private javax.swing.JTextField edtDataDaNota;
+    private javax.swing.JTextArea edtDescricao;
     private javax.swing.JTextField edtIdNota;
+    private javax.swing.JTextField edtValorFinal;
     private javax.swing.JTextField edtValorSinal;
     private javax.swing.JTextField edtValorTotalSemDesconto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton7;
     private com.toedter.calendar.JDateChooser jCalendarEntrega;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -566,8 +629,6 @@ public class CadPedidoFinal extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lbItens;
     private javax.swing.JRadioButton rbSinal;
     private javax.swing.JTable tabelaPrincipal;
