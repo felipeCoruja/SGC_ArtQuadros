@@ -104,7 +104,7 @@ public class EucatexDAO {
         String str = "Não;";
         
         for(int j = 0; j <listaEucatex.size();j++){
-            str = str+listaEucatex.get(j).getTipo()+" |"+listaEucatex.get(j).getId()+";";
+            str = str+listaEucatex.get(j).getTipo()+" #"+listaEucatex.get(j).getId()+";";
         }
        
         listId = str.split(";");

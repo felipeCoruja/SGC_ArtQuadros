@@ -88,7 +88,7 @@ public class VidroDAO {
         String str = "Não;";
         
         for(int j = 0; j <listaMoldura.size();j++){
-            str = str+listaMoldura.get(j).getTipo()+" |"+listaMoldura.get(j).getId()+";";
+            str = str+listaMoldura.get(j).getTipo()+" #"+listaMoldura.get(j).getId()+";";
         }
        
         listId = str.split(";");

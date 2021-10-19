@@ -729,16 +729,19 @@ public class CadPedido extends javax.swing.JInternalFrame {
         pedido.setQuantidade(Integer.parseInt(this.spinQtd.getValue().toString()));
         pedido.setValorUnitario(Double.parseDouble(this.valorDoUltimoCalculo[7].toString()));
         
+        int id;
         if(!cboxVidro.getSelectedItem().equals("Não")){
-            aux = cboxVidro.getSelectedItem().toString();
-            vet = aux.split("|");
-            pedido.setIdVidro(Integer.parseInt((String)vet[1]));
+            aux = cboxVidro.getSelectedItem().toString(); 
+            vet = aux.split("#");  
+            id = Integer.parseInt((String)vet[1]);
+            pedido.setIdVidro(id);
         }
        
         if(!cboxEucatex.getSelectedItem().equals("Não")){
             aux = cboxEucatex.getSelectedItem().toString();
-            vet = aux.split("|");
-            pedido.setIdEucatex(Integer.parseInt((String)vet[1]));
+            vet = aux.split("#");
+            id = Integer.parseInt((String)vet[1]);
+            pedido.setIdEucatex(id);
         }
         
         
