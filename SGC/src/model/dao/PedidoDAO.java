@@ -33,7 +33,7 @@ public class PedidoDAO {
                     salvarPedidoMoldura(listaPedido, i);
                 }
                 
-                if(!listaPedido.get(i).getVidro().equals("")){
+                if(!listaPedido.get(i).getVidro().equals("-1")){
                     salvarPedidoVidro(listaPedido, i);
                 }
             }
@@ -113,7 +113,7 @@ public class PedidoDAO {
                     sn = "S";
                 }
                 stmt.setString(3,sn);
-                System.out.println(">>>"+listaPedido.get(i).getId());
+                System.out.println("PedidoDAO \n >>>"+listaPedido.get(i).getId());
                 System.out.println(">>>"+listaPedido.get(i).getIdVidro());
                 System.out.println(">>>"+sn);
                 stmt.executeUpdate();
