@@ -222,4 +222,67 @@ public class NotaDAO {
         
         return str;
     }
+    
+    public List<Object[]> buscarNota(String valueWhere, String value) throws ClassNotFoundException{
+        List<Object[]> lista = new ArrayList<>();
+        Connection con = ConnectionFactory.getConnection();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            stmt = con.prepareStatement("SELECT n.id,cn.nome, n.valor_total,n.data_da_nota,n.data_entrega," +
+                    "t.numero, ns.status_pagamento, cc.cpf,cnpj.cnpj,cInsc.insc_estadual,cm.email " +
+                    "FROM nota AS n left JOIN nota_cliente as nc ON nc.id_nota = n.id " +
+                    "left JOIN cliente_nome AS cn ON nc.id_cliente = cn.id " +
+                    "left join nota_status AS ns on ns.id = n.id " +
+                    "left join telefone as t on t.id = cn.id " +
+                    "left join cliente_cpf AS cc ON cc.id = cn.id " +
+                    "left join cliente_cnpj AS cnpj ON cnpj.id = cn.id " +
+                    "left join cliente_insc_estadual AS cInsc ON cInsc.id = cn.id " +
+                    "left join cliente_email AS cm ON cm.id = cn.id " +
+                    "where "+valueWhere+" = ?");
+           // stmt.setString(1, valueWhere);
+            stmt.setString(1, value);
+            
+            rs = stmt.executeQuery();
+            
+            if(rs.next()){
+                int cont = -1;
+                String tel = "";
+                do{
+                    if(cont != rs.getInt("n.id")){//para evitar linhas duplicadas por conta do telefone que é multivalorado no Banco de Dados
+                    
+                    
+                        lista.add(new Object[]{rs.getInt("n.id"),rs.getString("cn.nome"),rs.getString("t.numero"),
+                                            rs.getString("n.valor_total"),formataData(rs.getString("n.data_da_nota")),
+                                            formataData(rs.getString("n.data_entrega")),
+                                            rs.getString("ns.status_pagamento")});
+                        cont = rs.getInt("n.id");
+                        tel = rs.getString("t.numero");
+                    }else{
+                        Object[] ob = (Object[])lista.get(lista.size()-1);;
+                        String aux = ob[2]+"\n "+tel;
+                        StringBuilder str = new StringBuilder();
+                        str.append("<html>");
+                        str.append(aux.replaceAll("\n", "<br>"));
+                        str.append("</html>");
+                        ob[2] = str.toString();
+                        lista.set(lista.size()-1,ob);
+                    }
+                    
+                }while(rs.next());
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NotaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return lista;
+    }
+    
+    private String formataData(String data){
+        String[] vet = data.split("-");
+        String dataFormatada = vet[2]+" / "+vet[1]+" / "+vet[0];
+        return dataFormatada;
+    }
 }

@@ -5,6 +5,15 @@
  */
 package View.busca;
 
+import connection.ConnectionFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import model.dao.NotaDAO;
 /**
  *
  * @author Felipe
@@ -16,8 +25,57 @@ public class BuscarNota extends javax.swing.JInternalFrame {
      */
     public BuscarNota() {
         initComponents();
+        
     }
 
+    public String[] vetBuscarPor(){
+        String[] vet = {"Nome do Cliente","Numero da Nota","CPF","CNPJ","Insc. Estadual","E-mail","Telefone"};
+        return vet;
+    }
+    
+    
+    
+    public String whereSQL(){
+        /*
+            Definindo a primeira variável WHERE para a realização da QUERY do comando a baixo:
+        
+            SELECT n.id,cn.nome, n.valor_total,n.data_da_nota,n.data_entrega,
+            t.numero, ns.status_pagamento, cc.cpf,cnpj.cnpj,cInsc.insc_estadual,cm.email
+            FROM nota AS n left JOIN nota_cliente as nc ON nc.id_nota = n.id
+            left JOIN cliente_nome AS cn ON nc.id_cliente = cn.id
+            left join nota_status AS ns on ns.id = n.id
+            left join telefone as t on t.id = cn.id 
+            left join cliente_cpf AS cc ON cc.id = cn.id
+            left join cliente_cnpj AS cnpj ON cnpj.id = cn.id
+            left join cliente_insc_estadual AS cInsc ON cInsc.id = cn.id
+            left join cliente_email AS cm ON cm.id = cn.id
+            where ? = ?;
+        */
+        String where = "";
+           switch(this.cboxProcurarPor.getSelectedIndex()){
+                case 0:
+                    where = "cn.nome";
+                    break;
+                case 1:
+                    where = "n.id";
+                    break;
+                case 2:
+                    where = "cc.cpf";
+                    break;
+                case 3:
+                    where = "cnpj.cnpj";
+                    break;
+                case 4:
+                    where = "cInsc.insc_estadual";
+                    break;
+                case 5:
+                    where = "t.numero";
+                    break;
+                default:
+                    System.out.println("Erro ao definir a clausula WHERE na sintax da busca SQL");
+           }
+        return where;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,38 +89,50 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
-        jComboBox7 = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jRadioButton3 = new javax.swing.JRadioButton();
         jRadioButton4 = new javax.swing.JRadioButton();
-        jComboBox8 = new javax.swing.JComboBox<>();
-        jLabel13 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
+        edtValorDeBusca = new javax.swing.JTextField();
+        btnPesquisar = new javax.swing.JButton();
+        cboxProcurarPor = new javax.swing.JComboBox<>();
+        jCheckBox2 = new javax.swing.JCheckBox();
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Buscar Nota");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID Nota", "Nome", "Telefone", "Valor Total", "Data de Emissão", "Data de Entrega", "Status do Pgto"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        table.setRequestFocusEnabled(false);
+        table.setRowHeight(50);
+        table.setShowGrid(false);
+        jScrollPane1.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(2).setResizable(false);
+            table.getColumnModel().getColumn(2).setPreferredWidth(100);
+        }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -72,7 +142,7 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
         );
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/zenmap_104119.png"))); // NOI18N
@@ -105,7 +175,7 @@ public class BuscarNota extends javax.swing.JInternalFrame {
                 .addComponent(jButton12)
                 .addGap(18, 18, 18)
                 .addComponent(jButton13)
-                .addGap(0, 447, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,8 +191,6 @@ public class BuscarNota extends javax.swing.JInternalFrame {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
-        jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel11.setText("Procurar Por:");
 
         jLabel12.setText("Ordenar Por:");
@@ -131,11 +199,16 @@ public class BuscarNota extends javax.swing.JInternalFrame {
 
         jRadioButton4.setText("Decrescente");
 
-        jComboBox8.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
 
-        jLabel13.setText("Campo a ser ordenado");
+        cboxProcurarPor.setModel(new javax.swing.DefaultComboBoxModel<>(this.vetBuscarPor()));
 
-        jButton6.setText("Pesquisar");
+        jCheckBox2.setText("Todos");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -145,24 +218,25 @@ public class BuscarNota extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(70, 70, 70)
+                    .addComponent(cboxProcurarPor, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(71, 71, 71)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jRadioButton4)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel8Layout.createSequentialGroup()
+                            .addComponent(jLabel12)
+                            .addGap(602, 602, 602))
+                        .addGroup(jPanel8Layout.createSequentialGroup()
                             .addComponent(jRadioButton3)
-                            .addComponent(jLabel12))
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(66, 66, 66)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton6)))))
-                .addContainerGap())
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(edtValorDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jCheckBox2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnPesquisar)
+                            .addGap(88, 88, 88)))
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(jRadioButton4)
+                        .addContainerGap())))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,15 +244,14 @@ public class BuscarNota extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13))
+                    .addComponent(jLabel12))
                 .addGap(4, 4, 4)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRadioButton3)
-                    .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
+                    .addComponent(edtValorDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPesquisar)
+                    .addComponent(cboxProcurarPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
                 .addComponent(jRadioButton4)
                 .addContainerGap())
@@ -223,19 +296,38 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        NotaDAO nDAO = new NotaDAO();
+        DefaultTableModel modelTable = (DefaultTableModel) this.table.getModel();
+        List<Object[]> lista;
+        try {
+            modelTable.setNumRows(0);
+            System.out.println(whereSQL()+" "+this.edtValorDeBusca.getText());
+            lista = nDAO.buscarNota(whereSQL(), this.edtValorDeBusca.getText());
+            System.out.println(lista.size());
+            for(int i = 0; i<lista.size();i++){
+                modelTable.addRow(lista.get(i));
+            }
+        } catch (ClassNotFoundException ex) {
+            
+            Logger.getLogger(BuscarNota.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnPesquisar;
+    private javax.swing.JComboBox<String> cboxProcurarPor;
+    private javax.swing.JTextField edtValorDeBusca;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox7;
-    private javax.swing.JComboBox<String> jComboBox8;
+    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -243,7 +335,6 @@ public class BuscarNota extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
