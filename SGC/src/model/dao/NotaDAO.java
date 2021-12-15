@@ -223,14 +223,14 @@ public class NotaDAO {
         return str;
     }
     
-    public List<Object[]> buscarNota(String valueWhere, String value) throws ClassNotFoundException{
+    public List<Object[]> buscarNota(String valueWhere, String value,boolean selectAll,boolean orderBy) throws ClassNotFoundException{
         List<Object[]> lista = new ArrayList<>();
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
         try {
-            stmt = con.prepareStatement("SELECT n.id,cn.nome, n.valor_total,n.data_da_nota,n.data_entrega," +
+            String SELECT = "SELECT n.id,cn.nome, n.valor_total,n.data_da_nota,n.data_entrega," +
                     "t.numero, ns.status_pagamento, cc.cpf,cnpj.cnpj,cInsc.insc_estadual,cm.email " +
                     "FROM nota AS n left JOIN nota_cliente as nc ON nc.id_nota = n.id " +
                     "left JOIN cliente_nome AS cn ON nc.id_cliente = cn.id " +
@@ -239,10 +239,26 @@ public class NotaDAO {
                     "left join cliente_cpf AS cc ON cc.id = cn.id " +
                     "left join cliente_cnpj AS cnpj ON cnpj.id = cn.id " +
                     "left join cliente_insc_estadual AS cInsc ON cInsc.id = cn.id " +
-                    "left join cliente_email AS cm ON cm.id = cn.id " +
-                    "where "+valueWhere+" = ?");
-           // stmt.setString(1, valueWhere);
-            stmt.setString(1, value);
+                    "left join cliente_email AS cm ON cm.id = cn.id ";
+
+            if(selectAll == false){
+               SELECT = SELECT + "where "+valueWhere+" = ?";
+            }
+            
+            if(orderBy){
+                SELECT = SELECT + "order by n.id asc ";
+            }else{
+                SELECT = SELECT + "order by n.id desc ";
+            }
+            
+            stmt = con.prepareStatement(SELECT);
+            
+           
+            if(selectAll == false){
+                System.out.println(SELECT);
+                stmt.setString(1, value);
+                
+            }
             
             rs = stmt.executeQuery();
             

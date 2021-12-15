@@ -6,14 +6,19 @@
 package View.busca;
 
 import connection.ConnectionFactory;
+import java.awt.Color;
 import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
 import java.util.List;
+import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 import model.dao.NotaDAO;
 /**
  *
@@ -26,11 +31,12 @@ public class BuscarNota extends javax.swing.JInternalFrame {
      */
     public BuscarNota() {
         initComponents();
-        
+        this.rbCrescente.setSelected(true);
+        this.edtValorDeBusca1.setEnabled(false);
     }
 
     public String[] vetBuscarPor(){
-        String[] vet = {"Nome do Cliente","Numero da Nota","CPF","CNPJ","Insc. Estadual","E-mail","Telefone"};
+        String[] vet = {"","Nome do Cliente","Numero da Nota","CPF","CNPJ","Insc. Estadual","E-mail","Telefone"};
         return vet;
     }
     
@@ -55,21 +61,23 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         String where = "";
            switch(this.cboxProcurarPor.getSelectedIndex()){
                 case 0:
+                   break;
+                case 1:
                     where = "cn.nome";
                     break;
-                case 1:
+                case 2:
                     where = "n.id";
                     break;
-                case 2:
+                case 3:
                     where = "cc.cpf";
                     break;
-                case 3:
+                case 4:
                     where = "cnpj.cnpj";
                     break;
-                case 4:
+                case 5:
                     where = "cInsc.insc_estadual";
                     break;
-                case 5:
+                case 6:
                     where = "t.numero";
                     break;
                 default:
@@ -99,12 +107,13 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         jPanel8 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
-        edtValorDeBusca = new javax.swing.JTextField();
+        rbCrescente = new javax.swing.JRadioButton();
+        rbDecrescente = new javax.swing.JRadioButton();
+        edtValorDeBusca1 = new javax.swing.JTextField();
         btnPesquisar = new javax.swing.JButton();
         cboxProcurarPor = new javax.swing.JComboBox<>();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        checkBoxSelectAll = new javax.swing.JCheckBox();
+        edtValorDeBusca = new javax.swing.JFormattedTextField();
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Buscar Nota");
@@ -142,7 +151,7 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
         );
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icones PNG/zenmap_104119.png"))); // NOI18N
@@ -195,9 +204,19 @@ public class BuscarNota extends javax.swing.JInternalFrame {
 
         jLabel12.setText("Ordenar Por:");
 
-        jRadioButton3.setText("Crescente");
+        rbCrescente.setText("Crescente");
+        rbCrescente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rbCrescenteMouseClicked(evt);
+            }
+        });
 
-        jRadioButton4.setText("Decrescente");
+        rbDecrescente.setText("Decrescente");
+        rbDecrescente.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rbDecrescenteMouseClicked(evt);
+            }
+        });
 
         btnPesquisar.setText("Pesquisar");
         btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
@@ -207,8 +226,34 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         });
 
         cboxProcurarPor.setModel(new javax.swing.DefaultComboBoxModel<>(this.vetBuscarPor()));
+        cboxProcurarPor.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboxProcurarPorItemStateChanged(evt);
+            }
+        });
 
-        jCheckBox2.setText("Todos");
+        checkBoxSelectAll.setText("Todos");
+        checkBoxSelectAll.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkBoxSelectAllItemStateChanged(evt);
+            }
+        });
+        checkBoxSelectAll.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                checkBoxSelectAllStateChanged(evt);
+            }
+        });
+        checkBoxSelectAll.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkBoxSelectAllMouseClicked(evt);
+            }
+        });
+
+        edtValorDeBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edtValorDeBuscaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -220,23 +265,23 @@ public class BuscarNota extends javax.swing.JInternalFrame {
                     .addComponent(jLabel11)
                     .addComponent(cboxProcurarPor, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(71, 71, 71)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addComponent(jLabel12)
-                            .addGap(602, 602, 602))
-                        .addGroup(jPanel8Layout.createSequentialGroup()
-                            .addComponent(jRadioButton3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(edtValorDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jCheckBox2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnPesquisar)
-                            .addGap(88, 88, 88)))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addComponent(jRadioButton4)
-                        .addContainerGap())))
+                        .addComponent(jLabel12)
+                        .addGap(602, 602, 602))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbCrescente)
+                            .addComponent(rbDecrescente))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(edtValorDeBusca1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                            .addComponent(edtValorDeBusca))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(checkBoxSelectAll)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPesquisar)
+                        .addGap(88, 88, 88))))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -247,13 +292,15 @@ public class BuscarNota extends javax.swing.JInternalFrame {
                     .addComponent(jLabel12))
                 .addGap(4, 4, 4)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton3)
-                    .addComponent(edtValorDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rbCrescente)
+                    .addComponent(edtValorDeBusca1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPesquisar)
                     .addComponent(cboxProcurarPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 5, Short.MAX_VALUE)
-                .addComponent(jRadioButton4)
+                    .addComponent(checkBoxSelectAll))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbDecrescente)
+                    .addComponent(edtValorDeBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -302,9 +349,14 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         List<Object[]> lista;
         try {
             modelTable.setNumRows(0);
-            System.out.println(whereSQL()+" "+this.edtValorDeBusca.getText());
-            lista = nDAO.buscarNota(whereSQL(), this.edtValorDeBusca.getText());
-            System.out.println(lista.size());
+            boolean orderBy;
+            if(this.rbCrescente.isSelected()){
+                orderBy = true;
+            }else{
+                orderBy = false;
+            }
+            lista = nDAO.buscarNota(whereSQL(), this.edtValorDeBusca1.getText(),this.checkBoxSelectAll.isSelected(),orderBy);
+            
             for(int i = 0; i<lista.size();i++){
                 modelTable.addRow(lista.get(i));
             }
@@ -316,6 +368,82 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         }
         
     }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void checkBoxSelectAllItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkBoxSelectAllItemStateChanged
+        
+    }//GEN-LAST:event_checkBoxSelectAllItemStateChanged
+
+    private void checkBoxSelectAllStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_checkBoxSelectAllStateChanged
+        
+    }//GEN-LAST:event_checkBoxSelectAllStateChanged
+
+    private void checkBoxSelectAllMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkBoxSelectAllMouseClicked
+        if(this.checkBoxSelectAll.isSelected()){
+            this.cboxProcurarPor.setSelectedIndex(0);
+            this.cboxProcurarPor.setEnabled(false);
+            this.edtValorDeBusca1.setText("");
+            this.edtValorDeBusca1.setEditable(false);
+            this.checkBoxSelectAll.setForeground(Color.red);
+            this.edtValorDeBusca1.setBackground(Color.lightGray);
+        }else{
+            this.edtValorDeBusca1.setEditable(true);
+            this.cboxProcurarPor.setEnabled(true);
+            this.edtValorDeBusca1.setBackground(Color.white);
+            this.checkBoxSelectAll.setForeground(Color.black);
+        }
+    }//GEN-LAST:event_checkBoxSelectAllMouseClicked
+
+    private void rbCrescenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbCrescenteMouseClicked
+        if(this.rbCrescente.isSelected()){
+            this.rbDecrescente.setSelected(false);
+        }  
+    }//GEN-LAST:event_rbCrescenteMouseClicked
+
+    private void rbDecrescenteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbDecrescenteMouseClicked
+        if(this.rbDecrescente.isSelected()){
+            this.rbCrescente.setSelected(false);
+        }
+    }//GEN-LAST:event_rbDecrescenteMouseClicked
+
+    private void cboxProcurarPorItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboxProcurarPorItemStateChanged
+       this.edtValorDeBusca1.setText("");
+       if(cboxProcurarPor.getSelectedIndex()== 0){
+           this.edtValorDeBusca1.setEnabled(false);
+           this.edtValorDeBusca1.setText("");
+       }else{
+           this.edtValorDeBusca1.setEnabled(true);
+       }
+       
+        try {
+            switch(this.cboxProcurarPor.getSelectedIndex()){
+
+            case 0:
+            case 1:
+            case 2:
+               
+                break;
+            case 3:
+                MaskFormatter mask = new MaskFormatter();
+                
+                
+                System.out.println("DEU CERTO");
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+
+            }
+        } catch (Exception e) {
+        }
+  
+    }//GEN-LAST:event_cboxProcurarPorItemStateChanged
+
+    private void edtValorDeBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtValorDeBuscaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edtValorDeBuscaActionPerformed
 
     private void updateRowHeights()
     {
@@ -336,12 +464,13 @@ public class BuscarNota extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JComboBox<String> cboxProcurarPor;
-    private javax.swing.JTextField edtValorDeBusca;
+    private javax.swing.JCheckBox checkBoxSelectAll;
+    private javax.swing.JFormattedTextField edtValorDeBusca;
+    private javax.swing.JTextField edtValorDeBusca1;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -349,9 +478,9 @@ public class BuscarNota extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JRadioButton rbCrescente;
+    private javax.swing.JRadioButton rbDecrescente;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
