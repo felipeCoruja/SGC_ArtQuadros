@@ -6,6 +6,7 @@
 package View.busca;
 
 import connection.ConnectionFactory;
+import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.Connection;
@@ -130,7 +131,6 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         table.setShowGrid(false);
         jScrollPane1.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
-            table.getColumnModel().getColumn(2).setResizable(false);
             table.getColumnModel().getColumn(2).setPreferredWidth(100);
         }
 
@@ -308,6 +308,8 @@ public class BuscarNota extends javax.swing.JInternalFrame {
             for(int i = 0; i<lista.size();i++){
                 modelTable.addRow(lista.get(i));
             }
+            //table.setRowHeight(100);
+            updateRowHeights();
         } catch (ClassNotFoundException ex) {
             
             Logger.getLogger(BuscarNota.class.getName()).log(Level.SEVERE, null, ex);
@@ -315,6 +317,21 @@ public class BuscarNota extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
+    private void updateRowHeights()
+    {
+        for (int row = 0; row < table.getRowCount(); row++)
+        {
+            int rowHeight = table.getRowHeight();
+
+            for (int column = 0; column < table.getColumnCount(); column++)
+            {
+                Component comp = table.prepareRenderer(table.getCellRenderer(row, column), row, column);
+                rowHeight = Math.max(rowHeight, comp.getPreferredSize().height);
+            }
+
+            table.setRowHeight(row, rowHeight);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPesquisar;

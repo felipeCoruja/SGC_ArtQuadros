@@ -251,7 +251,7 @@ public class NotaDAO {
                 String tel = "";
                 do{
                     if(cont != rs.getInt("n.id")){//para evitar linhas duplicadas por conta do telefone que é multivalorado no Banco de Dados
-                    
+                        
                     
                         lista.add(new Object[]{rs.getInt("n.id"),rs.getString("cn.nome"),rs.getString("t.numero"),
                                             rs.getString("n.valor_total"),formataData(rs.getString("n.data_da_nota")),
@@ -259,14 +259,12 @@ public class NotaDAO {
                                             rs.getString("ns.status_pagamento")});
                         cont = rs.getInt("n.id");
                         tel = rs.getString("t.numero");
+                        
                     }else{
                         Object[] ob = (Object[])lista.get(lista.size()-1);;
-                        String aux = ob[2]+"\n "+tel;
-                        StringBuilder str = new StringBuilder();
-                        str.append("<html>");
-                        str.append(aux.replaceAll("\n", "<br>"));
-                        str.append("</html>");
-                        ob[2] = str.toString();
+                        String aux = ob[2]+"\n "+rs.getString("t.numero");   
+                        
+                        ob[2] = formataQuebraDeLinha(aux);
                         lista.set(lista.size()-1,ob);
                     }
                     
@@ -284,5 +282,16 @@ public class NotaDAO {
         String[] vet = data.split("-");
         String dataFormatada = vet[2]+" / "+vet[1]+" / "+vet[0];
         return dataFormatada;
+    }
+    
+    private String formataQuebraDeLinha(String aux){
+        aux = aux.replaceAll("<html>", "");
+        aux = aux.replaceAll("</html>", "");
+        
+        StringBuilder str = new StringBuilder();
+        str.append("<html>");
+        str.append(aux.replaceAll("\n", "<br>"));
+        str.append("</html>");
+        return str.toString();
     }
 }

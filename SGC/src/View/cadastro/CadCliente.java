@@ -14,6 +14,9 @@ import model.bean.Cliente;
 import model.bean.Endereco;
 import model.dao.ClienteDAO;
 import model.dao.MolduraDAO;
+import model.document.LimitaCampoSemEspaco;
+import model.document.LimitaCampoSoLetras;
+import model.document.LimitaCampoSoNumeros;
 
 /**
  *
@@ -48,8 +51,6 @@ public class CadCliente extends javax.swing.JInternalFrame {
         this.maskInscEstadual = this.edtInscEstadual.getText();
         this.maskCel = this.edtCelular.getText();
         this.maskTel = this.edtTelefone.getText();
-        
-        
         
         
     }

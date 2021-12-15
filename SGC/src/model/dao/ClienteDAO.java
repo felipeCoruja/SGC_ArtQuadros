@@ -173,8 +173,12 @@ public class ClienteDAO {
                 vet = aux.split(";");
                 String numero = vet[0];
                 stmt.setString(2, numero);
+                String descricao = "";
                 
-                String descricao = vet[1];
+                if(vet.length == 2){
+                    descricao = vet[1];
+                }
+                
                 stmt.setString(3, descricao);
                 
                 stmt.executeUpdate();// Executando o comando INSERT, metodo executeUpdate()

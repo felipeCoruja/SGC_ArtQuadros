@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import model.bean.Endereco;
 import model.bean.Nota;
 import model.dao.NotaDAO;
+import model.document.LimitaCampoSemEspaco;
 
 /**
  *
@@ -30,6 +31,10 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     private List<Object> dadosCalculo; 
     private List<String> dadosTemporarios;
     private Nota nota;
+    
+    private String maskCpf;
+    private String maskCnpj;
+    private String maskInsc;
     /**
      * Creates new form CadCliente
      * @param dadosRes
@@ -51,6 +56,12 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         this.dadosCalculo = dadosCalc;
         this.dadosTemporarios = dadosTemp;
         this.nota = new Nota();
+        
+        maskCpf = this.edtCpf.getText();
+        maskCnpj = this.edtCnpj.getText();
+        maskInsc = this.edtInscEstadual.getText();
+        
+        this.edtEmail.setDocument(new LimitaCampoSemEspaco(50));
         
         getIdNota();
         
@@ -115,7 +126,12 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
         
         for(int i =0;i<listaTelefone.size();i++){
             String[] vet = listaTelefone.get(i).split(";");
-            tableModel.addRow(new Object[]{i+1,vet[0],vet[1]});
+            if(vet.length == 2){
+                tableModel.addRow(new Object[]{i+1,vet[0],vet[1]});
+            }else{
+                tableModel.addRow(new Object[]{i+1,vet[0],""});
+            }
+            
         }
     
     }
@@ -666,9 +682,17 @@ public class CadPedidoCabecalho extends javax.swing.JInternalFrame {
     
     private void montarNota(){
         this.nota.getCliente().setNome(this.edtNome.getText());
-        this.nota.getCliente().setCpf(this.edtCpf.getText());
-        this.nota.getCliente().setCnpj(this.edtCnpj.getText());
-        this.nota.getCliente().setInscEstadual(this.edtInscEstadual.getText());
+        if(!this.edtCpf.getText().equals(maskCpf)){
+            this.nota.getCliente().setCpf(this.edtCpf.getText());
+        }
+        
+        if(!this.edtCnpj.getText().equals(maskCnpj)){
+            this.nota.getCliente().setCnpj(this.edtCnpj.getText());
+        }
+        if(!this.edtInscEstadual.getText().equals(maskInsc)){
+            this.nota.getCliente().setInscEstadual(this.edtInscEstadual.getText());
+        }
+        
         this.nota.getCliente().setEmail(this.edtEmail.getText());
         
         this.nota.getCliente().setListaEndereco(this.listaEndereco);
